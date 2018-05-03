@@ -42,5 +42,9 @@ module EntityMatchingService
     # .env file.
     config.airbrake_id = ENV["EMS_AIRBRAKE_PROJECT_ID"] || 1
     config.airbrake_key = ENV["EMS_AIRBRAKE_PROJECT_KEY"] || "dummy"
+
+    config.generators do |g|
+      g.orm :mongoid
+    end
   end
 end
