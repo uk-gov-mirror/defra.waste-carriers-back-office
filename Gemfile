@@ -46,3 +46,9 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem "web-console", "~> 2.0"
 end
+
+group :test do
+  # Generates a test coverage report on every `bundle exec rspec` call. We use
+  # the output to feed CodeClimate's stats and analysis
+  gem "simplecov", require: false
+end
