@@ -30,6 +30,12 @@ Simply start the app using `bundle exec rails s`. If you are in an environment w
 
 If that's the case use `bundle exec rails s -p 3010` swapping `3010` for whatever port you want to use.
 
+## Testing the app
+
+The test suite is written in RSpec.
+
+To run all the tests, use `bundle exec rspec`
+
 ## Contributing to this project
 
 If you have an idea you'd like to contribute please log an issue.
