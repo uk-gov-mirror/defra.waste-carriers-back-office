@@ -24,6 +24,14 @@ Next download and install the dependencies
 bundle install
 ```
 
+## Configuration
+
+Any configuration is expected to be driven by environment variables when the service is run in production as per [12 factor app](https://12factor.net/config).
+
+However when running locally in development mode or in test it makes use of the [Dotenv](https://github.com/bkeepers/dotenv) gem. This is a shim that will load values stored in a `.env` file into the environment which the service will then pick up as though they were there all along.
+
+Check out [.env.example](/.env.example) for details of what you need in your `.env` file, and what environment variables you'll need in production.
+
 ## Running the app
 
 Simply start the app using `bundle exec rails s`. If you are in an environment with other Rails apps running you might find the default port of 3000 is in use and so get an error.

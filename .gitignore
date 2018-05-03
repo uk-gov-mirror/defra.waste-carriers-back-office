@@ -36,3 +36,10 @@ passenger.*.pid
 /spec/examples.txt
 # simplecov https://github.com/colszowka/simplecov
 coverage
+
+# Dotenv files #
+# Ignore the .env file as this may contain actual credentials. The .env.example
+# file gets committed which acts as documentation on what environment
+# variables will need to be set up
+.env
+.env.local
