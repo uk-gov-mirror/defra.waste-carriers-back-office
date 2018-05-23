@@ -1,10 +1,10 @@
-# Entity Matching Service
+# Waste Carriers Back Office
 
-A simple web service that allows other apps to query if a specified entity matches against a list of known entities.
+The 'Register or renew as a waste carrier' service allows businesses, who deal with waste and have to register according to the regulations, to register online. Once registered, businesses can sign in again to edit their registrations if needed.
 
-The service is queried via a web API, and returns the result as JSON.
+The service also allows authorised agency users and NCCC staff to create and manage registrations on other users' behalf, e.g. to support 'Assisted Digital' registrations. The service provides an internal user account management facility which allows authorised administrators to create and manage other agency user accounts.
 
-It was created when it was found more than one app needed to query the same list of entities. So it was decided to move the functionality to a separate web app that would manage loading, maintaining and querying the datasets those applications want to match against.
+This project is the back office application which internal EA users use to manage the service and the registrations submitted.
 
 ## Prequisites
 
@@ -15,7 +15,7 @@ You'll need [Ruby 2.4.2](https://www.ruby-lang.org/en/) installed plus the [Bund
 First clone the repository and then drop into your new local repo
 
 ```bash
-git clone https://gitlab-dev.aws-int.defra.cloud/waste-carriers/entity-matching-service.git && cd entity-matching-service
+git clone https://github.com/defra/waste-carriers-back-office.git && cd waste-carriers-back-office
 ```
 
 Next download and install the dependencies
