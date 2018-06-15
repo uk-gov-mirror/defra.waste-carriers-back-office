@@ -39,8 +39,15 @@ gem "sdoc", "~> 0.4.0", group: :doc
 # Use Capistrano for deployment
 # gem "capistrano-rails", group: :development
 
+# Use Devise for user authentication
+gem "devise", ">= 4.4.3"
+gem "devise_invitable", "~> 1.7.0"
+
 # Use GOV.UK Admin Template for styling
 gem "govuk_admin_template", "~> 6.6"
+
+# Sticking with version 3 for now as 4 doesn't support Rails 4
+gem "simple_form", "~> 3.5.1"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
@@ -70,6 +77,8 @@ group :development do
 end
 
 group :test do
+  gem "database_cleaner"
+  gem "factory_bot_rails"
   # Generates a test coverage report on every `bundle exec rspec` call. We use
   # the output to feed CodeClimate's stats and analysis
   gem "simplecov", require: false
