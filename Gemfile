@@ -27,8 +27,12 @@ gem "uglifier", ">= 1.3.0"
 # bundle exec rake doc:rails generates the API under doc/api.
 gem "sdoc", "~> 0.4.0", group: :doc
 
+# Use CanCanCan for user roles and permissions
+# Version 2.0 doesn't support Mongoid, so we're locked to an earlier one
+gem "cancancan", "~> 1.10"
+
 # Use Devise for user authentication
-# gem "devise", ">= 4.4.3"
+gem "devise", ">= 4.4.3"
 gem "devise_invitable", "~> 1.7.0"
 
 # Use GOV.UK Admin Template for styling
