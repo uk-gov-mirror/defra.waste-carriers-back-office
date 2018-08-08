@@ -276,9 +276,6 @@ GEM
       rdoc (~> 4.0)
     secure_headers (5.0.5)
       useragent (>= 0.15.0)
-    simple_form (3.5.1)
-      actionpack (> 4, < 5.2)
-      activemodel (> 4, < 5.2)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -346,7 +343,6 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   secure_headers (~> 5.0)
-  simple_form (~> 3.5.1)
   simplecov
   spring
   turbolinks
