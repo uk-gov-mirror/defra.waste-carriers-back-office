@@ -1,0 +1,137 @@
+en:
+  transient_registrations:
+    show:
+      title: "Renewal details"
+      heading: "Renewal application for %{reg_identifier}"
+      filler: "–"
+      status:
+        headings:
+          in_progress: "Application in progress"
+          submitted: "Application submitted"
+        messages:
+          in_progress: "The current form is"
+          pending_payment: "Payment is required before this registration can be renewed."
+          pending_convictions_check: "A convictions check is required before this registration can be renewed."
+          pending_payment_and_convictions_check: "Payment and a convictions check are required before this registration can be renewed."
+        actions:
+          continue_button: "Continue as assisted digital renewal"
+          payment_button: "Process payment"
+          convictions_check_button: "Check conviction matches"
+      reg_information:
+        heading: "Registration information"
+        labels:
+          account_email: "User"
+          reg_identifier: "Registration number"
+          tier: "Tier"
+          registration_type: "Registration type"
+      business_information:
+        heading: "Business information"
+        labels:
+          company_name: "Company name"
+          business_type: "Business type"
+          company_no: "Companies House number"
+          location: "Location"
+          registered_address: "Registered address"
+      contact_information:
+        heading: "Contact details"
+        labels:
+          contact_name: "Contact name"
+          phone_number: "Contact phone"
+          contact_email: "Contact email"
+          contact_address: "Contact address"
+      people_heading: "People"
+      person_information:
+        heading:
+          localAuthority: "Chief executive details"
+          limitedCompany: "Company director details"
+          limitedLiabilityPartnership: "Member details"
+          overseas: "Business owner details"
+          partnership: "Partner details"
+          soleTrader: "Business owner details"
+          relevant: "Person with a relevant conviction"
+        labels:
+          name: "Name"
+          position: "Position"
+          dob: "Date of birth"
+          conviction_search_result: "Matching convictions found?"
+      conviction_heading: "Convictions"
+      conviction_information:
+        heading: "Conviction overview"
+        conviction_search_text:
+          "true": "This registration has matching or declared convictions."
+          "false": "There are no matching or declared convictions for this registration."
+          unknown: "This renewal application is still in progress, so there is no conviction match data yet."
+        labels:
+          declared_convictions: "Declared convictions?"
+          business_conviction_search_result: "Matching convictions found for company?"
+          people_conviction_search_result: "Matching convictions found for people?"
+      finance_information:
+        heading: Finance information
+        balance:
+          zero: "All charges for this renewal have been fully paid."
+          positive: "There is an outstanding balance of £%{balance} on this renewal."
+          negative: "This renewal has been overpaid by £%{balance}."
+          unknown: "This renewal application is still in progress, so there is no finance data yet."
+      order_information:
+        heading: "Order details"
+        labels:
+          items: "Charges"
+          total_amount: "Total amount"
+          payment_method: "Payment method"
+          order_code: "Order code"
+          world_pay_status: "WorldPay status"
+          date_last_updated: "Order last updated at"
+          updated_by_user: "Updated by"
+      payment_information:
+        heading: "Payment details"
+        labels:
+          amount: "Amount"
+          payment_type: "Payment type"
+          registration_reference: "Registration reference"
+          comment: "Comment"
+          date_received: "Date received"
+          date_entered: "Date entered"
+          updated_by_user: "Updated by"
+      card_information:
+        heading: "Registration cards (copy cards)"
+        labels:
+          temp_cards: "Number of cards ordered"
+      renewal_information:
+        heading: "About this renewal"
+        labels:
+          workflow_state: "Current form"
+          declaration: "Signed declaration?"
+      attributes:
+        business_type:
+          soleTrader: "Individual or sole trader"
+          limitedCompany: "Limited company"
+          partnership: "Partnership"
+          limitedLiabilityPartnership: "Limited liability partnership"
+          localAuthority: "Local authority or public body"
+          charity: "Charity or trust"
+          authority: "Local authority"
+          publicBody: "Public body"
+          other: "Other"
+        declaration:
+          "1": "Yes"
+        key_people:
+          number_of_people_with_matching_convictions:
+            zero: "No"
+            one: "1 match found"
+            other: "%{count} matches found"
+        key_person:
+          conviction_search_result:
+            pending: "No data yet"
+        location:
+          england: "England"
+          wales: "Wales"
+          scotland: "Scotland"
+          northern_ireland: "Northern Ireland"
+          overseas: "Not in the United Kingdom"
+        registration_type:
+          carrier_dealer: "Carrier and dealer"
+          broker_dealer: "Broker and dealer"
+          carrier_broker_dealer: "Carrier, broker and dealer"
+        tier:
+          UPPER: "Upper"
+          LOWER: "Lower"
