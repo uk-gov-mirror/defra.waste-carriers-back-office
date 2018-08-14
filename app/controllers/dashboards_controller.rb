@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
 class DashboardsController < ApplicationController
-  def index; end
+  before_action :authenticate_user!
+
+  def index
+    @transient_registrations = WasteCarriersEngine::TransientRegistration.all
+  end
 end
