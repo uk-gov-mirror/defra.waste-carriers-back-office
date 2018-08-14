@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  mount WasteCarriersEngine::Engine => "/bo"
 
-  root "waste_carriers_engine/registrations#index"
+  root to: "application#redirect_root_to_dashboard"
 
   devise_for :users, path: "/bo/users", path_names: { sign_in: "sign_in", sign_out: "sign_out" }
 
@@ -12,4 +11,6 @@ Rails.application.routes.draw do
             param: :reg_identifier,
             path: "/bo/transient-registrations",
             path_names: { show: "/:reg_identifier" }
+
+  mount WasteCarriersEngine::Engine => "/bo"
 end
