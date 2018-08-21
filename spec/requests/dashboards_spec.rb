@@ -19,6 +19,14 @@ RSpec.describe "Dashboards", type: :request do
         get "/bo"
         expect(response).to have_http_status(200)
       end
+
+      it "links to renewal details pages" do
+        last_modified_renewal = create(:transient_registration)
+        link_to_renewal = transient_registration_path(last_modified_renewal.reg_identifier)
+
+        get "/bo"
+        expect(response.body).to include(link_to_renewal)
+      end
     end
 
     context "when a user is not signed in" do

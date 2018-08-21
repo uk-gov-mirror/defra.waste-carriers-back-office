@@ -3,6 +3,23 @@ en:
     index:
       title: "Renewals dashboard"
       heading: "Renewals dashboard"
+      search:
+        paragraph_1: "You can search for a renewal by:"
+        searchable_attributes:
+          - "registration number"
+          - "company name"
+          - "last name of contact person"
+          - "postcode"
+        paragraph_2: "You can filter the search results, or search without a term to use the filters on their own."
+        label: "Search for renewals"
+        placeholder: "Enter your search term here"
+        submit: "Search"
+        filters:
+          paragraph_1: "Filter the results:"
+          in_progress: "Application in progress"
+          pending_payment: "Pending payment"
+          pending_conviction_check: "Pending manual convictions check"
+        clear_all_link: "Clear all searches and filters"
       results:
         th:
           reg_identifier: "Registration"
@@ -13,5 +30,5 @@ en:
         statuses:
           in_progress: "application in progress"
           pending_payment: "pending payment"
-          pending_convictions_check: "pending convictions"
+          pending_conviction_check: "pending convictions"
         details_button: "Details"
