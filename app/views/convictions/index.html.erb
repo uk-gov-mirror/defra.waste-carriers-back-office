@@ -1,0 +1,80 @@
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render("waste_carriers_engine/shared/back", back_path: transient_registration_path(@transient_registration.reg_identifier)) %>
+
+    <h1 class="heading-large">
+      <%= t(".heading", reg_identifier: @transient_registration.reg_identifier) %>
+    </h1>
+
+    <div class="panel">
+      <%= t(".required.#{@transient_registration.conviction_check_required?}") %>
+    </div>
+
+    <h2 class="heading-medium">
+      <%= t(".declared_convictions.heading") %>
+    </h2>
+    <p>
+      <%= t(".declared_convictions.#{declared_convictions}") %>
+    </p>
+
+    <h2 class="heading-medium">
+      <%= t(".business_convictions.heading") %>
+    </h2>
+    <p>
+      <%= t(".business_convictions.#{business_convictions}") %>
+    </p>
+    <% if business_convictions == true %>
+      <%= render("shared/conviction_search_result", conviction_search_result: @transient_registration.conviction_search_result, person: nil) %>
+    <% end %>
+
+    <h2 class="heading-medium">
+      <%= t(".people_convictions.heading") %>
+    </h2>
+    <p>
+      <%= t(".people_convictions.#{people_convictions}") %>
+    </p>
+
+    <% if people_convictions == true %>
+      <% people_with_matches.each do |person| %>
+        <h3 class="heading-small">
+          <% if person.person_type == "KEY" %>
+            <%= t(".people_convictions.person_heading.#{@transient_registration.business_type}") %>
+          <% else %>
+            <%= t(".people_convictions.person_heading.relevant") %>
+          <% end %>
+        </h3>
+        <%= render("shared/conviction_search_result", conviction_search_result: person.conviction_search_result, person: person) %>
+      <% end %>
+    <% end %>
+
+    <% if relevant_people_without_matches.present? %>
+      <h2 class="heading-medium">
+        <%= t(".unmatched_people.heading") %>
+      </h2>
+      <p>
+        <%= t(".unmatched_people.paragraph") %>
+      </p>
+      <% relevant_people_without_matches.each do |person| %>
+        <table>
+          <tbody>
+            <%= render("shared/person_table_rows", person: person) %>
+          </tbody>
+        </table>
+      <% end %>
+    <% end %>
+
+    <% if @transient_registration.conviction_check_required? %>
+      <h2 class="heading-medium">
+        <%= t(".approve_or_reject.heading") %>
+      </h2>
+      <p>
+        <%= t(".approve_or_reject.paragraph_1") %>
+      </p>
+      <p>
+        <%= t(".approve_or_reject.paragraph_2") %>
+      </p>
+      <%= link_to t(".approve_or_reject.buttons.approve"), "#", class: "button" %>
+      <%= link_to t(".approve_or_reject.buttons.reject"), "#", class: "button-warning" %>
+    <% end %>
+  </div>
+</div>
