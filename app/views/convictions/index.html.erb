@@ -7,7 +7,13 @@
     </h1>
 
     <div class="panel">
-      <%= t(".required.#{@transient_registration.conviction_check_required?}") %>
+      <% if @transient_registration.conviction_check_approved? %>
+        <%= t(".status.approved") %>
+      <% elsif @transient_registration.metaData.REVOKED? %>
+        <%= t(".status.rejected") %>
+      <% else %>
+        <%= t(".status.#{@transient_registration.conviction_check_required?}") %>
+      <% end %>
     </div>
 
     <h2 class="heading-medium">
@@ -63,6 +69,56 @@
       <% end %>
     <% end %>
 
+    <% if @transient_registration.conviction_check_approved? || @transient_registration.metaData.REVOKED? %>
+    <table>
+      <caption class="heading-medium">
+        <%= t(".conviction_sign_off.heading") %>
+      </caption>
+      <tbody>
+        <tr>
+          <td>
+            <%= t(".conviction_sign_off.labels.status") %>
+          </td>
+          <td>
+            <% if @transient_registration.conviction_check_approved? %>
+              <%= t(".conviction_sign_off.labels.status_values.approved") %>
+            <% elsif @transient_registration.metaData.REVOKED? %>
+              <%= t(".conviction_sign_off.labels.status_values.rejected") %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= t(".conviction_sign_off.labels.revoked_reason") %>
+          </td>
+          <td>
+            <%= @transient_registration.metaData.revoked_reason %>
+          </td>
+        </tr>
+        <% if @transient_registration.conviction_sign_offs.first.confirmed_by.present? %>
+        <tr>
+          <td>
+            <%= t(".conviction_sign_off.labels.confirmed_by") %>
+          </td>
+          <td>
+            <%= @transient_registration.conviction_sign_offs.first.confirmed_by %>
+          </td>
+        </tr>
+        <% end %>
+        <% if @transient_registration.conviction_sign_offs.first.confirmed_at.present? %>
+        <tr>
+          <td>
+            <%= t(".conviction_sign_off.labels.confirmed_at") %>
+          </td>
+          <td>
+            <%= @transient_registration.conviction_sign_offs.first.confirmed_at.in_time_zone("London").strftime("%A %e %B %Y at %l:%M%P") %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% end %>
+
     <% if @transient_registration.conviction_check_required? %>
       <h2 class="heading-medium">
         <%= t(".approve_or_reject.heading") %>
@@ -73,8 +129,8 @@
       <p>
         <%= t(".approve_or_reject.paragraph_2") %>
       </p>
-      <%= link_to t(".approve_or_reject.buttons.approve"), "#", class: "button" %>
-      <%= link_to t(".approve_or_reject.buttons.reject"), "#", class: "button-warning" %>
+      <%= link_to t(".approve_or_reject.buttons.approve"), new_transient_registration_conviction_approval_form_path(@transient_registration.reg_identifier), class: "button" %>
+      <%= link_to t(".approve_or_reject.buttons.reject"), new_transient_registration_conviction_rejection_form_path(@transient_registration.reg_identifier), class: "button-warning" %>
     <% end %>
   </div>
 </div>
