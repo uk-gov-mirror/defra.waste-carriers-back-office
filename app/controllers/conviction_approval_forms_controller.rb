@@ -15,6 +15,7 @@ class ConvictionApprovalFormsController < AdminFormsController
                         :authorize_action)
 
     update_conviction_sign_off
+    renew_if_possible
   end
 
   def authorize_action(transient_registration)
