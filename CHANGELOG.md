@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.1](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.1) (2018-09-27)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.0...v1.1)
+
+**Merged pull requests:**
+
+- Fix finish link not going to backend [\#132](https://github.com/DEFRA/waste-carriers-back-office/pull/132) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump waste\_carriers\_engine from `9ed1a21` to `75a23f7` [\#131](https://github.com/DEFRA/waste-carriers-back-office/pull/131) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Better renewal end screens for back office users [\#130](https://github.com/DEFRA/waste-carriers-back-office/pull/130) ([irisfaraway](https://github.com/irisfaraway))
+- Bump passenger from 5.3.4 to 5.3.5 [\#129](https://github.com/DEFRA/waste-carriers-back-office/pull/129) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Clarify account\_email label on transient\_registration page [\#128](https://github.com/DEFRA/waste-carriers-back-office/pull/128) ([irisfaraway](https://github.com/irisfaraway))
+- Bump waste\_carriers\_engine from `ae7499f` to `9ed1a21` [\#127](https://github.com/DEFRA/waste-carriers-back-office/pull/127) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rubocop from 0.59.1 to 0.59.2 [\#126](https://github.com/DEFRA/waste-carriers-back-office/pull/126) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Stop users accessing pages with back button after signout [\#125](https://github.com/DEFRA/waste-carriers-back-office/pull/125) ([irisfaraway](https://github.com/irisfaraway))
+- Invalidate user session cookies after logout [\#124](https://github.com/DEFRA/waste-carriers-back-office/pull/124) ([irisfaraway](https://github.com/irisfaraway))
+
 ## [v1.0](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.0) (2018-09-18)
 **Implemented enhancements:**
 
