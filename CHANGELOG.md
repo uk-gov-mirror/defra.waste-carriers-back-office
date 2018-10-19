@@ -1,5 +1,26 @@
 # Change Log
 
+## [v1.2.2](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.2.2) (2018-10-19)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.2.1...v1.2.2)
+
+**Implemented enhancements:**
+
+- Use paging in fix dupe house no. rake task [\#152](https://github.com/DEFRA/waste-carriers-back-office/pull/152) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
+
+- Improve address update rake task [\#150](https://github.com/DEFRA/waste-carriers-back-office/pull/150) ([irisfaraway](https://github.com/irisfaraway))
+- Add missing translation for overseas business types [\#145](https://github.com/DEFRA/waste-carriers-back-office/pull/145) ([irisfaraway](https://github.com/irisfaraway))
+- Add rake task to fix addresses in incorrect format [\#143](https://github.com/DEFRA/waste-carriers-back-office/pull/143) ([irisfaraway](https://github.com/irisfaraway))
+
+**Merged pull requests:**
+
+- Display expiry date of registration in back office [\#151](https://github.com/DEFRA/waste-carriers-back-office/pull/151) ([irisfaraway](https://github.com/irisfaraway))
+- Bump waste\_carriers\_engine from `231e839` to `fd941fb` [\#149](https://github.com/DEFRA/waste-carriers-back-office/pull/149) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump devise\_invitable from 1.7.4 to 1.7.5 [\#148](https://github.com/DEFRA/waste-carriers-back-office/pull/148) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `d6b6696` to `231e839` [\#146](https://github.com/DEFRA/waste-carriers-back-office/pull/146) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `3565d4e` to `d6b6696` [\#144](https://github.com/DEFRA/waste-carriers-back-office/pull/144) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.2.1](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.2.1) (2018-10-11)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.2...v1.2.1)
 
