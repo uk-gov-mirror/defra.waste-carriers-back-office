@@ -1,11 +1,20 @@
 # Change Log
 
+## [v1.2.3](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.2.3) (2018-10-24)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.2.2...v1.2.3)
+
+**Merged pull requests:**
+
+- Bump rspec-rails from 3.8.0 to 3.8.1 [\#156](https://github.com/DEFRA/waste-carriers-back-office/pull/156) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `fd941fb` to `bec6d58` [\#155](https://github.com/DEFRA/waste-carriers-back-office/pull/155) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.2.2](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.2.2) (2018-10-19)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.2.1...v1.2.2)
 
 **Implemented enhancements:**
 
 - Use paging in fix dupe house no. rake task [\#152](https://github.com/DEFRA/waste-carriers-back-office/pull/152) ([Cruikshanks](https://github.com/Cruikshanks))
+- Display expiry date of registration in back office [\#151](https://github.com/DEFRA/waste-carriers-back-office/pull/151) ([irisfaraway](https://github.com/irisfaraway))
 
 **Fixed bugs:**
 
@@ -15,7 +24,6 @@
 
 **Merged pull requests:**
 
-- Display expiry date of registration in back office [\#151](https://github.com/DEFRA/waste-carriers-back-office/pull/151) ([irisfaraway](https://github.com/irisfaraway))
 - Bump waste\_carriers\_engine from `231e839` to `fd941fb` [\#149](https://github.com/DEFRA/waste-carriers-back-office/pull/149) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump devise\_invitable from 1.7.4 to 1.7.5 [\#148](https://github.com/DEFRA/waste-carriers-back-office/pull/148) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump waste\_carriers\_engine from `d6b6696` to `231e839` [\#146](https://github.com/DEFRA/waste-carriers-back-office/pull/146) ([dependabot[bot]](https://github.com/apps/dependabot))
