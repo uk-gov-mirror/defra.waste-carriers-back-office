@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TransientRegistrationFinderService do
+RSpec.describe TransientRegistrationSearchService do
   let(:term) { nil }
 
   let(:in_progress) { false }
@@ -10,11 +10,11 @@ RSpec.describe TransientRegistrationFinderService do
   let(:pending_conviction_check) { false }
 
   let(:transient_registrations) do
-    service = TransientRegistrationFinderService.new(term,
+    service = TransientRegistrationSearchService.new(term,
                                                      in_progress,
                                                      pending_payment,
                                                      pending_conviction_check)
-    service.transient_registrations
+    service.search(1)
   end
 
   let(:non_matching_renewal) { create(:transient_registration) }
