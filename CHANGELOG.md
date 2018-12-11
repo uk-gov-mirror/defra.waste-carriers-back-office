@@ -1,5 +1,54 @@
 # Change Log
 
+## [v1.4.0](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.4.0) (2018-12-11)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.3.1...v1.4.0)
+
+**Implemented enhancements:**
+
+- Add status in dashboard for stuck renewals [\#217](https://github.com/DEFRA/waste-carriers-back-office/pull/217) ([Cruikshanks](https://github.com/Cruikshanks))
+- Allow finance admin users to add 'stuck' WorldPay payments [\#210](https://github.com/DEFRA/waste-carriers-back-office/pull/210) ([irisfaraway](https://github.com/irisfaraway))
+- Refactor AdminFormsController options [\#209](https://github.com/DEFRA/waste-carriers-back-office/pull/209) ([irisfaraway](https://github.com/irisfaraway))
+- List oldest renewals first on convictions dashboard [\#208](https://github.com/DEFRA/waste-carriers-back-office/pull/208) ([irisfaraway](https://github.com/irisfaraway))
+- Change redirect paths after conviction check action [\#207](https://github.com/DEFRA/waste-carriers-back-office/pull/207) ([irisfaraway](https://github.com/irisfaraway))
+- Remove conviction status from dashboard search filters [\#203](https://github.com/DEFRA/waste-carriers-back-office/pull/203) ([irisfaraway](https://github.com/irisfaraway))
+- Manage new conviction workflow [\#202](https://github.com/DEFRA/waste-carriers-back-office/pull/202) ([irisfaraway](https://github.com/irisfaraway))
+- Add convictions overview page [\#197](https://github.com/DEFRA/waste-carriers-back-office/pull/197) ([irisfaraway](https://github.com/irisfaraway))
+- Add workflow states to conviction\_sign\_offs [\#196](https://github.com/DEFRA/waste-carriers-back-office/pull/196) ([irisfaraway](https://github.com/irisfaraway))
+- Clarify user migration content [\#195](https://github.com/DEFRA/waste-carriers-back-office/pull/195) ([irisfaraway](https://github.com/irisfaraway))
+- Improve dashboard search performance [\#191](https://github.com/DEFRA/waste-carriers-back-office/pull/191) ([Cruikshanks](https://github.com/Cruikshanks))
+- Allow super users to migrate users from backend [\#187](https://github.com/DEFRA/waste-carriers-back-office/pull/187) ([irisfaraway](https://github.com/irisfaraway))
+
+**Fixed bugs:**
+
+- Rescue CanCan::AccessDenied by redirecting to correct page [\#181](https://github.com/DEFRA/waste-carriers-back-office/issues/181)
+- Refactor logic around can renew/complete checks [\#216](https://github.com/DEFRA/waste-carriers-back-office/pull/216) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix err msg WCR Engine::VERSION already defined [\#201](https://github.com/DEFRA/waste-carriers-back-office/pull/201) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix web console error in development log [\#200](https://github.com/DEFRA/waste-carriers-back-office/pull/200) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Closed issues:**
+
+- Dependabot can't resolve your Ruby dependency files [\#214](https://github.com/DEFRA/waste-carriers-back-office/issues/214)
+- Dependabot can't resolve your Ruby dependency files [\#212](https://github.com/DEFRA/waste-carriers-back-office/issues/212)
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `2c31d00` to `6813c1c` [\#223](https://github.com/DEFRA/waste-carriers-back-office/pull/223) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Rescue CanCan::AccessDenied by redirecting to correct page [\#222](https://github.com/DEFRA/waste-carriers-back-office/pull/222) ([irisfaraway](https://github.com/irisfaraway))
+- Bump waste\_carriers\_engine from `1a03190` to `2c31d00` [\#221](https://github.com/DEFRA/waste-carriers-back-office/pull/221) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rubocop from 0.61.0 to 0.61.1 [\#220](https://github.com/DEFRA/waste-carriers-back-office/pull/220) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rubocop from 0.60.0 to 0.61.0 [\#219](https://github.com/DEFRA/waste-carriers-back-office/pull/219) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `7b53a24` to `1bc515c` [\#218](https://github.com/DEFRA/waste-carriers-back-office/pull/218) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `7e0608b` to `7b53a24` [\#215](https://github.com/DEFRA/waste-carriers-back-office/pull/215) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Upgrade to Rails 4.2.11 [\#213](https://github.com/DEFRA/waste-carriers-back-office/pull/213) ([irisfaraway](https://github.com/irisfaraway))
+- Bump waste\_carriers\_engine from `a99cf42` to `5fc5e29` [\#211](https://github.com/DEFRA/waste-carriers-back-office/pull/211) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `4725917` to `a99cf42` [\#205](https://github.com/DEFRA/waste-carriers-back-office/pull/205) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `bc72860` to `4725917` [\#204](https://github.com/DEFRA/waste-carriers-back-office/pull/204) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `5ec634a` to `9de9bd7` [\#199](https://github.com/DEFRA/waste-carriers-back-office/pull/199) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `ecdea2e` to `a692a19` [\#198](https://github.com/DEFRA/waste-carriers-back-office/pull/198) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `e283ec6` to `3542e08` [\#194](https://github.com/DEFRA/waste-carriers-back-office/pull/194) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump uglifier from 4.1.19 to 4.1.20 [\#193](https://github.com/DEFRA/waste-carriers-back-office/pull/193) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Remove rake email anonymiser task [\#192](https://github.com/DEFRA/waste-carriers-back-office/pull/192) ([Cruikshanks](https://github.com/Cruikshanks))
+
 ## [v1.3.1](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.3.1) (2018-11-16)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.3.0...v1.3.1)
 
