@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "secure_headers"
 
 # A CSP is delivered via a HTTP response header, much like HSTS, and defines
@@ -31,15 +33,17 @@ SecureHeaders::Configuration.default do |config|
   # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/font-src
   #
   # We have to use single quotes here, even though it's against style - double doesn't work
+  # rubocop:disable Lint/PercentStringArray
   config.csp = {
-    default_src: %w('self'),
-    font_src: %w('self' data:),
-    img_src: %w('self' www.google-analytics.com),
-    object_src: %w('self'),
-    script_src: %w('self' 'unsafe-inline' www.googletagmanager.com www.google-analytics.com),
-    style_src: %w('self'),
-    report_uri: %w(https://environmentagency.report-uri.io/r/default/csp/enforce)
+    default_src: %w['self'],
+    font_src: %w['self' data:],
+    img_src: %w['self' www.google-analytics.com],
+    object_src: %w['self'],
+    script_src: %w['self' 'unsafe-inline' www.googletagmanager.com www.google-analytics.com],
+    style_src: %w['self'],
+    report_uri: %w[https://environmentagency.report-uri.io/r/default/csp/enforce]
   }
+  # rubocop:enable Lint/PercentStringArray
 
   config.x_content_type_options = "nosniff"
   config.x_frame_options = "SAMEORIGIN"
