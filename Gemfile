@@ -77,8 +77,8 @@ group :production do
 end
 
 group :development, :test do
-  # Call "byebug" anywhere in the code to stop execution and get a debugger console
-  gem "byebug"
+  # Call "binding.pry" anywhere in the code to stop execution and get a debugger console
+  gem "pry-byebug"
   # Apply our style guide to ensure consistency in how the code is written
   gem "defra_ruby_style"
   # Shim to load environment variables from a .env file into ENV in development
