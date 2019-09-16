@@ -1,5 +1,27 @@
 # Change Log
 
+## [v1.5.1](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.5.1) (2019-09-13)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.5.0...v1.5.1)
+
+**Fixed bugs:**
+
+- Add missing companies house configuration [\#361](https://github.com/DEFRA/waste-carriers-back-office/pull/361) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `c666b9a` to `15a2d01` [\#360](https://github.com/DEFRA/waste-carriers-back-office/pull/360) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `49f25cc` to `c666b9a` [\#359](https://github.com/DEFRA/waste-carriers-back-office/pull/359) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- \[Security\] Bump devise from 4.7.0 to 4.7.1 [\#358](https://github.com/DEFRA/waste-carriers-back-office/pull/358) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `5dea1e6` to `49f25cc` [\#357](https://github.com/DEFRA/waste-carriers-back-office/pull/357) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `14c7080` to `5dea1e6` [\#356](https://github.com/DEFRA/waste-carriers-back-office/pull/356) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `8bbf501` to `14c7080` [\#355](https://github.com/DEFRA/waste-carriers-back-office/pull/355) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `34986aa` to `8bbf501` [\#354](https://github.com/DEFRA/waste-carriers-back-office/pull/354) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `926c925` to `34986aa` [\#353](https://github.com/DEFRA/waste-carriers-back-office/pull/353) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `793bbfb` to `926c925` [\#352](https://github.com/DEFRA/waste-carriers-back-office/pull/352) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update Travis-CI badge url in README [\#351](https://github.com/DEFRA/waste-carriers-back-office/pull/351) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump waste\_carriers\_engine from `e729d87` to `793bbfb` [\#350](https://github.com/DEFRA/waste-carriers-back-office/pull/350) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump devise from 4.6.2 to 4.7.0 [\#349](https://github.com/DEFRA/waste-carriers-back-office/pull/349) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [v1.5.0](https://github.com/DEFRA/waste-carriers-back-office/tree/v1.5.0) (2019-08-15)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-back-office/compare/v1.4.3...v1.5.0)
 
