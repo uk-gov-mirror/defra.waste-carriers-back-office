@@ -1,28 +1,19 @@
 en:
   dashboards:
     index:
-      title: "Renewals dashboard"
+      title: "Waste carriers registrations"
       user_info:
         signed_in_user: "Signed in as %{email}."
         sign_out_link: "Sign out"
-      heading: "Renewals dashboard"
+      heading: "Waste carriers registrations"
       search:
-        paragraph_1: "You can search for a renewal by:"
-        searchable_attributes:
-          - "registration number"
-          - "company name"
-          - "last name of contact person"
-          - "postcode (if confirmed during renewal process)"
-        paragraph_2: "You can filter the search results, or search without a term to use the filters on their own."
-        label: "Search for renewals"
-        placeholder: "Enter your search term here"
+        label: "Search for a registration"
+        hint: "Using registration number, business or contact last name, postcode"
         submit: "Search"
-        filters:
-          paragraph_1: "Filter the results:"
-          in_progress: "Application in progress"
-          pending_payment: "Pending payment"
-        clear_all_link: "Clear all searches and filters"
       results:
+        caption:
+          one: "Found 1 registration"
+          other: "Found %{count} registrations"
         th:
           reg_identifier: "Registration"
           company_name: "Company name"

@@ -19,48 +19,28 @@
 
 <div class="grid-row">
   <div class="column-full">
-    <p><%= t(".search.paragraph_1") %></p>
-    <ul class="list list-bullet">
-      <% t(".search.searchable_attributes").each do |attribute| %>
-        <li><%= attribute %></li>
-      <% end %>
-    </ul>
-    <p><%= t(".search.paragraph_2") %></p>
-    <div class="form-group panel panel-border-wide">
+    <div class="form-group">
       <%= form_tag("/bo", method: :get) do %>
-        <%= label_tag :term, t(".search.label"), class: "form-label visually-hidden" %>
-        <%= text_field_tag :term, @term, placeholder: t(".search.placeholder"), class: "form-control" %>
+        <%= label_tag :term, class: "form-label" do %>
+          <%= t(".search.label") %>
+          <span class="form-hint"><%= t(".search.hint") %></span>
+        <% end %>
+        <%= text_field_tag :term, @term, class: "form-control", type: "search" %>
         <%= submit_tag t(".search.submit"), class: "button" %>
-
-        <div class="filters">
-          <p><%= t(".search.filters.paragraph_1") %></p>
-          <div class="form-group">
-            <div class="multiple-choice">
-              <%= check_box_tag :in_progress,
-                                "true",
-                                @in_progress %>
-              <%= label_tag :in_progress,
-                            t(".search.filters.in_progress") %>
-            </div>
-            <div class="multiple-choice">
-              <%= check_box_tag :pending_payment,
-                                "true",
-                                @pending_payment %>
-              <%= label_tag :pending_payment,
-                            t(".search.filters.pending_payment") %>
-            </div>
-          </div>
-          <p><%= link_to t(".search.clear_all_link"), bo_path %></p>
-        </div>
       <% end %>
     </div>
   </div>
 </div>
 
-<% if @transient_registrations.present? %>
+<% if @results.any? %>
   <div class="grid-row">
     <div class="column-full">
       <table>
+        <caption>
+          <h2 class="heading-medium">
+            <%= t(".results.caption", count: @results.count) %>
+          </h2>
+        </caption>
         <thead>
           <tr>
             <th><%= t(".results.th.reg_identifier") %></th>
@@ -71,7 +51,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @transient_registrations.each do |transient_registration| %>
+          <% @results.each do |transient_registration| %>
             <tr>
               <td>
                 <%= transient_registration.reg_identifier %>
@@ -123,14 +103,14 @@
     <div class="column-full">
       <nav role="navigation" class="pagination" aria-label="Pagination">
         <div class="pagination__summary">
-          <%= page_entries_info @transient_registrations, entry_name: "item" %>
+          <%= page_entries_info @results, entry_name: "item" %>
         </div>
-        <%= paginate @transient_registrations %>
+        <%= paginate @results %>
       </nav>
     </div>
   </div>
 
-<% elsif @search_terms_or_filters_present %>
+<% elsif @term.present? %>
 
 <hr>
 
