@@ -49,7 +49,7 @@
 <% if @results.any? %>
   <div class="grid-row">
     <div class="column-full">
-      <table>
+      <table class="results">
         <caption>
           <h2 class="heading-medium">
             <%= t(".results.caption", count: @results.count) %>
@@ -58,53 +58,84 @@
         <thead>
           <tr>
             <th><%= t(".results.th.reg_identifier") %></th>
-            <th><%= t(".results.th.company_name") %></th>
+            <th><%= t(".results.th.business") %></th>
             <th><%= t(".results.th.status") %></th>
-            <th><%= t(".results.th.last_modified") %></th>
+            <th><%= t(".results.th.dates") %></th>
             <th><%= t(".results.th.actions") %></th>
           </tr>
         </thead>
         <tbody>
-          <% @results.each do |transient_registration| %>
+          <% @results.each do |result| %>
             <tr>
               <td>
-                <%= transient_registration.reg_identifier %>
+                <%= result.reg_identifier %>
               </td>
               <td>
-                <%= transient_registration.company_name %>
-              </td>
-              <td>
-                <% if transient_registration.metaData.REVOKED? %>
-                  <strong class="app-c-tag app-c-tag--danger">
-                    <%= t(".results.statuses.rejected") %>
-                  </strong>
-                <% elsif transient_registration.renewal_application_submitted? %>
-                    <% if transient_registration.pending_payment? %>
-                      <strong class="app-c-tag app-c-tag--success">
-                        <%= t(".results.statuses.pending_payment") %>
-                      </strong>
-                    <% end %>
-                    <% if transient_registration.pending_manual_conviction_check? %>
-                      <strong class="app-c-tag app-c-tag--warning">
-                        <%= t(".results.statuses.pending_conviction_check") %>
-                      </strong>
-                    <% end %>
-                    <% if transient_registration.stuck? %>
-                      <strong class="app-c-tag app-c-tag--danger">
-                        <%= t(".results.statuses.stuck") %>
-                      </strong>
-                    <% end %>
-                <% else %>
-                  <strong class="app-c-tag">
-                    <%= t(".results.statuses.in_progress") %>
-                  </strong>
+                <%= result.company_name %>
+                <% if result.registered_address.present? %>
+                  <p class="address font-xsmall">
+                    <%= inline_registered_address(result) %>
+                  </p>
                 <% end %>
               </td>
               <td>
-                <%= transient_registration.metaData.last_modified.in_time_zone("London").strftime("%H:%M %d/%m/%Y") %>
+                <% if result_type(result).present? %>
+                  <%= t(".results.classes.#{result_type(result)}") %><br>
+                <% end %>
+
+                <% if result.metaData.REVOKED? %>
+                  <span class="status-tag status-tag--rejected">
+                    <%= t(".results.statuses.rejected") %>
+                  </span>
+                <% elsif result.renewal_application_submitted? %>
+                    <% if result.pending_payment? %>
+                      <span class="status-tag status-tag--payment">
+                        <%= t(".results.statuses.pending_payment") %>
+                      </span>
+                    <% end %>
+                    <% if result.pending_manual_conviction_check? %>
+                      <span class="status-tag status-tag--convictions">
+                        <%= t(".results.statuses.pending_conviction_check") %>
+                      </span>
+                    <% end %>
+                    <% if result.stuck? %>
+                      <span class="status-tag status-tag--stuck">
+                        <%= t(".results.statuses.stuck") %>
+                      </span>
+                    <% end %>
+                <% else %>
+                  <span class="status-tag status-tag--in-progress">
+                    <%= t(".results.statuses.in_progress") %>
+                  </span>
+                <% end %>
               </td>
               <td>
-                <%= link_to t(".results.details_button"), transient_registration_path(transient_registration.reg_identifier) %>
+                <%= t(".results.date.started", date: result.metaData
+                                                           .last_modified
+                                                           .in_time_zone("London")
+                                                           .strftime("%d/%m/%Y")) %>
+              </td>
+              <td>
+                <ul>
+                  <li>
+                    <%= link_to t(".results.actions.details"), transient_registration_path(result.reg_identifier) %>
+                  </li>
+                  <% if display_resume_link_for?(result) %>
+                    <li>
+                      <%= link_to t(".results.actions.resume"), WasteCarriersEngine::Engine.routes.url_helpers.new_renewal_start_form_path(result.reg_identifier) %>
+                    </li>
+                  <% end %>
+                  <% if display_payment_link_for?(result) %>
+                    <li>
+                      <%= link_to t(".results.actions.payment"), transient_registration_payments_path(result.reg_identifier) %>
+                    </li>
+                  <% end %>
+                  <% if display_convictions_link_for?(result) %>
+                    <li>
+                      <%= link_to t(".results.actions.convictions"), transient_registration_convictions_path(result.reg_identifier) %>
+                    </li>
+                  <% end %>
+                </ul>
               </td>
             </tr>
           <% end %>

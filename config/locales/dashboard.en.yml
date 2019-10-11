@@ -19,15 +19,25 @@ en:
           other: "Found %{count} registrations"
         th:
           reg_identifier: "Registration"
-          company_name: "Company name"
-          last_modified: "Last modified"
+          business: "Business"
           status: "Status"
+          dates: "Dates"
           actions: "Actions"
+        classes:
+          renewal: "Renewal"
         statuses:
-          in_progress: "application in progress"
-          pending_payment: "pending payment"
-          pending_conviction_check: "pending convictions"
+          in_progress: "in progress"
+          pending_payment: "payment needed"
+          pending_conviction_check: "convictions"
           rejected: "rejected"
           stuck: "stuck"
-        details_button: "Details"
+        date:
+          started: "Started %{date}"
+        actions:
+          convictions: "Conviction details"
+          details: "Details"
+          renew: "Renew"
+          resume: "Resume application"
+          payment: "Payment details"
+          transfer: "Transfer"
         no_results: "No results found."
