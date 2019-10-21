@@ -50,4 +50,43 @@ RSpec.describe DashboardsHelper, type: :helper do
       end
     end
   end
+
+  describe "#result_date" do
+    context "when the result is inactive, refused or revoked" do
+      before { result.metaData.status = %w[INACTIVE REFUSED REVOKED].sample }
+
+      it "returns nil" do
+        expect(helper.result_date(result)).to eq(nil)
+      end
+    end
+
+    context "when the result is expired" do
+      before { result.metaData.status = "EXPIRED" }
+
+      it "returns the expected text" do
+        date = result.expires_on.strftime("%d/%m/%Y")
+        expect(helper.result_date(result)).to eq("Expired #{date}")
+      end
+    end
+
+    context "when the result is active" do
+      context "when the result is a registration" do
+        let(:result) { build(:registration, :expires_soon) }
+
+        it "returns the expected text" do
+          date = result.expires_on.strftime("%d/%m/%Y")
+          expect(helper.result_date(result)).to eq("Expires #{date}")
+        end
+      end
+
+      context "when the result is a transient_registration" do
+        let(:result) { build(:transient_registration) }
+
+        it "returns the expected text" do
+          date = Date.today.strftime("%d/%m/%Y")
+          expect(helper.result_date(result)).to eq("Updated #{date}")
+        end
+      end
+    end
+  end
 end

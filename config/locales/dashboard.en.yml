@@ -37,7 +37,9 @@ en:
           revoked: "revoked"
           stuck: "stuck"
         date:
-          started: "Started %{date}"
+          expired: "Expired %{date}"
+          last_modified: "Updated %{date}"
+          will_expire: "Expires %{date}"
         actions:
           convictions:
             link_text: "Conviction details"
