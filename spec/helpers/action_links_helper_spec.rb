@@ -75,8 +75,17 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
     end
 
-    context "when the resource is not a transient_registration" do
+    context "when the resource is a registration" do
       let(:resource) { build(:registration) }
+
+      it "returns the correct path" do
+        path = "#{Rails.configuration.wcrs_frontend_url}/registrations/#{resource.id}/approve"
+        expect(helper.convictions_link_for(resource)).to eq(path)
+      end
+    end
+
+    context "when the resource is not a registration or a transient_registration" do
+      let(:resource) { nil }
 
       it "returns the correct path" do
         expect(helper.convictions_link_for(resource)).to eq("#")
@@ -255,11 +264,43 @@ RSpec.describe ActionLinksHelper, type: :helper do
   end
 
   describe "#display_convictions_link_for?" do
-    context "when the result is not a TransientRegistration" do
+    context "when the result is a Registration" do
       let(:result) { build(:registration) }
 
-      it "returns false" do
-        expect(helper.display_convictions_link_for?(result)).to eq(false)
+      context "when the result has been revoked" do
+        before { result.metaData.status = "REVOKED" }
+
+        it "returns false" do
+          expect(helper.display_convictions_link_for?(result)).to eq(false)
+        end
+      end
+
+      context "when the user does not have permission" do
+        before { allow(helper).to receive(:can?).and_return(false) }
+
+        it "returns false" do
+          expect(helper.display_convictions_link_for?(result)).to eq(false)
+        end
+      end
+
+      context "when the user has permission" do
+        before { allow(helper).to receive(:can?).and_return(true) }
+
+        context "when the result has no pending convictions check" do
+          let(:result) { build(:transient_registration, :does_not_require_conviction_check) }
+
+          it "returns false" do
+            expect(helper.display_convictions_link_for?(result)).to eq(false)
+          end
+        end
+
+        context "when the result has a pending convictions check" do
+          let(:result) { build(:transient_registration, :requires_conviction_check) }
+
+          it "returns true" do
+            expect(helper.display_convictions_link_for?(result)).to eq(true)
+          end
+        end
       end
     end
 

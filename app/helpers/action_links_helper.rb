@@ -24,9 +24,13 @@ module ActionLinksHelper
   end
 
   def convictions_link_for(resource)
-    return "#" unless resource.is_a?(WasteCarriersEngine::TransientRegistration)
-
-    transient_registration_convictions_path(resource.reg_identifier)
+    if resource.is_a?(WasteCarriersEngine::TransientRegistration)
+      transient_registration_convictions_path(resource.reg_identifier)
+    elsif resource.is_a?(WasteCarriersEngine::Registration)
+      "#{Rails.configuration.wcrs_frontend_url}/registrations/#{resource.id}/approve"
+    else
+      "#"
+    end
   end
 
   def renew_link_for(resource)
@@ -60,7 +64,7 @@ module ActionLinksHelper
   end
 
   def display_convictions_link_for?(resource)
-    return false unless display_transient_registration_links?(resource)
+    return false unless display_transient_registration_links?(resource) || display_registration_links?(resource)
     return false unless can?(:review_convictions, resource)
 
     resource.pending_manual_conviction_check?
