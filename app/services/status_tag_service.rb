@@ -17,6 +17,8 @@ class StatusTagService < ::WasteCarriersEngine::BaseService
 
   private
 
+  # Metadata status
+
   def metadata_status
     return :revoked if @resource.metaData.REVOKED?
     return :refused if @resource.metaData.REFUSED?
@@ -38,17 +40,25 @@ class StatusTagService < ::WasteCarriersEngine::BaseService
     @resource.metaData.status.downcase.to_sym
   end
 
+  # Conviction checks
+
   def pending_conviction_check
-    :pending_conviction_check if submitted_renewal? && @resource.pending_manual_conviction_check?
+    :pending_conviction_check if registration_or_submitted_renewal? && @resource.pending_manual_conviction_check?
   end
+
+  # Payments
 
   def pending_payment
     :pending_payment if registration_or_submitted_renewal? && @resource.pending_payment?
   end
 
+  # Stuck
+
   def stuck
     :stuck if transient? && @resource.stuck?
   end
+
+  # Helper methods
 
   def transient?
     @_transient ||= @resource.is_a?(WasteCarriersEngine::TransientRegistration)
