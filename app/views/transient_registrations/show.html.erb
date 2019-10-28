@@ -70,6 +70,20 @@
         <% end %>
       </div>
     <% end %>
+
+    <div class="panel wcr-panel wcr-panel-border-all">
+      <h2 class="heading-medium">
+        <%= @transient_registration.company_name %>
+      </h2>
+      <p class="lede">
+        <%= t(".tier.#{@transient_registration.tier.downcase}") %> - <%= show_translation_or_filler(:registration_type) %>
+      </p>
+      <p>
+        <%= t(".labels.expires", formatted_date: display_expiry_date) %>
+        <br>
+        <%= t(".labels.account", email: @transient_registration.account_email) %>
+      </p>
+    </div>
     <table>
       <caption class="heading-medium">
         <%= t(".reg_information.heading") %>
