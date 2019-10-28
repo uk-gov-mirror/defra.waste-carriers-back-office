@@ -46,9 +46,9 @@ en:
         labels:
           company_name: "Company name"
           business_type: "Business type"
-          company_no: "Companies House number"
-          location: "Location"
-          registered_address: "Registered address"
+          company_no: "Company number: %{number}"
+          location: "Place of business: %{location}"
+          registered_address: "Registered address:"
       contact_information:
         heading: "Contact details"
         labels:

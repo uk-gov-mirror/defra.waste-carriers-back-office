@@ -12,5 +12,19 @@
   h2 {
     margin-bottom: 5px;
   }
+}
 
+.wcr-side-info-box {
+  h2 {
+    margin: 5px 0 0 0;
+  }
+
+  p {
+    margin-bottom: 8px;
+  }
+
+  .wcr-truncate-ellipsis {
+    overflow : hidden;
+    text-overflow: ellipsis;
+  }
 }

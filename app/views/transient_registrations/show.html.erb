@@ -84,6 +84,56 @@
         <%= t(".labels.account", email: @transient_registration.account_email) %>
       </p>
     </div>
+    <div class="grid-row">
+      <div class="column-one-half wcr-side-info-box">
+        <h2 class="heading-medium">
+          <%= t(".contact_information.heading") %>
+        </h2>
+        <p>
+          <%= @transient_registration.first_name %> <%= @transient_registration.last_name %>
+        </p>
+        <p>
+          <%= @transient_registration.phone_number %>
+        </p>
+        <p class="wcr-truncate-ellipsis">
+          <a href="mailto:<%= @transient_registration.contact_email %>" target="_top">
+            <%= @transient_registration.contact_email %>
+          </a>
+        </p>
+        <p>
+          <% if @transient_registration.contact_address.present? %>
+            <% display_contact_address.each do |line| %>
+              <%= line %><br>
+            <% end %>
+          <% end %>
+        </p>
+      </div>
+      <div class="column-one-half wcr-side-info-box">
+        <h2 class="heading-medium">
+          <%= t(".business_information.heading") %>
+        </h2>
+        <p>
+          <%= @transient_registration.company_name %>
+        </p>
+        <% if @transient_registration.company_no.present? %>
+          <p>
+            <%= t(".business_information.labels.company_no", number: @transient_registration.company_no) %>
+          </p>
+        <% end %>
+
+        <% if @transient_registration.registered_address.present? %>
+          <p>
+            <%= t(".business_information.labels.registered_address") %> <br>
+            <% display_registered_address.each do |line| %>
+              <%= line %><br>
+            <% end %>
+          </p>
+        <% end %>
+        <p>
+          <%= t(".business_information.labels.location", location: show_translation_or_filler(:location)) %>
+        </p>
+      </div>
+    </div>
     <table>
       <caption class="heading-medium">
         <%= t(".reg_information.heading") %>
@@ -137,110 +187,6 @@
             <%= show_translation_or_filler(:registration_type) %>
           </td>
         </tr>
-      </tbody>
-    </table>
-
-    <table>
-      <caption class="heading-medium">
-        <%= t(".business_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.company_name") %>
-          </td>
-          <td>
-            <%= @transient_registration.company_name %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.business_type") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:business_type) %>
-          </td>
-        </tr>
-        <% if @transient_registration.company_no.present? %>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.company_no") %>
-          </td>
-          <td>
-            <%= @transient_registration.company_no %>
-          </td>
-        </tr>
-        <% end %>
-        <% if @transient_registration.location.present? %>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.location") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:location) %>
-          </td>
-        </tr>
-        <% end %>
-        <% if @transient_registration.registered_address.present? %>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.registered_address") %>
-          </td>
-          <td>
-            <ul>
-            <% display_registered_address.each do |line| %>
-              <li><%= line %></li>
-            <% end %>
-            </ul>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <table>
-      <caption class="heading-medium">
-        <%= t(".contact_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.contact_name") %>
-          </td>
-          <td>
-            <%= @transient_registration.first_name %> <%= @transient_registration.last_name %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.phone_number") %>
-          </td>
-          <td>
-            <%= @transient_registration.phone_number %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.contact_email") %>
-          </td>
-          <td>
-            <%= @transient_registration.contact_email %>
-          </td>
-        </tr>
-        <% if @transient_registration.contact_address.present? %>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.contact_address") %>
-          </td>
-          <td>
-            <ul>
-            <% display_contact_address.each do |line| %>
-              <li><%= line %></li>
-            <% end %>
-            </ul>
-          </td>
-        </tr>
-        <% end %>
       </tbody>
     </table>
 
