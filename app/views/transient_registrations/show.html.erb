@@ -2,11 +2,11 @@
   <div class="column-full">
     <%= render("waste_carriers_engine/shared/back", back_path: bo_path) %>
 
-    <h1 class="heading-large">
-      <%= t(".heading", reg_identifier: @transient_registration.reg_identifier) %>
-    </h1>
     <div class="grid-row">
       <div class="column-two-thirds">
+        <h1 class="heading-large">
+          <%= t(".heading", reg_identifier: @transient_registration.reg_identifier) %>
+        </h1>
         <% if @transient_registration.metaData.REVOKED? %>
           <div class="panel">
             <h2 class="heading-medium">
