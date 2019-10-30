@@ -403,29 +403,6 @@
             </tbody>
           </table>
         <% end %>
-        <table>
-          <caption class="heading-medium">
-            <%= t(".renewal_information.heading") %>
-          </caption>
-          <tbody>
-            <tr>
-              <td>
-                <%= t(".renewal_information.labels.workflow_state") %>
-              </td>
-              <td>
-                <%= display_current_workflow_state %>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <%= t(".renewal_information.labels.declaration") %>
-              </td>
-              <td>
-                <%= show_translation_or_filler(:declaration) %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
       <div class="column-one-third">
         <div class="actions actions--push-down">
