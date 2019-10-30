@@ -2,7 +2,7 @@ en:
   transient_registrations:
     show:
       title: "Renewal details"
-      heading: "Renewal application for %{reg_identifier}"
+      heading: "Registration %{reg_identifier}"
       filler: "–"
       status:
         headings:
