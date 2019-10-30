@@ -1,8 +1,13 @@
 en:
   transient_registrations:
     show:
+      actions_box:
+        heading: "Actions for %{reg_identifier}"
+        links:
+          convictions: "Process convictions"
+          payment: "Process payment"
       title: "Renewal details"
-      heading: "Renewal application for %{reg_identifier}"
+      heading: "Registration %{reg_identifier}"
       filler: "–"
       status:
         headings:
@@ -26,6 +31,12 @@ en:
           convictions_check_button: "Check conviction matches"
           revert_to_payment_summary_button: "Send back to payment summary"
           missed_worldpay_payment_button: "Add a missed WorldPay payment"
+      tier:
+        upper: Upper tier
+        lower: Lower tier
+      labels:
+        account: "Account: %{email}"
+        expires: "Expires: %{formatted_date}"
       reg_information:
         heading: "Registration information"
         labels:

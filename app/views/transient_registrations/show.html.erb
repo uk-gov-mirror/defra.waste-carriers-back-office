@@ -1,462 +1,502 @@
 <div class="grid-row">
-  <div class="column-two-thirds">
+  <div class="column-full">
     <%= render("waste_carriers_engine/shared/back", back_path: bo_path) %>
 
-    <h1 class="heading-large">
-      <%= t(".heading", reg_identifier: @transient_registration.reg_identifier) %>
-    </h1>
-
-    <% if @transient_registration.metaData.REVOKED? %>
-      <div class="panel">
-        <h2 class="heading-medium">
-          <%= t(".status.headings.rejected") %>
-        </h2>
-        <p>
-          <%= t(".status.messages.rejected") %>
-        </p>
-      </div>
-    <% elsif @transient_registration.renewal_application_submitted? %>
-      <div class="panel">
-        <h2 class="heading-medium">
-          <%= t(".status.headings.submitted") %>
-        </h2>
-        <% if @transient_registration.pending_payment? && @transient_registration.pending_manual_conviction_check? %>
-          <p>
-            <%= t(".status.messages.pending_payment_and_convictions_check") %>
-          </p>
-          <%= link_to t(".status.actions.payment_button"), transient_registration_payments_path(@transient_registration.reg_identifier), class: 'button' %>
-          <%= link_to t(".status.actions.convictions_check_button"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: 'button' %>
-        <% elsif @transient_registration.pending_payment? %>
-          <p>
-            <%= t(".status.messages.pending_payment") %>
-          </p>
-          <%= link_to t(".status.actions.payment_button"), transient_registration_payments_path(@transient_registration.reg_identifier), class: 'button' %>
-        <% elsif @transient_registration.pending_manual_conviction_check? %>
-          <p>
-            <%= t(".status.messages.pending_convictions_check") %>
-          </p>
-          <%= link_to t(".status.actions.convictions_check_button"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: 'button' %>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="panel">
-        <h2 class="heading-medium">
-          <%= t(".status.headings.in_progress") %>
-        </h2>
-
-        <% if @transient_registration.workflow_state == "worldpay_form" %>
-          <p>
-            <%= t(".status.messages.worldpay.paragraph_1") %>
-          </p>
-
-          <% if can? :revert_to_payment_summary, @transient_registration %>
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <h1 class="heading-large">
+          <%= t(".heading", reg_identifier: @transient_registration.reg_identifier) %>
+        </h1>
+        <% if @transient_registration.metaData.REVOKED? %>
+          <div class="panel">
+            <h2 class="heading-medium">
+              <%= t(".status.headings.rejected") %>
+            </h2>
             <p>
-              <%= t(".status.messages.worldpay.paragraph_2.revert") %>
+              <%= t(".status.messages.rejected") %>
             </p>
-            <%= link_to t(".status.actions.revert_to_payment_summary_button"), new_transient_registration_worldpay_escape_path(@transient_registration.reg_identifier), class: 'button' %>
-          <% elsif can? :record_worldpay_missed_payment, @transient_registration %>
-            <p>
-              <%= t(".status.messages.worldpay.paragraph_2.missed_payment") %>
-            </p>
-            <%= link_to t(".status.actions.missed_worldpay_payment_button"), new_transient_registration_worldpay_missed_payment_form_path(@transient_registration.reg_identifier), class: 'button' %>
-          <% end %>
+          </div>
+        <% elsif @transient_registration.renewal_application_submitted? %>
+          <div class="panel">
+            <h2 class="heading-medium">
+              <%= t(".status.headings.submitted") %>
+            </h2>
+            <% if @transient_registration.pending_payment? && @transient_registration.pending_manual_conviction_check? %>
+              <p>
+                <%= t(".status.messages.pending_payment_and_convictions_check") %>
+              </p>
+              <%= link_to t(".status.actions.payment_button"), transient_registration_payments_path(@transient_registration.reg_identifier), class: 'button' %>
+              <%= link_to t(".status.actions.convictions_check_button"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: 'button' %>
+            <% elsif @transient_registration.pending_payment? %>
+              <p>
+                <%= t(".status.messages.pending_payment") %>
+              </p>
+              <%= link_to t(".status.actions.payment_button"), transient_registration_payments_path(@transient_registration.reg_identifier), class: 'button' %>
+            <% elsif @transient_registration.pending_manual_conviction_check? %>
+              <p>
+                <%= t(".status.messages.pending_convictions_check") %>
+              </p>
+              <%= link_to t(".status.actions.convictions_check_button"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: 'button' %>
+            <% end %>
+          </div>
         <% else %>
-          <p>
-            <%= t(".status.messages.in_progress") %> "<%= display_current_workflow_state %>".
-          </p>
-          <% if can? :update, @transient_registration %>
-            <%= link_to t(".status.actions.continue_button"), WasteCarriersEngine::Engine.routes.url_helpers.new_renewal_start_form_path(@transient_registration.reg_identifier), class: 'button' %>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-    <table>
-      <caption class="heading-medium">
-        <%= t(".reg_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".reg_information.labels.account_email") %>
-          </td>
-          <td>
-            <%= @transient_registration.account_email %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".reg_information.labels.reg_identifier") %>
-          </td>
-          <td>
-            <%= @transient_registration.reg_identifier %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".reg_information.labels.expires_on") %>
-          </td>
-          <td>
-            <%= display_expiry_date %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".reg_information.labels.status") %>
-          </td>
-          <td>
-            <%= display_registration_status %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".reg_information.labels.tier") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:tier) %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".reg_information.labels.registration_type") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:registration_type) %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <div class="panel">
+            <h2 class="heading-medium">
+              <%= t(".status.headings.in_progress") %>
+            </h2>
 
-    <table>
-      <caption class="heading-medium">
-        <%= t(".business_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.company_name") %>
-          </td>
-          <td>
+            <% if @transient_registration.workflow_state == "worldpay_form" %>
+              <p>
+                <%= t(".status.messages.worldpay.paragraph_1") %>
+              </p>
+
+              <% if can? :revert_to_payment_summary, @transient_registration %>
+                <p>
+                  <%= t(".status.messages.worldpay.paragraph_2.revert") %>
+                </p>
+                <%= link_to t(".status.actions.revert_to_payment_summary_button"), new_transient_registration_worldpay_escape_path(@transient_registration.reg_identifier), class: 'button' %>
+              <% elsif can? :record_worldpay_missed_payment, @transient_registration %>
+                <p>
+                  <%= t(".status.messages.worldpay.paragraph_2.missed_payment") %>
+                </p>
+                <%= link_to t(".status.actions.missed_worldpay_payment_button"), new_transient_registration_worldpay_missed_payment_form_path(@transient_registration.reg_identifier), class: 'button' %>
+              <% end %>
+            <% else %>
+              <p>
+                <%= t(".status.messages.in_progress") %> "<%= display_current_workflow_state %>".
+              </p>
+              <% if can? :update, @transient_registration %>
+                <%= link_to t(".status.actions.continue_button"), WasteCarriersEngine::Engine.routes.url_helpers.new_renewal_start_form_path(@transient_registration.reg_identifier), class: 'button' %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="panel wcr-panel wcr-panel-border-all">
+          <h2 class="heading-medium">
             <%= @transient_registration.company_name %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.business_type") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:business_type) %>
-          </td>
-        </tr>
-        <% if @transient_registration.company_no.present? %>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.company_no") %>
-          </td>
-          <td>
-            <%= @transient_registration.company_no %>
-          </td>
-        </tr>
-        <% end %>
-        <% if @transient_registration.location.present? %>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.location") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:location) %>
-          </td>
-        </tr>
-        <% end %>
-        <% if @transient_registration.registered_address.present? %>
-        <tr>
-          <td>
-            <%= t(".business_information.labels.registered_address") %>
-          </td>
-          <td>
-            <ul>
-            <% display_registered_address.each do |line| %>
-              <li><%= line %></li>
+          </h2>
+          <p class="lede">
+            <%= t(".tier.#{@transient_registration.tier.downcase}") %>
+            <% if @transient_registration.registration_type.present? %>
+              - <%= I18n.t(".transient_registrations.show.attributes.registration_type.#{@transient_registration.registration_type}") %>
             <% end %>
-            </ul>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <table>
-      <caption class="heading-medium">
-        <%= t(".contact_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.contact_name") %>
-          </td>
-          <td>
-            <%= @transient_registration.first_name %> <%= @transient_registration.last_name %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.phone_number") %>
-          </td>
-          <td>
-            <%= @transient_registration.phone_number %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.contact_email") %>
-          </td>
-          <td>
-            <%= @transient_registration.contact_email %>
-          </td>
-        </tr>
-        <% if @transient_registration.contact_address.present? %>
-        <tr>
-          <td>
-            <%= t(".contact_information.labels.contact_address") %>
-          </td>
-          <td>
-            <ul>
-            <% display_contact_address.each do |line| %>
-              <li><%= line %></li>
-            <% end %>
-            </ul>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <% if @transient_registration.main_people.present? || @transient_registration.relevant_people.present? %>
-      <h2 class="heading-medium"><%= t(".people_heading") %></h2>
-    <% end %>
-
-    <% if @transient_registration.main_people.present? %>
-      <% @transient_registration.main_people.each do |person| %>
-      <table>
-        <caption class="heading-small">
-          <%= t(".person_information.heading.#{@transient_registration.business_type}") %>
-        </caption>
-        <tbody>
-          <%= render("shared/person_table_rows", person: person) %>
-          <tr>
-            <td>
-              <%= t(".person_information.labels.conviction_search_result") %>
-            </td>
-            <td>
-              <% if person.conviction_search_result.present? %>
-                <%= person.conviction_search_result.match_result.titleize %>
-              <% else %>
-                <%= t(".attributes.key_person.conviction_search_result.pending") %>
-              <% end %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <% end %>
-    <% end %>
-
-    <% if @transient_registration.relevant_people.present? %>
-      <% @transient_registration.relevant_people.each do |person| %>
-      <table>
-        <caption class="heading-small">
-          <%= t(".person_information.heading.relevant") %>
-        </caption>
-        <tbody>
-          <%= render("shared/person_table_rows", person: person) %>
-          <tr>
-            <td>
-              <%= t(".person_information.labels.conviction_search_result") %>
-            </td>
-            <td>
-              <% if person.conviction_search_result.present? %>
-                <%= person.conviction_search_result.match_result.titleize %>
-              <% else %>
-                <%= t(".attributes.key_person.conviction_search_result.pending") %>
-              <% end %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <% end %>
-    <% end %>
-
-    <h2 class="heading-medium"><%= t(".conviction_heading") %></h2>
-    <div class="panel">
-    <% if @transient_registration.conviction_check_approved? %>
-      <p>
-        <%= t(".conviction_search_text.approved") %>
-      </p>
-      <p>
-        <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-      </p>
-    <% elsif @transient_registration.metaData.REVOKED? %>
-      <p>
-        <%= t(".conviction_search_text.rejected") %>
-      </p>
-      <p>
-        <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-      </p>
-    <% elsif @transient_registration.conviction_search_result.present? %>
-      <p>
-        <%= t(".conviction_search_text.#{@transient_registration.conviction_check_required?}") %>
-      </p>
-      <p>
-        <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-      </p>
-    <% else %>
-      <p>
-        <%= t(".conviction_search_text.unknown") %>
-      </p>
-    <% end %>
-    </div>
-
-    <% if @transient_registration.declared_convictions.present? || @transient_registration.conviction_search_result.present? %>
-    <table>
-      <caption class="heading-small">
-        <%= t(".conviction_information.heading") %>
-      </caption>
-      <tbody>
-        <% if @transient_registration.declared_convictions.present? %>
-        <tr>
-          <td>
-            <%= t(".conviction_information.labels.declared_convictions") %>
-          </td>
-          <td>
-            <%= @transient_registration.declared_convictions.titleize %>
-          </td>
-        </tr>
-        <% end %>
-        <% if @transient_registration.conviction_search_result.present? %>
-        <tr>
-          <td>
-            <%= t(".conviction_information.labels.business_conviction_search_result") %>
-          </td>
-          <td>
-            <%= @transient_registration.conviction_search_result.match_result.titleize %>
-          </td>
-        </tr>
-        <% end %>
-        <% if key_people_with_conviction_search_results? %>
-        <tr>
-          <td>
-            <%= t(".conviction_information.labels.people_conviction_search_result") %>
-          </td>
-          <td>
-            <%= t(".attributes.key_people.number_of_people_with_matching_convictions", count: number_of_people_with_matching_convictions) %>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <% end %>
-
-    <% if @transient_registration.conviction_sign_offs.present? %>
-    <div>
-    </div>
-    <% end %>
-
-    <hr>
-    <h2 class="heading-medium">
-      <% if @transient_registration.unpaid_balance? %>
-        <%= t(".finance_information.heading_with_amount_owned", amount: display_pence_as_pounds(@transient_registration.finance_details.balance)) %>
-      <% else %>
-        <%= t(".finance_information.heading") %>
-      <% end %>
-    </h2>
-
-    <% if @transient_registration.finance_details %>
-      <%= link_to t(".finance_information.section_link_label"), "#TODO_UNKNOWN"%>
-    <% else %>
-      <div class="panel">
-        <%= t(".finance_information.balance.no_data") %>
-      </div>
-    <% end %>
-
-    <% if @transient_registration.finance_details&.orders&.any? %>
-      <% order = @transient_registration.finance_details.orders.first %>
-
-      <table>
-        <tbody>
-          <tr>
-            <td>
-              <%= t(".order_information.labels.payment_method") %>
-            </td>
-            <td>
-              <%= order.payment_method.titleize %>
-            </td>
-          </tr>
-          <% order.order_items.each do |item| %>
+          </p>
+          <p>
+            <%= t(".labels.expires", formatted_date: display_expiry_date) %>
+            <br>
+            <%= t(".labels.account", email: @transient_registration.account_email) %>
+          </p>
+        </div>
+        <table>
+          <caption class="heading-medium">
+            <%= t(".reg_information.heading") %>
+          </caption>
+          <tbody>
             <tr>
               <td>
-                <%= item.description %>
+                <%= t(".reg_information.labels.account_email") %>
               </td>
               <td>
-                £<%= display_pence_as_pounds(item.amount) %>
+                <%= @transient_registration.account_email %>
               </td>
             </tr>
-          <% end %>
-          <tr>
-            <td>
-              <strong class="bold-small">
-                <%= t(".order_information.labels.total_amount") %>
-              </strong>
-            </td>
-            <td>
-              <strong class="bold-small">
-                £<%= display_pence_as_pounds(order.total_amount) %>
-              </strong>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong class="bold-small">
-                <%= t(".order_information.labels.paid") %>
-              </strong>
-            </td>
-            <td>
-              <strong class="bold-small">
-                £<%= display_pence_as_pounds(@transient_registration.amount_paid) %>
-              </strong>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".order_information.labels.order_code") %>
-            </td>
-            <td>
-              <%= order.order_code %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    <% end %>
+            <tr>
+              <td>
+                <%= t(".reg_information.labels.reg_identifier") %>
+              </td>
+              <td>
+                <%= @transient_registration.reg_identifier %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".reg_information.labels.expires_on") %>
+              </td>
+              <td>
+                <%= display_expiry_date %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".reg_information.labels.status") %>
+              </td>
+              <td>
+                <%= display_registration_status %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".reg_information.labels.tier") %>
+              </td>
+              <td>
+                <%= show_translation_or_filler(:tier) %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".reg_information.labels.registration_type") %>
+              </td>
+              <td>
+                <%= show_translation_or_filler(:registration_type) %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-    <table>
-      <caption class="heading-medium">
-        <%= t(".renewal_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".renewal_information.labels.workflow_state") %>
-          </td>
-          <td>
-            <%= display_current_workflow_state %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= t(".renewal_information.labels.declaration") %>
-          </td>
-          <td>
-            <%= show_translation_or_filler(:declaration) %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <table>
+          <caption class="heading-medium">
+            <%= t(".business_information.heading") %>
+          </caption>
+          <tbody>
+            <tr>
+              <td>
+                <%= t(".business_information.labels.company_name") %>
+              </td>
+              <td>
+                <%= @transient_registration.company_name %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".business_information.labels.business_type") %>
+              </td>
+              <td>
+                <%= show_translation_or_filler(:business_type) %>
+              </td>
+            </tr>
+            <% if @transient_registration.company_no.present? %>
+            <tr>
+              <td>
+                <%= t(".business_information.labels.company_no") %>
+              </td>
+              <td>
+                <%= @transient_registration.company_no %>
+              </td>
+            </tr>
+            <% end %>
+            <% if @transient_registration.location.present? %>
+            <tr>
+              <td>
+                <%= t(".business_information.labels.location") %>
+              </td>
+              <td>
+                <%= show_translation_or_filler(:location) %>
+              </td>
+            </tr>
+            <% end %>
+            <% if @transient_registration.registered_address.present? %>
+            <tr>
+              <td>
+                <%= t(".business_information.labels.registered_address") %>
+              </td>
+              <td>
+                <ul>
+                <% display_registered_address.each do |line| %>
+                  <li><%= line %></li>
+                <% end %>
+                </ul>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <table>
+          <caption class="heading-medium">
+            <%= t(".contact_information.heading") %>
+          </caption>
+          <tbody>
+            <tr>
+              <td>
+                <%= t(".contact_information.labels.contact_name") %>
+              </td>
+              <td>
+                <%= @transient_registration.first_name %> <%= @transient_registration.last_name %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".contact_information.labels.phone_number") %>
+              </td>
+              <td>
+                <%= @transient_registration.phone_number %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".contact_information.labels.contact_email") %>
+              </td>
+              <td>
+                <%= @transient_registration.contact_email %>
+              </td>
+            </tr>
+            <% if @transient_registration.contact_address.present? %>
+            <tr>
+              <td>
+                <%= t(".contact_information.labels.contact_address") %>
+              </td>
+              <td>
+                <ul>
+                <% display_contact_address.each do |line| %>
+                  <li><%= line %></li>
+                <% end %>
+                </ul>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% if @transient_registration.main_people.present? || @transient_registration.relevant_people.present? %>
+          <h2 class="heading-medium"><%= t(".people_heading") %></h2>
+        <% end %>
+
+        <% if @transient_registration.main_people.present? %>
+          <% @transient_registration.main_people.each do |person| %>
+          <table>
+            <caption class="heading-small">
+              <%= t(".person_information.heading.#{@transient_registration.business_type}") %>
+            </caption>
+            <tbody>
+              <%= render("shared/person_table_rows", person: person) %>
+              <tr>
+                <td>
+                  <%= t(".person_information.labels.conviction_search_result") %>
+                </td>
+                <td>
+                  <% if person.conviction_search_result.present? %>
+                    <%= person.conviction_search_result.match_result.titleize %>
+                  <% else %>
+                    <%= t(".attributes.key_person.conviction_search_result.pending") %>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <% end %>
+        <% end %>
+
+        <% if @transient_registration.relevant_people.present? %>
+          <% @transient_registration.relevant_people.each do |person| %>
+          <table>
+            <caption class="heading-small">
+              <%= t(".person_information.heading.relevant") %>
+            </caption>
+            <tbody>
+              <%= render("shared/person_table_rows", person: person) %>
+              <tr>
+                <td>
+                  <%= t(".person_information.labels.conviction_search_result") %>
+                </td>
+                <td>
+                  <% if person.conviction_search_result.present? %>
+                    <%= person.conviction_search_result.match_result.titleize %>
+                  <% else %>
+                    <%= t(".attributes.key_person.conviction_search_result.pending") %>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <% end %>
+        <% end %>
+
+        <h2 class="heading-medium"><%= t(".conviction_heading") %></h2>
+        <div class="panel">
+        <% if @transient_registration.conviction_check_approved? %>
+          <p>
+            <%= t(".conviction_search_text.approved") %>
+          </p>
+          <p>
+            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
+          </p>
+        <% elsif @transient_registration.metaData.REVOKED? %>
+          <p>
+            <%= t(".conviction_search_text.rejected") %>
+          </p>
+          <p>
+            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
+          </p>
+        <% elsif @transient_registration.conviction_search_result.present? %>
+          <p>
+            <%= t(".conviction_search_text.#{@transient_registration.conviction_check_required?}") %>
+          </p>
+          <p>
+            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
+          </p>
+        <% else %>
+          <p>
+            <%= t(".conviction_search_text.unknown") %>
+          </p>
+        <% end %>
+        </div>
+
+        <% if @transient_registration.declared_convictions.present? || @transient_registration.conviction_search_result.present? %>
+        <table>
+          <caption class="heading-small">
+            <%= t(".conviction_information.heading") %>
+          </caption>
+          <tbody>
+            <% if @transient_registration.declared_convictions.present? %>
+            <tr>
+              <td>
+                <%= t(".conviction_information.labels.declared_convictions") %>
+              </td>
+              <td>
+                <%= @transient_registration.declared_convictions.titleize %>
+              </td>
+            </tr>
+            <% end %>
+            <% if @transient_registration.conviction_search_result.present? %>
+            <tr>
+              <td>
+                <%= t(".conviction_information.labels.business_conviction_search_result") %>
+              </td>
+              <td>
+                <%= @transient_registration.conviction_search_result.match_result.titleize %>
+              </td>
+            </tr>
+            <% end %>
+            <% if key_people_with_conviction_search_results? %>
+            <tr>
+              <td>
+                <%= t(".conviction_information.labels.people_conviction_search_result") %>
+              </td>
+              <td>
+                <%= t(".attributes.key_people.number_of_people_with_matching_convictions", count: number_of_people_with_matching_convictions) %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% end %>
+
+        <% if @transient_registration.conviction_sign_offs.present? %>
+        <div>
+        </div>
+        <% end %>
+
+        <hr>
+
+        <h2 class="heading-medium">
+          <% if @transient_registration.unpaid_balance? %>
+            <%= t(".finance_information.heading_with_amount_owned", amount: display_pence_as_pounds(@transient_registration.finance_details.balance)) %>
+          <% else %>
+            <%= t(".finance_information.heading") %>
+          <% end %>
+        </h2>
+
+        <% if @transient_registration.finance_details %>
+          <%= link_to t(".finance_information.section_link_label"), "#TODO_UNKNOWN"%>
+        <% else %>
+          <div class="panel">
+            <%= t(".finance_information.balance.no_data") %>
+          </div>
+        <% end %>
+
+        <% if @transient_registration.finance_details&.orders&.any? %>
+          <% order = @transient_registration.finance_details.orders.first %>
+
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <%= t(".order_information.labels.payment_method") %>
+                </td>
+                <td>
+                  <%= order.payment_method.titleize %>
+                </td>
+              </tr>
+              <% order.order_items.each do |item| %>
+                <tr>
+                  <td>
+                    <%= item.description %>
+                  </td>
+                  <td>
+                    £<%= display_pence_as_pounds(item.amount) %>
+                  </td>
+                </tr>
+              <% end %>
+              <tr>
+                <td>
+                  <strong class="bold-small">
+                    <%= t(".order_information.labels.total_amount") %>
+                  </strong>
+                </td>
+                <td>
+                  <strong class="bold-small">
+                    £<%= display_pence_as_pounds(order.total_amount) %>
+                  </strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong class="bold-small">
+                    <%= t(".order_information.labels.paid") %>
+                  </strong>
+                </td>
+                <td>
+                  <strong class="bold-small">
+                    £<%= display_pence_as_pounds(@transient_registration.amount_paid) %>
+                  </strong>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <%= t(".order_information.labels.order_code") %>
+                </td>
+                <td>
+                  <%= order.order_code %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+        <table>
+          <caption class="heading-medium">
+            <%= t(".renewal_information.heading") %>
+          </caption>
+          <tbody>
+            <tr>
+              <td>
+                <%= t(".renewal_information.labels.workflow_state") %>
+              </td>
+              <td>
+                <%= display_current_workflow_state %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <%= t(".renewal_information.labels.declaration") %>
+              </td>
+              <td>
+                <%= show_translation_or_filler(:declaration) %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="column-one-third">
+        <div class="actions actions--push-down">
+          <h3 class="heading-medium">
+            <%= t(".actions_box.heading", reg_identifier: @transient_registration.reg_identifier) %>
+          </h3>
+          <ul>
+            <% if @transient_registration.pending_payment? %>
+              <li>
+                <%= link_to t(".actions_box.links.payment"), transient_registration_payments_path(@transient_registration.reg_identifier) %>
+              </li>
+            <% end %>
+
+            <% if @transient_registration.pending_manual_conviction_check? %>
+              <li>
+                <%= link_to t(".actions_box.links.convictions"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <div>
+    </div>
   </div>
 </div>
