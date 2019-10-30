@@ -1,0 +1,12 @@
+.actions {
+  background-color: #f8f8f8;
+  padding: 0.5em;
+
+  &--push-down {
+    margin-top: 45px;
+  }
+
+  h2:first-child, h3:first-child {
+    margin-top: 0;
+  }
+}
