@@ -76,12 +76,15 @@
         <%= @transient_registration.company_name %>
       </h2>
       <p class="lede">
-        <%= t(".tier.#{@transient_registration.tier.downcase}") %> - <%= show_translation_or_filler(:registration_type) %>
+        <%= t(".tier.#{@transient_registration.tier.downcase}") %>
+        <% if @transient_registration.registration_type.present? %>
+          - <%= I18n.t(".transient_registrations.show.attributes.registration_type.#{@transient_registration.registration_type}") %>
+        <% end %>
       </p>
       <p>
         <%= t(".labels.expires", formatted_date: display_expiry_date) %>
         <br>
-        <%= t(".labels.account", email: show_translation_or_filler(:account_email) %>
+        <%= t(".labels.account", email: @transient_registration.account_email %>
       </p>
     </div>
     <table>
