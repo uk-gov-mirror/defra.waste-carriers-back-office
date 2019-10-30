@@ -1,8 +1,13 @@
 en:
   transient_registrations:
     show:
+      actions_box:
+        heading: "Actions for %{reg_identifier}"
+        links:
+          convictions: "Process convictions"
+          payment: "Process payment"
       title: "Renewal details"
-      heading: "Renewal application for %{reg_identifier}"
+      heading: "Registration %{reg_identifier}"
       filler: "–"
       status:
         headings:
