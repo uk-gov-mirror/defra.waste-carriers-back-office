@@ -77,17 +77,22 @@ en:
           business_conviction_search_result: "Matching convictions found for company?"
           people_conviction_search_result: "Matching convictions found for people?"
       finance_information:
-        heading: Finance information
+        heading_with_amount_owned: "Latest charges and payments: £%{amount} owned"
+        heading: "Latest charges and payments"
+        section_link_label: "Finance details"
         balance:
           zero: "All charges for this renewal have been fully paid."
           positive: "There is an outstanding balance of £%{balance} on this renewal."
           negative: "This renewal has been overpaid by £%{balance}."
-          unknown: "This renewal application is still in progress, so there is no finance data yet."
+          no_data: "Application still in progress. No finance data yet."
+        cards:
+          one: "1 registration card"
+          many: "%{cards} registration cards"
       order_information:
-        heading: "Order details"
         labels:
           items: "Charges"
-          total_amount: "Total amount"
+          total_amount: "Total"
+          paid: "Paid"
           payment_method: "Payment method"
           order_code: "Order code"
           world_pay_status: "WorldPay status"

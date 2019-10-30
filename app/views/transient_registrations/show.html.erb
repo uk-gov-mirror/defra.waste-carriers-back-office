@@ -359,47 +359,80 @@
     </div>
     <% end %>
 
-    <h2 class="heading-medium"><%= t(".finance_information.heading") %></h2>
-
-    <div class="panel">
-    <% if @transient_registration.finance_details.present? && @transient_registration.finance_details.balance.present? %>
-      <% if @transient_registration.finance_details.balance.zero? %>
-        <%= t(".finance_information.balance.zero") %>
-      <% elsif @transient_registration.finance_details.balance.positive? %>
-        <%= t(".finance_information.balance.positive", balance: display_pence_as_pounds(@transient_registration.finance_details.balance)) %>
-      <% elsif @transient_registration.finance_details.balance.negative? %>
-        <%= t(".finance_information.balance.negative", balance: display_pence_as_pounds(@transient_registration.finance_details.balance)) %>
+    <hr>
+    <h2 class="heading-medium">
+      <% if @transient_registration.finance_details&.balance&.positive? %>
+        <%= t(".finance_information.heading_with_amount_owned", amount: display_pence_as_pounds(@transient_registration.finance_details.balance)) %>
+      <% else %>
+        <%= t(".finance_information.heading") %>
       <% end %>
-    <% else %>
-      <%= t(".finance_information.balance.unknown") %>
-    <% end %>
-    </div>
+    </h2>
 
-    <% if @transient_registration.finance_details.present? && @transient_registration.finance_details.orders.present? %>
-      <% @transient_registration.finance_details.orders.each do |order| %>
+    <% if @transient_registration.finance_details %>
+      <%= link_to t(".finance_information.section_link_label"), "#TODO_UNKNOWN"%>
+    <% else %>
+      <div class="panel">
+        <%= t(".finance_information.balance.no_data") %>
+      </div>
+    <% end %>
+
+    <% if @transient_registration.finance_details&.orders&.any? %>
+      <% order = @transient_registration.finance_details.orders.first %>
+
       <table>
-        <caption class="heading-small">
-          <%= t(".order_information.heading") %>
-        </caption>
         <tbody>
           <tr>
             <td>
-              <%= t(".order_information.labels.items") %>
+              <%= t(".order_information.labels.payment_method") %>
             </td>
             <td>
-              <ul>
-              <% order.order_items.each do |item| %>
-                <li><%= item.description %> (£<%= display_pence_as_pounds(item.amount) %>)</li>
+              <%= order.payment_method.titleize %>
+            </td>
+          </tr>
+          <% order.order_items.each do |item| %>
+            <tr>
+              <td>
+                <%= item.description %>
+              </td>
+              <td>
+                £<%= display_pence_as_pounds(item.amount) %>
+              </td>
+            </tr>
+          <% end %>
+          <tr>
+            <td>
+              <% if @transient_registration.temp_cards == 1 %>
+                <%= t(".finance_information.cards.one") %>
+              <% else %>
+                <%= t(".finance_information.cards.many", cards: @transient_registration.temp_cards) %>
               <% end %>
-              </ul>
+            </td>
+            <td>
+              £<%= display_pence_as_pounds(@transient_registration.temp_cards * 5) %>
             </td>
           </tr>
           <tr>
             <td>
-              <%= t(".order_information.labels.total_amount") %>
+              <strong class="bold-small">
+                <%= t(".order_information.labels.total_amount") %>
+              </strong>
             </td>
             <td>
-              £<%= display_pence_as_pounds(order.total_amount) %>
+              <strong class="bold-small">
+                £<%= display_pence_as_pounds(order.total_amount) %>
+              </strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong class="bold-small">
+                <%= t(".order_information.labels.paid") %>
+              </strong>
+            </td>
+            <td>
+              <strong class="bold-small">
+                £<%= (@transient_registration.finance_details&.payments || []).inject(0) { |s, o| s + o.amount} %>
+              </strong>
             </td>
           </tr>
           <tr>
@@ -410,129 +443,8 @@
               <%= order.order_code %>
             </td>
           </tr>
-          <tr>
-            <td>
-              <%= t(".order_information.labels.payment_method") %>
-            </td>
-            <td>
-              <%= order.payment_method.titleize %>
-            </td>
-          </tr>
-          <% if order.world_pay_status.present? %>
-          <tr>
-            <td>
-              <%= t(".order_information.labels.world_pay_status") %>
-            </td>
-            <td>
-              <%= order.world_pay_status %>
-            </td>
-          </tr>
-          <% end %>
-          <tr>
-            <td>
-              <%= t(".order_information.labels.date_last_updated") %>
-            </td>
-            <td>
-              <%= order.date_last_updated.in_time_zone("London").strftime("%A %e %B %Y at %l:%M%P") %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".order_information.labels.updated_by_user") %>
-            </td>
-            <td>
-              <%= order.updated_by_user %>
-            </td>
-          </tr>
         </tbody>
       </table>
-      <% end %>
-    <% end %>
-
-    <% if @transient_registration.finance_details.present? && @transient_registration.finance_details.payments.present? %>
-      <% @transient_registration.finance_details.payments.each do |payment| %>
-      <table>
-        <caption class="heading-small">
-          <%= t(".payment_information.heading") %>
-        </caption>
-        <tbody>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.amount") %>
-            </td>
-            <td>
-              £<%= display_pence_as_pounds(payment.amount) %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.payment_type") %>
-            </td>
-            <td>
-              <%= t(".attributes.finance_details.payment.payment_type.#{payment.payment_type}") %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.registration_reference") %>
-            </td>
-            <td>
-              <%= payment.registration_reference %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.comment") %>
-            </td>
-            <td>
-              <%= payment.comment %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.date_received") %>
-            </td>
-            <td>
-              <%= payment.date_received %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.date_entered") %>
-            </td>
-            <td>
-              <%= payment.date_entered %>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <%= t(".payment_information.labels.updated_by_user") %>
-            </td>
-            <td>
-              <%= payment.updated_by_user %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <% end %>
-    <% end %>
-
-    <% if @transient_registration.temp_cards.present? %>
-    <table>
-      <caption class="heading-small">
-        <%= t(".card_information.heading") %>
-      </caption>
-      <tbody>
-        <tr>
-          <td>
-            <%= t(".card_information.labels.temp_cards") %>
-          </td>
-          <td>
-            <%= @transient_registration.temp_cards %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
     <% end %>
 
     <table>
