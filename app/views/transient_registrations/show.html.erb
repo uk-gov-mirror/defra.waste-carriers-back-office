@@ -361,7 +361,7 @@
 
     <hr>
     <h2 class="heading-medium">
-      <% if @transient_registration.finance_details&.balance&.positive? %>
+      <% if @transient_registration.unpaid_balance? %>
         <%= t(".finance_information.heading_with_amount_owned", amount: display_pence_as_pounds(@transient_registration.finance_details.balance)) %>
       <% else %>
         <%= t(".finance_information.heading") %>
@@ -401,18 +401,6 @@
           <% end %>
           <tr>
             <td>
-              <% if @transient_registration.temp_cards == 1 %>
-                <%= t(".finance_information.cards.one") %>
-              <% else %>
-                <%= t(".finance_information.cards.many", cards: @transient_registration.temp_cards) %>
-              <% end %>
-            </td>
-            <td>
-              £<%= display_pence_as_pounds(@transient_registration.temp_cards * 5) %>
-            </td>
-          </tr>
-          <tr>
-            <td>
               <strong class="bold-small">
                 <%= t(".order_information.labels.total_amount") %>
               </strong>
@@ -431,7 +419,7 @@
             </td>
             <td>
               <strong class="bold-small">
-                £<%= (@transient_registration.finance_details&.payments || []).inject(0) { |s, o| s + o.amount} %>
+                £<%= display_pence_as_pounds(@transient_registration.amount_paid) %>
               </strong>
             </td>
           </tr>
