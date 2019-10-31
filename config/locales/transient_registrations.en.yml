@@ -123,11 +123,6 @@ en:
         heading: "Registration cards (copy cards)"
         labels:
           temp_cards: "Number of cards ordered"
-      renewal_information:
-        heading: "About this renewal"
-        labels:
-          workflow_state: "Current form"
-          declaration: "Signed declaration?"
       attributes:
         business_type:
           soleTrader: "Individual or sole trader"
