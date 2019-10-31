@@ -32,11 +32,6 @@
                 <%= t(".status.messages.pending_payment") %>
               </p>
               <%= link_to t(".status.actions.payment_button"), transient_registration_payments_path(@transient_registration.reg_identifier), class: 'button' %>
-            <% elsif @transient_registration.pending_manual_conviction_check? %>
-              <p>
-                <%= t(".status.messages.pending_convictions_check") %>
-              </p>
-              <%= link_to t(".status.actions.convictions_check_button"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: 'button' %>
             <% end %>
           </div>
         <% else %>
@@ -138,10 +133,32 @@
             </p>
           </div>
         </div>
-
-
-
-
+        <hr/>
+        <h2 class="heading-medium"><%= t(".conviction_heading") %></h2>
+        <div>
+          <% if @transient_registration.conviction_check_approved? %>
+            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: "pull-up"  %>
+            <p>
+              <%= t(".conviction_search_text.approved") %>
+            </p>
+          <% elsif @transient_registration.metaData.REVOKED? %>
+            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: "pull-up"  %>
+            <p>
+              <%= t(".conviction_search_text.rejected") %>
+            </p>
+          <% elsif @transient_registration.conviction_search_result.present? %>
+            <% if @transient_registration.conviction_check_required? %>
+              <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: "pull-up" %>
+            <% end %>
+            <p>
+              <%= t(".conviction_search_text.#{@transient_registration.conviction_check_required?}") %>
+            </p>
+          <% else %>
+            <p>
+              <%= t(".conviction_search_text.unknown") %>
+            </p>
+          <% end %>
+        </div>
         <table>
           <caption class="heading-medium">
             <%= t(".reg_information.heading") %>
@@ -250,76 +267,6 @@
             </tbody>
           </table>
           <% end %>
-        <% end %>
-
-        <h2 class="heading-medium"><%= t(".conviction_heading") %></h2>
-        <div class="panel">
-        <% if @transient_registration.conviction_check_approved? %>
-          <p>
-            <%= t(".conviction_search_text.approved") %>
-          </p>
-          <p>
-            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-          </p>
-        <% elsif @transient_registration.metaData.REVOKED? %>
-          <p>
-            <%= t(".conviction_search_text.rejected") %>
-          </p>
-          <p>
-            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-          </p>
-        <% elsif @transient_registration.conviction_search_result.present? %>
-          <p>
-            <%= t(".conviction_search_text.#{@transient_registration.conviction_check_required?}") %>
-          </p>
-          <p>
-            <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-          </p>
-        <% else %>
-          <p>
-            <%= t(".conviction_search_text.unknown") %>
-          </p>
-        <% end %>
-        </div>
-
-        <% if @transient_registration.declared_convictions.present? || @transient_registration.conviction_search_result.present? %>
-        <table>
-          <caption class="heading-small">
-            <%= t(".conviction_information.heading") %>
-          </caption>
-          <tbody>
-            <% if @transient_registration.declared_convictions.present? %>
-            <tr>
-              <td>
-                <%= t(".conviction_information.labels.declared_convictions") %>
-              </td>
-              <td>
-                <%= @transient_registration.declared_convictions.titleize %>
-              </td>
-            </tr>
-            <% end %>
-            <% if @transient_registration.conviction_search_result.present? %>
-            <tr>
-              <td>
-                <%= t(".conviction_information.labels.business_conviction_search_result") %>
-              </td>
-              <td>
-                <%= @transient_registration.conviction_search_result.match_result.titleize %>
-              </td>
-            </tr>
-            <% end %>
-            <% if key_people_with_conviction_search_results? %>
-            <tr>
-              <td>
-                <%= t(".conviction_information.labels.people_conviction_search_result") %>
-              </td>
-              <td>
-                <%= t(".attributes.key_people.number_of_people_with_matching_convictions", count: number_of_people_with_matching_convictions) %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
         <% end %>
 
         <% if @transient_registration.conviction_sign_offs.present? %>
