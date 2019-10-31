@@ -1,8 +1,13 @@
 en:
   transient_registrations:
     show:
+      actions_box:
+        heading: "Actions for %{reg_identifier}"
+        links:
+          convictions: "Process convictions"
+          payment: "Process payment"
       title: "Renewal details"
-      heading: "Renewal application for %{reg_identifier}"
+      heading: "Registration %{reg_identifier}"
       filler: "–"
       status:
         headings:
@@ -26,6 +31,12 @@ en:
           convictions_check_button: "Check conviction matches"
           revert_to_payment_summary_button: "Send back to payment summary"
           missed_worldpay_payment_button: "Add a missed WorldPay payment"
+      tier:
+        upper: Upper tier
+        lower: Lower tier
+      labels:
+        account: "Account: %{email}"
+        expires: "Expires: %{formatted_date}"
       reg_information:
         heading: "Registration information"
         labels:
@@ -40,9 +51,9 @@ en:
         labels:
           company_name: "Company name"
           business_type: "Business type"
-          company_no: "Companies House number"
-          location: "Location"
-          registered_address: "Registered address"
+          company_no: "Company number: %{number}"
+          location: "Place of business: %{location}"
+          registered_address: "Registered address:"
       contact_information:
         heading: "Contact details"
         labels:
@@ -77,17 +88,22 @@ en:
           business_conviction_search_result: "Matching convictions found for company?"
           people_conviction_search_result: "Matching convictions found for people?"
       finance_information:
-        heading: Finance information
+        heading_with_amount_owned: "Latest charges and payments: £%{amount} owned"
+        heading: "Latest charges and payments"
+        section_link_label: "Finance details"
         balance:
           zero: "All charges for this renewal have been fully paid."
           positive: "There is an outstanding balance of £%{balance} on this renewal."
           negative: "This renewal has been overpaid by £%{balance}."
-          unknown: "This renewal application is still in progress, so there is no finance data yet."
+          no_data: "Application still in progress. No finance data yet."
+        cards:
+          one: "1 registration card"
+          many: "%{cards} registration cards"
       order_information:
-        heading: "Order details"
         labels:
           items: "Charges"
-          total_amount: "Total amount"
+          total_amount: "Total"
+          paid: "Paid"
           payment_method: "Payment method"
           order_code: "Order code"
           world_pay_status: "WorldPay status"
