@@ -147,12 +147,13 @@
               <%= t(".conviction_search_text.rejected") %>
             </p>
           <% elsif @transient_registration.conviction_search_result.present? %>
-            <% if @transient_registration.conviction_check_required? %>
-              <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: "pull-up" %>
-            <% end %>
             <p>
               <%= t(".conviction_search_text.#{@transient_registration.conviction_check_required?}") %>
             </p>
+
+            <% if @transient_registration.conviction_check_required? %>
+              <%= link_to t(".conviction_link"), transient_registration_convictions_path(@transient_registration.reg_identifier), class: "pull-up" %>
+            <% end %>
           <% else %>
             <p>
               <%= t(".conviction_search_text.unknown") %>
