@@ -295,7 +295,9 @@
         </h2>
 
         <% if @transient_registration.finance_details %>
-          <%= link_to t(".finance_information.section_link_label"), "#TODO_UNKNOWN"%>
+          <p>
+            <%= link_to t(".finance_information.section_link_label"), "#TODO_UNKNOWN"%>
+          </p>
         <% end %>
 
         <% if @transient_registration.finance_details&.orders&.any? %>
