@@ -167,61 +167,6 @@
             </p>
           <% end %>
         </div>
-        <table>
-          <caption class="heading-medium">
-            <%= t(".reg_information.heading") %>
-          </caption>
-          <tbody>
-            <tr>
-              <th>
-                <%= t(".reg_information.labels.account_email") %>
-              </th>
-              <td>
-                <%= @transient_registration.account_email %>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <%= t(".reg_information.labels.reg_identifier") %>
-              </th>
-              <td>
-                <%= @transient_registration.reg_identifier %>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <%= t(".reg_information.labels.expires_on") %>
-              </th>
-              <td>
-                <%= display_expiry_date %>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <%= t(".reg_information.labels.status") %>
-              </th>
-              <td>
-                <%= display_registration_status %>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <%= t(".reg_information.labels.tier") %>
-              </th>
-              <td>
-                <%= show_translation_or_filler(:tier) %>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <%= t(".reg_information.labels.registration_type") %>
-              </th>
-              <td>
-                <%= show_translation_or_filler(:registration_type) %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
 
         <% if @transient_registration.main_people.present? || @transient_registration.relevant_people.present? %>
           <h2 class="heading-medium"><%= t(".people_heading") %></h2>
