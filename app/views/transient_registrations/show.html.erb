@@ -171,49 +171,49 @@
           </caption>
           <tbody>
             <tr>
-              <td>
+              <th>
                 <%= t(".reg_information.labels.account_email") %>
-              </td>
+              </th>
               <td>
                 <%= @transient_registration.account_email %>
               </td>
             </tr>
             <tr>
-              <td>
+              <th>
                 <%= t(".reg_information.labels.reg_identifier") %>
-              </td>
+              </th>
               <td>
                 <%= @transient_registration.reg_identifier %>
               </td>
             </tr>
             <tr>
-              <td>
+              <th>
                 <%= t(".reg_information.labels.expires_on") %>
-              </td>
+              </th>
               <td>
                 <%= display_expiry_date %>
               </td>
             </tr>
             <tr>
-              <td>
+              <th>
                 <%= t(".reg_information.labels.status") %>
-              </td>
+              </th>
               <td>
                 <%= display_registration_status %>
               </td>
             </tr>
             <tr>
-              <td>
+              <th>
                 <%= t(".reg_information.labels.tier") %>
-              </td>
+              </th>
               <td>
                 <%= show_translation_or_filler(:tier) %>
               </td>
             </tr>
             <tr>
-              <td>
+              <th>
                 <%= t(".reg_information.labels.registration_type") %>
-              </td>
+              </th>
               <td>
                 <%= show_translation_or_filler(:registration_type) %>
               </td>
@@ -234,9 +234,9 @@
             <tbody>
               <%= render("shared/person_table_rows", person: person) %>
               <tr>
-                <td>
+                <th>
                   <%= t(".person_information.labels.conviction_search_result") %>
-                </td>
+                </th>
                 <td>
                   <% if person.conviction_search_result.present? %>
                     <%= person.conviction_search_result.match_result.titleize %>
@@ -259,9 +259,9 @@
             <tbody>
               <%= render("shared/person_table_rows", person: person) %>
               <tr>
-                <td>
+                <th>
                   <%= t(".person_information.labels.conviction_search_result") %>
-                </td>
+                </th>
                 <td>
                   <% if person.conviction_search_result.present? %>
                     <%= person.conviction_search_result.match_result.titleize %>
@@ -302,29 +302,29 @@
           <table>
             <tbody>
               <tr>
-                <td>
+                <th>
                   <%= t(".order_information.labels.payment_method") %>
-                </td>
+                </th>
                 <td>
                   <%= order.payment_method.titleize %>
                 </td>
               </tr>
               <% order.order_items.each do |item| %>
                 <tr>
-                  <td>
+                  <th>
                     <%= item.description %>
-                  </td>
+                  </th>
                   <td>
                     £<%= display_pence_as_pounds(item.amount) %>
                   </td>
                 </tr>
               <% end %>
               <tr>
-                <td>
+                <th>
                   <strong class="bold-small">
                     <%= t(".order_information.labels.total_amount") %>
                   </strong>
-                </td>
+                </th>
                 <td>
                   <strong class="bold-small">
                     £<%= display_pence_as_pounds(order.total_amount) %>
@@ -332,11 +332,11 @@
                 </td>
               </tr>
               <tr>
-                <td>
+                <th>
                   <strong class="bold-small">
                     <%= t(".order_information.labels.paid") %>
                   </strong>
-                </td>
+                </th>
                 <td>
                   <strong class="bold-small">
                     £<%= display_pence_as_pounds(@transient_registration.amount_paid) %>
@@ -344,9 +344,9 @@
                 </td>
               </tr>
               <tr>
-                <td>
+                <th>
                   <%= t(".order_information.labels.order_code") %>
-                </td>
+                </th>
                 <td>
                   <%= order.order_code %>
                 </td>
