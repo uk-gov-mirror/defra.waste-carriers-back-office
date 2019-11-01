@@ -4,7 +4,6 @@ en:
       actions_box:
         heading: "Actions for %{reg_identifier}"
         links:
-          convictions: "Process convictions"
           payment: "Process payment"
       title: "Renewal details"
       heading: "Registration %{reg_identifier}"

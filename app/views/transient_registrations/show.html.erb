@@ -366,12 +366,6 @@
                 <%= link_to t(".actions_box.links.payment"), transient_registration_payments_path(@transient_registration.reg_identifier) %>
               </li>
             <% end %>
-
-            <% if @transient_registration.pending_manual_conviction_check? %>
-              <li>
-                <%= link_to t(".actions_box.links.convictions"), transient_registration_convictions_path(@transient_registration.reg_identifier) %>
-              </li>
-            <% end %>
           </ul>
         </div>
       <div>
