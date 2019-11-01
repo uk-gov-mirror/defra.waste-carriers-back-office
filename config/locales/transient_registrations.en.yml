@@ -37,15 +37,6 @@ en:
       labels:
         account: "Account: %{email}"
         expires: "Expires: %{formatted_date}"
-      reg_information:
-        heading: "Registration information"
-        labels:
-          account_email: "User account email"
-          reg_identifier: "Registration number"
-          expires_on: "Expires on"
-          status: "Registration status"
-          tier: "Tier"
-          registration_type: "Registration type"
       business_information:
         heading: "Business information"
         labels:
