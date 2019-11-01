@@ -77,6 +77,14 @@ RSpec.describe DashboardsHelper, type: :helper do
           date = result.expires_on.strftime("%d/%m/%Y")
           expect(helper.result_date(result)).to eq("Expires #{date}")
         end
+
+        context "when the result has no expire date" do
+          it "returns nil" do
+            result.expires_on = nil
+
+            expect(helper.result_date(result)).to be_nil
+          end
+        end
       end
 
       context "when the result is a transient_registration" do
