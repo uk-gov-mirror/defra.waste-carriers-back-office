@@ -4,9 +4,11 @@
 
     <div class="grid-row">
       <div class="column-two-thirds">
+
         <h1 class="heading-large">
           <%= t(".heading", reg_identifier: @transient_registration.reg_identifier) %>
         </h1>
+
         <% if @transient_registration.metaData.REVOKED? %>
           <div class="panel">
             <h2 class="heading-medium">
@@ -227,57 +229,57 @@
 
         <% if @transient_registration.main_people.present? %>
           <% @transient_registration.main_people.each do |person| %>
-          <table>
-            <caption class="heading-small">
-              <%= t(".person_information.heading.#{@transient_registration.business_type}") %>
-            </caption>
-            <tbody>
-              <%= render("shared/person_table_rows", person: person) %>
-              <tr>
-                <td>
-                  <%= t(".person_information.labels.conviction_search_result") %>
-                </td>
-                <td>
-                  <% if person.conviction_search_result.present? %>
-                    <%= person.conviction_search_result.match_result.titleize %>
-                  <% else %>
-                    <%= t(".attributes.key_person.conviction_search_result.pending") %>
-                  <% end %>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            <table>
+              <caption class="heading-small">
+                <%= t(".person_information.heading.#{@transient_registration.business_type}") %>
+              </caption>
+              <tbody>
+                <%= render("shared/person_table_rows", person: person) %>
+                <tr>
+                  <td>
+                    <%= t(".person_information.labels.conviction_search_result") %>
+                  </td>
+                  <td>
+                    <% if person.conviction_search_result.present? %>
+                      <%= person.conviction_search_result.match_result.titleize %>
+                    <% else %>
+                      <%= t(".attributes.key_person.conviction_search_result.pending") %>
+                    <% end %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           <% end %>
         <% end %>
 
         <% if @transient_registration.relevant_people.present? %>
           <% @transient_registration.relevant_people.each do |person| %>
-          <table>
-            <caption class="heading-small">
-              <%= t(".person_information.heading.relevant") %>
-            </caption>
-            <tbody>
-              <%= render("shared/person_table_rows", person: person) %>
-              <tr>
-                <td>
-                  <%= t(".person_information.labels.conviction_search_result") %>
-                </td>
-                <td>
-                  <% if person.conviction_search_result.present? %>
-                    <%= person.conviction_search_result.match_result.titleize %>
-                  <% else %>
-                    <%= t(".attributes.key_person.conviction_search_result.pending") %>
-                  <% end %>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            <table>
+              <caption class="heading-small">
+                <%= t(".person_information.heading.relevant") %>
+              </caption>
+              <tbody>
+                <%= render("shared/person_table_rows", person: person) %>
+                <tr>
+                  <td>
+                    <%= t(".person_information.labels.conviction_search_result") %>
+                  </td>
+                  <td>
+                    <% if person.conviction_search_result.present? %>
+                      <%= person.conviction_search_result.match_result.titleize %>
+                    <% else %>
+                      <%= t(".attributes.key_person.conviction_search_result.pending") %>
+                    <% end %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           <% end %>
         <% end %>
 
         <% if @transient_registration.conviction_sign_offs.present? %>
-        <div>
-        </div>
+          <div>
+          </div>
         <% end %>
 
         <hr>
@@ -298,7 +300,6 @@
 
         <% if @transient_registration.finance_details&.orders&.any? %>
           <% order = @transient_registration.finance_details.orders.first %>
-
           <table>
             <tbody>
               <tr>
@@ -357,9 +358,9 @@
       </div>
       <div class="column-one-third">
         <div class="wcr-actions wcr-actions--push-down">
-          <h3 class="heading-medium">
+          <h2 class="heading-medium">
             <%= t(".actions_box.heading", reg_identifier: @transient_registration.reg_identifier) %>
-          </h3>
+          </h2>
           <ul>
             <% if @transient_registration.pending_payment? %>
               <li>
@@ -368,7 +369,7 @@
             <% end %>
           </ul>
         </div>
-      <div>
+      </div>
     </div>
   </div>
 </div>
