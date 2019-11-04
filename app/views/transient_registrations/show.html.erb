@@ -168,65 +168,6 @@
           <% end %>
         </div>
 
-        <% if @transient_registration.main_people.present? || @transient_registration.relevant_people.present? %>
-          <h2 class="heading-medium"><%= t(".people_heading") %></h2>
-        <% end %>
-
-        <% if @transient_registration.main_people.present? %>
-          <% @transient_registration.main_people.each do |person| %>
-            <table>
-              <caption class="heading-small">
-                <%= t(".person_information.heading.#{@transient_registration.business_type}") %>
-              </caption>
-              <tbody>
-                <%= render("shared/person_table_rows", person: person) %>
-                <tr>
-                  <th>
-                    <%= t(".person_information.labels.conviction_search_result") %>
-                  </th>
-                  <td>
-                    <% if person.conviction_search_result.present? %>
-                      <%= person.conviction_search_result.match_result.titleize %>
-                    <% else %>
-                      <%= t(".attributes.key_person.conviction_search_result.pending") %>
-                    <% end %>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          <% end %>
-        <% end %>
-
-        <% if @transient_registration.relevant_people.present? %>
-          <% @transient_registration.relevant_people.each do |person| %>
-            <table>
-              <caption class="heading-small">
-                <%= t(".person_information.heading.relevant") %>
-              </caption>
-              <tbody>
-                <%= render("shared/person_table_rows", person: person) %>
-                <tr>
-                  <th>
-                    <%= t(".person_information.labels.conviction_search_result") %>
-                  </th>
-                  <td>
-                    <% if person.conviction_search_result.present? %>
-                      <%= person.conviction_search_result.match_result.titleize %>
-                    <% else %>
-                      <%= t(".attributes.key_person.conviction_search_result.pending") %>
-                    <% end %>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          <% end %>
-        <% end %>
-
-        <% if @transient_registration.conviction_sign_offs.present? %>
-          <div>
-          </div>
-        <% end %>
-
         <hr>
 
         <h2 class="heading-medium">
@@ -299,6 +240,48 @@
                   <%= order.order_code %>
                 </td>
               </tr>
+            </tbody>
+          </table>
+        <% end %>
+
+
+        <% if @transient_registration.main_people.any? %>
+          <h2 class="heading-medium">
+            <%= t(".person_information.heading.#{@transient_registration.business_type}") %>
+          </h2>
+
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <%= t(".person_information.name") %>
+                </th>
+                <th>
+                  <%= t(".person_information.dob") %>
+                </th>
+                <th>
+                  <%= t(".person_information.convictions") %>
+                </th>
+              </tr>
+              <% @transient_registration.main_people.each do |person| %>
+                <tr>
+                  <td>
+                    <%= person.first_name %> <%= person.last_name %>
+                  </td>
+                  <td>
+                    <%= person.dob.to_date %>
+                  </td>
+                  <td>
+                    <% if person.conviction_search_result.present? %>
+                      <div class="bold-xsmall">
+                        <%= t(".person_information.has_convictions.yes") %>
+                      </div>
+                    <% else %>
+                      <%= t(".person_information.has_convictions.no") %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
             </tbody>
           </table>
         <% end %>

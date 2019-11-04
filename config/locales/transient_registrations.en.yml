@@ -52,18 +52,20 @@ en:
           phone_number: "Contact phone"
           contact_email: "Contact email"
           contact_address: "Contact address"
-      people_heading: "People"
       person_information:
+        name: "Name"
+        dob: "Date of birth"
+        convictions: "Convictions"
+        has_convictions:
+          "yes": "Yes"
+          "no": "No"
         heading:
           localAuthority: "Chief executive details"
           limitedCompany: "Company director details"
           limitedLiabilityPartnership: "Member details"
           overseas: "Business owner details"
-          partnership: "Partner details"
+          partnership: "Partners details"
           soleTrader: "Business owner details"
-          relevant: "Person with a relevant conviction"
-        labels:
-          conviction_search_result: "Matching convictions found?"
       conviction_heading: "Convictions"
       conviction_search_text:
         "true": "This registration has matching or declared convictions."
