@@ -37,6 +37,7 @@ en:
       labels:
         account: "Account: %{email}"
         expires: "Expires: %{formatted_date}"
+        expired: "Expired: %{formatted_date}"
       business_information:
         heading: "Business information"
         labels:
@@ -79,7 +80,7 @@ en:
           business_conviction_search_result: "Matching convictions found for company?"
           people_conviction_search_result: "Matching convictions found for people?"
       finance_information:
-        heading_with_amount_owned: "Latest charges and payments: £%{amount} owned"
+        heading_with_amount_owed: "Latest charges and payments: £%{amount} owed"
         heading: "Latest charges and payments"
         section_link_label: "Finance details"
         balance:
