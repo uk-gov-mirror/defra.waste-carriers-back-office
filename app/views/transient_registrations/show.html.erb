@@ -272,7 +272,7 @@
                     <%= person.dob.to_date %>
                   </td>
                   <td>
-                    <% if person.conviction_search_result.present? %>
+                    <% if person.conviction_check_required? %>
                       <div class="bold-xsmall">
                         <%= t(".person_information.has_convictions.yes") %>
                       </div>
