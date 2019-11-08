@@ -20,7 +20,7 @@ class WorldpayEscapesController < ApplicationController
   def set_up_valid_transient_registration?
     reg_identifier = params[:transient_registration_reg_identifier]
     @transient_registration = WasteCarriersEngine::RenewingRegistration.where(reg_identifier: reg_identifier)
-                                                                        .first
+                                                                       .first
   end
 
   def authorize

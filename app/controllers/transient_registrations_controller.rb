@@ -6,7 +6,7 @@ class TransientRegistrationsController < ApplicationController
 
   def show
     @transient_registration = WasteCarriersEngine::RenewingRegistration.where(reg_identifier: params[:reg_identifier])
-                                                                        .first
+                                                                       .first
     redirect_to bo_path unless @transient_registration.present?
   end
 end
