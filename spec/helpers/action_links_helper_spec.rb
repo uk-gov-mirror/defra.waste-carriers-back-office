@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe ActionLinksHelper, type: :helper do
   describe "details_link_for" do
     context "when the resource is a transient_registration" do
-      let(:resource) { build(:transient_registration) }
+      let(:resource) { build(:renewing_registration) }
 
       it "returns the correct path" do
         expect(helper.details_link_for(resource)).to eq(transient_registration_path(resource.reg_identifier))
@@ -23,7 +23,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
 
   describe "resume_link_for" do
     context "when the resource is a transient_registration" do
-      let(:resource) { build(:transient_registration) }
+      let(:resource) { build(:renewing_registration) }
 
       it "returns the correct path" do
         expect(helper.resume_link_for(resource)).to eq(WasteCarriersEngine::Engine.routes.url_helpers.new_renewal_start_form_path(resource.reg_identifier))
@@ -41,7 +41,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
 
   describe "payment_link_for" do
     context "when the resource is a transient_registration" do
-      let(:resource) { build(:transient_registration) }
+      let(:resource) { build(:renewing_registration) }
 
       it "returns the correct path" do
         expect(helper.payment_link_for(resource)).to eq(transient_registration_payments_path(resource.reg_identifier))
@@ -68,7 +68,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
 
   describe "convictions_link_for" do
     context "when the resource is a transient_registration" do
-      let(:resource) { build(:transient_registration) }
+      let(:resource) { build(:renewing_registration) }
 
       it "returns the correct path" do
         expect(helper.convictions_link_for(resource)).to eq(transient_registration_convictions_path(resource.reg_identifier))
@@ -103,7 +103,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
     end
 
     context "when the resource is not a registration" do
-      let(:resource) { create(:transient_registration) }
+      let(:resource) { create(:renewing_registration) }
 
       it "returns the correct path" do
         expect(helper.renew_link_for(resource)).to eq("#")
@@ -121,7 +121,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
     end
 
     context "when the resource is not a registration" do
-      let(:resource) { create(:transient_registration) }
+      let(:resource) { create(:renewing_registration) }
 
       it "returns the correct path" do
         expect(helper.transfer_link_for(resource)).to eq("#")
@@ -130,7 +130,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
   end
 
   describe "#display_details_link_for?" do
-    context "when the result is not a TransientRegistration" do
+    context "when the result is not a RenewingRegistration" do
       let(:result) { build(:registration) }
 
       it "returns false" do
@@ -138,8 +138,8 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
     end
 
-    context "when the result is a TransientRegistration" do
-      let(:result) { build(:transient_registration) }
+    context "when the result is a RenewingRegistration" do
+      let(:result) { build(:renewing_registration) }
 
       it "returns true" do
         expect(helper.display_details_link_for?(result)).to eq(true)
@@ -148,7 +148,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
   end
 
   describe "#display_resume_link_for?" do
-    context "when the result is not a TransientRegistration" do
+    context "when the result is not a RenewingRegistration" do
       let(:result) { build(:registration) }
 
       it "returns false" do
@@ -156,8 +156,8 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
     end
 
-    context "when the result is a TransientRegistration" do
-      let(:result) { build(:transient_registration) }
+    context "when the result is a RenewingRegistration" do
+      let(:result) { build(:renewing_registration) }
 
       context "when the result has been revoked" do
         before { result.metaData.status = "REVOKED" }
@@ -234,8 +234,8 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
     end
 
-    context "when the result is a TransientRegistration" do
-      let(:result) { build(:transient_registration) }
+    context "when the result is a RenewingRegistration" do
+      let(:result) { build(:renewing_registration) }
 
       context "when the result has been revoked" do
         before { result.metaData.status = "REVOKED" }
@@ -246,7 +246,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
 
       context "when the result has no pending payment" do
-        let(:result) { build(:transient_registration, :no_pending_payment) }
+        let(:result) { build(:renewing_registration, :no_pending_payment) }
 
         it "returns false" do
           expect(helper.display_payment_link_for?(result)).to eq(false)
@@ -254,7 +254,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
 
       context "when the result has a pending payment" do
-        let(:result) { build(:transient_registration, :pending_payment) }
+        let(:result) { build(:renewing_registration, :pending_payment) }
 
         it "returns true" do
           expect(helper.display_payment_link_for?(result)).to eq(true)
@@ -287,7 +287,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         before { allow(helper).to receive(:can?).and_return(true) }
 
         context "when the result has no pending convictions check" do
-          let(:result) { build(:transient_registration, :does_not_require_conviction_check) }
+          let(:result) { build(:renewing_registration, :does_not_require_conviction_check) }
 
           it "returns false" do
             expect(helper.display_convictions_link_for?(result)).to eq(false)
@@ -295,7 +295,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         end
 
         context "when the result has a pending convictions check" do
-          let(:result) { build(:transient_registration, :requires_conviction_check) }
+          let(:result) { build(:renewing_registration, :requires_conviction_check) }
 
           it "returns true" do
             expect(helper.display_convictions_link_for?(result)).to eq(true)
@@ -304,8 +304,8 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
     end
 
-    context "when the result is a TransientRegistration" do
-      let(:result) { build(:transient_registration) }
+    context "when the result is a RenewingRegistration" do
+      let(:result) { build(:renewing_registration) }
 
       context "when the result has been revoked" do
         before { result.metaData.status = "REVOKED" }
@@ -327,7 +327,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         before { allow(helper).to receive(:can?).and_return(true) }
 
         context "when the result has no pending convictions check" do
-          let(:result) { build(:transient_registration, :does_not_require_conviction_check) }
+          let(:result) { build(:renewing_registration, :does_not_require_conviction_check) }
 
           it "returns false" do
             expect(helper.display_convictions_link_for?(result)).to eq(false)
@@ -335,7 +335,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         end
 
         context "when the result has a pending convictions check" do
-          let(:result) { build(:transient_registration, :requires_conviction_check) }
+          let(:result) { build(:renewing_registration, :requires_conviction_check) }
 
           it "returns true" do
             expect(helper.display_convictions_link_for?(result)).to eq(true)
@@ -346,7 +346,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
 
     describe "#display_renew_link_for?" do
       context "when the result is not a Registration" do
-        let(:result) { build(:transient_registration) }
+        let(:result) { build(:renewing_registration) }
 
         it "returns false" do
           expect(helper.display_renew_link_for?(result)).to eq(false)
@@ -388,7 +388,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
 
     describe "#display_transfer_link_for?" do
       context "when the result is not a Registration" do
-        let(:result) { build(:transient_registration) }
+        let(:result) { build(:renewing_registration) }
 
         it "returns false" do
           expect(helper.display_transfer_link_for?(result)).to eq(false)

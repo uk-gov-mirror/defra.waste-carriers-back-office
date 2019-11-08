@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Payments", type: :request do
-  let(:transient_registration) { create(:transient_registration) }
+  let(:transient_registration) { create(:renewing_registration) }
 
   describe "GET /bo/transient-registrations/:reg_identifier/payments" do
     context "when a valid user is signed in" do

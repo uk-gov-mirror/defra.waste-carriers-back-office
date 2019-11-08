@@ -19,7 +19,7 @@ RSpec.describe ConvictionReasonForm, type: :model do
 
       context "when the convictions have already been approved" do
         before do
-          allow_any_instance_of(WasteCarriersEngine::TransientRegistration).to receive(:conviction_check_approved?).and_return(true)
+          allow_any_instance_of(WasteCarriersEngine::RenewingRegistration).to receive(:conviction_check_approved?).and_return(true)
         end
 
         it "should not submit" do

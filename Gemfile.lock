@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: 54e95e4c4011eb174e86d293594ad6d1aedfb12f
-  branch: master
+  revision: b6ebb569852e9b67f51cee6346fd702d9fb684a4
+  branch: 756-renewing-registration-in-controllers
   specs:
     waste_carriers_engine (0.0.1)
       aasm (~> 4.12)

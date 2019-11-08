@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Convictions", type: :request do
-  let(:transient_registration) { create(:transient_registration, :requires_conviction_check) }
+  let(:transient_registration) { create(:renewing_registration, :requires_conviction_check) }
 
   describe "/bo/transient-registrations/:reg_identifier/convictions" do
     context "when a valid user is signed in" do

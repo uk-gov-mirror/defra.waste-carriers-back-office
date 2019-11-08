@@ -5,7 +5,7 @@ FactoryBot.define do
     revoked_reason { "foo" }
 
     initialize_with do
-      new(create(:transient_registration,
+      new(create(:renewing_registration,
                  :requires_conviction_check,
                  workflow_state: "renewal_received_form"))
     end

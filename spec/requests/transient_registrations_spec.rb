@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "TransientRegistrations", type: :request do
-  let(:transient_registration) { create(:transient_registration, workflow_state: "tier_check_form") }
+  let(:transient_registration) { create(:renewing_registration, workflow_state: "tier_check_form") }
 
   describe "/bo/transient-registrations/:reg_identifier" do
     context "when a valid user is signed in" do

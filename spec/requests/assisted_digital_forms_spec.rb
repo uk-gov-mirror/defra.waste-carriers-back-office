@@ -43,9 +43,9 @@ RSpec.describe "Assisted Digital Forms", type: :request do
       end
 
       it "creates a new transient registration" do
-        expected_tr_count = WasteCarriersEngine::TransientRegistration.count + 1
+        expected_tr_count = WasteCarriersEngine::RenewingRegistration.count + 1
         post "/bo/renew/", renewal_start_form: params
-        updated_tr_count = WasteCarriersEngine::TransientRegistration.count
+        updated_tr_count = WasteCarriersEngine::RenewingRegistration.count
 
         expect(expected_tr_count).to eq(updated_tr_count)
       end
@@ -58,9 +58,9 @@ RSpec.describe "Assisted Digital Forms", type: :request do
       end
 
       it "does not create a new transient registration" do
-        expected_tr_count = WasteCarriersEngine::TransientRegistration.count
+        expected_tr_count = WasteCarriersEngine::RenewingRegistration.count
         post "/bo/renew/", renewal_start_form: params
-        updated_tr_count = WasteCarriersEngine::TransientRegistration.count
+        updated_tr_count = WasteCarriersEngine::RenewingRegistration.count
 
         expect(expected_tr_count).to eq(updated_tr_count)
       end

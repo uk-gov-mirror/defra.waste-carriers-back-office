@@ -14,7 +14,7 @@ FactoryBot.define do
     date_received { Date.new(2018, 1, 1) }
 
     initialize_with do
-      new(create(:transient_registration,
+      new(create(:renewing_registration,
                  :has_finance_details,
                  workflow_state: "renewal_received_form"))
     end

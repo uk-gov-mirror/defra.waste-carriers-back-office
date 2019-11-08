@@ -2,19 +2,19 @@
 
 module ActionLinksHelper
   def details_link_for(resource)
-    return "#" unless resource.is_a?(WasteCarriersEngine::TransientRegistration)
+    return "#" unless resource.is_a?(WasteCarriersEngine::RenewingRegistration)
 
     transient_registration_path(resource.reg_identifier)
   end
 
   def resume_link_for(resource)
-    return "#" unless resource.is_a?(WasteCarriersEngine::TransientRegistration)
+    return "#" unless resource.is_a?(WasteCarriersEngine::RenewingRegistration)
 
     WasteCarriersEngine::Engine.routes.url_helpers.new_renewal_start_form_path(resource.reg_identifier)
   end
 
   def payment_link_for(resource)
-    if resource.is_a?(WasteCarriersEngine::TransientRegistration)
+    if resource.is_a?(WasteCarriersEngine::RenewingRegistration)
       transient_registration_payments_path(resource.reg_identifier)
     elsif resource.is_a?(WasteCarriersEngine::Registration)
       "#{Rails.configuration.wcrs_frontend_url}/registrations/#{resource.id}/paymentstatus"
@@ -24,7 +24,7 @@ module ActionLinksHelper
   end
 
   def convictions_link_for(resource)
-    if resource.is_a?(WasteCarriersEngine::TransientRegistration)
+    if resource.is_a?(WasteCarriersEngine::RenewingRegistration)
       transient_registration_convictions_path(resource.reg_identifier)
     elsif resource.is_a?(WasteCarriersEngine::Registration)
       "#{Rails.configuration.wcrs_frontend_url}/registrations/#{resource.id}/approve"
@@ -46,7 +46,7 @@ module ActionLinksHelper
   end
 
   def display_details_link_for?(resource)
-    resource.is_a?(WasteCarriersEngine::TransientRegistration)
+    resource.is_a?(WasteCarriersEngine::RenewingRegistration)
   end
 
   def display_resume_link_for?(resource)
@@ -86,7 +86,7 @@ module ActionLinksHelper
   private
 
   def display_transient_registration_links?(resource)
-    resource.is_a?(WasteCarriersEngine::TransientRegistration) && not_revoked_or_refused?(resource)
+    resource.is_a?(WasteCarriersEngine::RenewingRegistration) && not_revoked_or_refused?(resource)
   end
 
   def display_registration_links?(resource)

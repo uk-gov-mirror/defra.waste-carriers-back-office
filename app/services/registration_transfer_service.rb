@@ -13,7 +13,7 @@ class RegistrationTransferService
   private
 
   def find_transient_registration
-    WasteCarriersEngine::TransientRegistration.where(reg_identifier: @registration.reg_identifier).first
+    WasteCarriersEngine::RenewingRegistration.where(reg_identifier: @registration.reg_identifier).first
   end
 
   def transfer_to_existing_user(email)

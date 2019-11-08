@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe WasteCarriersEngine::ApplicationHelper, type: :helper do
-  let(:transient_registration) { build(:transient_registration) }
+  let(:transient_registration) { build(:renewing_registration) }
   let(:registration) { WasteCarriersEngine::Registration.where(reg_identifier: transient_registration.reg_identifier).first }
 
   before do

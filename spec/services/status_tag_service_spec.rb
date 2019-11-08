@@ -66,7 +66,7 @@ RSpec.describe StatusTagService do
   end
 
   context "when the resource is a transient_registration" do
-    let(:resource) { create(:transient_registration) }
+    let(:resource) { create(:renewing_registration) }
 
     context "when the metadata status is revoked" do
       before { resource.metaData.status = "REVOKED" }

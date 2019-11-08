@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "WorldpayEscapes", type: :request do
-  let(:transient_registration) { create(:transient_registration) }
+  let(:transient_registration) { create(:renewing_registration) }
   let(:reg_identifier) { transient_registration.reg_identifier }
 
   describe "GET /bo/transient-registrations/:reg_identifier/revert-to-payment-summary" do

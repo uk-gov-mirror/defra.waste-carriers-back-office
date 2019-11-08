@@ -58,7 +58,7 @@ RSpec.describe User, type: :model do
     subject(:ability) { Ability.new(user) }
     let(:user) { build(:user) }
     let(:registration) { build(:registration) }
-    let(:transient_registration) { build(:transient_registration) }
+    let(:transient_registration) { build(:renewing_registration) }
     let(:other_user) { build(:user) }
 
     context "when the user is an agency user" do

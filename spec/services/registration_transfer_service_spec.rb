@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe RegistrationTransferService do
   let(:transient_registration) do
-    create(:transient_registration, :ready_to_renew)
+    create(:renewing_registration, :ready_to_renew)
   end
 
   let(:registration) do

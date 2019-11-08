@@ -3,7 +3,7 @@
 namespace :fix do
   desc "Fix expired renewals stuck at 'renewal-received' stage"
   task unstick_received: :environment do
-    stuck_renewals = WasteCarriersEngine::TransientRegistration.in(
+    stuck_renewals = WasteCarriersEngine::RenewingRegistration.in(
       workflow_state: %w[renewal_received_form renewal_complete_form]
     )
     stuck_renewals.each do |renewal|

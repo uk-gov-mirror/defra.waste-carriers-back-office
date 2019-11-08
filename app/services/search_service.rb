@@ -24,7 +24,7 @@ class SearchService < ::WasteCarriersEngine::BaseService
   end
 
   def matching_resources
-    search(WasteCarriersEngine::Registration) + search(WasteCarriersEngine::TransientRegistration)
+    search(WasteCarriersEngine::Registration) + search(WasteCarriersEngine::RenewingRegistration)
   end
 
   def search(model)

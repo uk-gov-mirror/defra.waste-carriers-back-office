@@ -103,7 +103,7 @@ end
 
 def page_through_transient_registrations(paging, counts)
   while paging[:page_number] <= paging[:num_of_pages]
-    klass = WasteCarriersEngine::TransientRegistration
+    klass = WasteCarriersEngine::RenewingRegistration
     counts = update_addresses_for(paged_transient_registrations(paging), klass, counts)
     paging[:page_number] += 1
   end
