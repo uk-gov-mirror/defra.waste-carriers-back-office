@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :transient_registration, class: WasteCarriersEngine::TransientRegistration do
+  factory :renewing_registration, class: WasteCarriersEngine::RenewingRegistration do
     location { "england" }
     temp_cards { 1 }
 

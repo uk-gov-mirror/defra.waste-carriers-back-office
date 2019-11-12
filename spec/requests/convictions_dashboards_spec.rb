@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "ConvictionsDashboards", type: :request do
   let!(:link_to_possible_matches_renewal) do
-    renewal = create(:transient_registration, :requires_conviction_check)
+    renewal = create(:renewing_registration, :requires_conviction_check)
     # Make sure it's one of the 'oldest' renewals so would be top of the list
     renewal.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
 
@@ -12,7 +12,7 @@ RSpec.describe "ConvictionsDashboards", type: :request do
   end
 
   let!(:link_to_checks_in_progress_renewal) do
-    renewal = create(:transient_registration, :has_flagged_conviction_check)
+    renewal = create(:renewing_registration, :has_flagged_conviction_check)
     # Make sure it's one of the 'oldest' renewals so would be top of the list
     renewal.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
 
@@ -20,7 +20,7 @@ RSpec.describe "ConvictionsDashboards", type: :request do
   end
 
   let!(:link_to_approved_renewal) do
-    renewal = create(:transient_registration, :has_approved_conviction_check)
+    renewal = create(:renewing_registration, :has_approved_conviction_check)
     # Make sure it's one of the 'oldest' renewals so would be top of the list
     renewal.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
 
@@ -28,7 +28,7 @@ RSpec.describe "ConvictionsDashboards", type: :request do
   end
 
   let!(:link_to_rejected_renewal) do
-    renewal = create(:transient_registration, :has_rejected_conviction_check)
+    renewal = create(:renewing_registration, :has_rejected_conviction_check)
     # Make sure it's one of the 'oldest' renewals so would be top of the list
     renewal.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
 

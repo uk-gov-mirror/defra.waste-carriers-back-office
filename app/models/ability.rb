@@ -17,26 +17,26 @@ class Ability
 
   def permissions_for_agency_user_group
     # This covers everything mounted in the engine and used for the assisted digital journey, including WorldPay
-    can :update, WasteCarriersEngine::TransientRegistration
+    can :update, WasteCarriersEngine::RenewingRegistration
     can :renew, :all
 
-    can :record_cash_payment, WasteCarriersEngine::TransientRegistration
-    can :record_cheque_payment, WasteCarriersEngine::TransientRegistration
-    can :record_postal_order_payment, WasteCarriersEngine::TransientRegistration
+    can :record_cash_payment, WasteCarriersEngine::RenewingRegistration
+    can :record_cheque_payment, WasteCarriersEngine::RenewingRegistration
+    can :record_postal_order_payment, WasteCarriersEngine::RenewingRegistration
 
     can :review_convictions, :all
 
-    can :revert_to_payment_summary, WasteCarriersEngine::TransientRegistration
+    can :revert_to_payment_summary, WasteCarriersEngine::RenewingRegistration
 
     can :transfer_registration, WasteCarriersEngine::Registration
   end
 
   def permissions_for_finance_user
-    can :record_transfer_payment, WasteCarriersEngine::TransientRegistration
+    can :record_transfer_payment, WasteCarriersEngine::RenewingRegistration
   end
 
   def permissions_for_finance_admin_user
-    can :record_worldpay_missed_payment, WasteCarriersEngine::TransientRegistration
+    can :record_worldpay_missed_payment, WasteCarriersEngine::RenewingRegistration
   end
 
   def permissions_for_agency_super_user

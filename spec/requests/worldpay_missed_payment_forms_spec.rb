@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "WorldpayMissedPaymentForms", type: :request do
   let(:transient_registration) do
-    create(:transient_registration, :has_finance_details, :does_not_require_conviction_check)
+    create(:renewing_registration, :has_finance_details, :does_not_require_conviction_check)
   end
   let(:registration) do
     WasteCarriersEngine::Registration.where(reg_identifier: transient_registration.reg_identifier).first

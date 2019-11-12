@@ -17,6 +17,6 @@ class ConvictionsController < ApplicationController
   private
 
   def find_transient_registration(reg_identifier)
-    @transient_registration = WasteCarriersEngine::TransientRegistration.where(reg_identifier: reg_identifier).first
+    @transient_registration = WasteCarriersEngine::RenewingRegistration.where(reg_identifier: reg_identifier).first
   end
 end

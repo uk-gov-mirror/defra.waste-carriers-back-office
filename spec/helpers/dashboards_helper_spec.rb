@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe DashboardsHelper, type: :helper do
-  let(:result) { build(:transient_registration) }
+  let(:result) { build(:renewing_registration) }
 
   describe "#inline_registration_address" do
     context "when the address is not present" do
@@ -24,15 +24,15 @@ RSpec.describe DashboardsHelper, type: :helper do
   end
 
   describe "#result_type" do
-    context "when the result is a TransientRegistration" do
-      let(:result) { build(:transient_registration) }
+    context "when the result is a RenewingRegistration" do
+      let(:result) { build(:renewing_registration) }
 
       it "returns :renewal" do
         expect(helper.result_type(result)).to eq(:renewal)
       end
     end
 
-    context "when the result is not a TransientRegistration" do
+    context "when the result is not a RenewingRegistration" do
       let(:result) { build(:registration) }
 
       context "when the result is pending" do
@@ -88,7 +88,7 @@ RSpec.describe DashboardsHelper, type: :helper do
       end
 
       context "when the result is a transient_registration" do
-        let(:result) { build(:transient_registration) }
+        let(:result) { build(:renewing_registration) }
 
         it "returns the expected text" do
           date = Date.today.strftime("%d/%m/%Y")

@@ -10,7 +10,7 @@ RSpec.describe SearchService do
     SearchService.run(page: page, term: term)
   end
 
-  let(:non_matching_renewal) { create(:transient_registration) }
+  let(:non_matching_renewal) { create(:renewing_registration) }
   let(:non_matching_registration) { WasteCarriersEngine::Registration.where(reg_identifier: non_matching_renewal.reg_identifier).first }
 
   context "when there is no search term" do
@@ -21,7 +21,7 @@ RSpec.describe SearchService do
 
   context "when there is a search term" do
     let(:matching_renewal) do
-      create(:transient_registration)
+      create(:renewing_registration)
     end
     let(:matching_registration) { WasteCarriersEngine::Registration.where(reg_identifier: matching_renewal.reg_identifier).first }
 

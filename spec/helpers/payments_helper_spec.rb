@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe PaymentsHelper, type: :helper do
-  let(:transient_registration) { build(:transient_registration) }
+  let(:transient_registration) { build(:renewing_registration) }
 
   before do
     assign(:transient_registration, transient_registration)
