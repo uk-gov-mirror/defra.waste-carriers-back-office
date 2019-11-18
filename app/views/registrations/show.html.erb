@@ -1,0 +1,274 @@
+<div class="grid-row">
+  <div class="column-full">
+    <%= render("waste_carriers_engine/shared/back", back_path: bo_path) %>
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        <h1 class="heading-large">
+          <%= t(".heading", reg_identifier: @registration.reg_identifier) %>
+        </h1>
+
+        <% if @registration.pending? %>
+          <% if @registration.pending_manual_conviction_check? %>
+            <div class="panel">
+              <h2 class="heading-medium">
+                <%= t(".status.headings.pending_convictions") %>
+              </h2>
+              <p>
+                <%= t(".status.messages.pending_convictions_check") %>
+              </p>
+            </div>
+          <% elsif @registration.rejected_conviction_checks? %>
+            <div class="panel">
+              <h2 class="heading-medium">
+                <%= t(".status.headings.rejected") %>
+              </h2>
+              <p>
+                <%= t(".status.messages.rejected") %>
+              </p>
+            </div>
+          <% end %>
+
+          <% if @registration.pending_payment? %>
+            <div class="panel">
+              <h2 class="heading-medium">
+                <%= t(".status.headings.pending_payment") %>
+              </h2>
+              <p>
+                <%= t(".status.messages.pending_payment", total: display_pence_as_pounds(@registration.finance_details.balance)) %>
+              </p>
+              <%= link_to t(".status.actions.payment_button"), @registration.finance_details_link, class: 'button' %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div class="panel wcr-panel wcr-panel-border-all">
+          <h2 class="heading-medium">
+            <%= @registration.company_name %>
+          </h2>
+          <p class="lede">
+            <%= t(".tier.#{@registration.tier.downcase}") %>
+            <% if @registration.registration_type.present? %>
+              - <%= I18n.t(".registrations.show.attributes.registration_type.#{@registration.registration_type}") %>
+            <% end %>
+          </p>
+          <p>
+            <%= t(".labels.expires", formatted_date: @registration.display_expiry_date) %>
+            <br>
+            <%= t(".labels.account", email: @registration.account_email) %>
+          </p>
+        </div>
+        <div class="grid-row">
+          <div class="column-one-half wcr-side-info-box">
+            <h2 class="heading-medium">
+              <%= t(".contact_information.heading") %>
+            </h2>
+            <p>
+              <%= @registration.first_name %> <%= @registration.last_name %>
+            </p>
+            <p>
+              <%= @registration.phone_number %>
+            </p>
+            <p class="wcr-truncate-ellipsis">
+              <a href="mailto:<%= @registration.contact_email %>" target="_top">
+                <%= @registration.contact_email %>
+              </a>
+            </p>
+            <p>
+              <% if @registration.contact_address.present? %>
+                <% displayable_address(@registration.contact_address).each do |line| %>
+                  <%= line %><br>
+                <% end %>
+              <% end %>
+            </p>
+          </div>
+          <div class="column-one-half wcr-side-info-box">
+            <h2 class="heading-medium">
+              <%= t(".business_information.heading") %>
+            </h2>
+            <p>
+              <%= @registration.company_name %>
+            </p>
+            <% if @registration.company_no.present? %>
+              <p>
+                <%= t(".business_information.labels.company_no", number: @registration.company_no) %>
+              </p>
+            <% end %>
+
+            <% if @registration.registered_address.present? %>
+              <p>
+                <%= t(".business_information.labels.registered_address") %> <br>
+                <% displayable_address(@registration.registered_address).each do |line| %>
+                  <%= line %><br>
+                <% end %>
+              </p>
+            <% end %>
+            <p>
+              <%= @registration.displayable_location %>
+            </p>
+          </div>
+        </div>
+        <hr/>
+        <h2 class="heading-medium"><%= t(".conviction_heading") %></h2>
+        <div>
+          <% if @registration.conviction_check_approved? %>
+            <%= link_to t(".conviction_link"), "#TODO!", class: "pull-up"  %>
+            <p>
+              <%= t(".conviction_search_text.approved") %>
+            </p>
+          <% elsif @registration.rejected_conviction_checks? %>
+            <%= link_to t(".conviction_link"), "#TODO!", class: "pull-up"  %>
+            <p>
+              <%= t(".conviction_search_text.rejected") %>
+            </p>
+          <% elsif @registration.conviction_search_result.present? %>
+            <p>
+              <%= t(".conviction_search_text.#{@registration.conviction_check_required?}") %>
+            </p>
+
+            <% if @registration.conviction_check_required? %>
+              <%= link_to t(".conviction_link"), "#TODO!", class: "pull-up" %>
+            <% end %>
+          <% else %>
+            <p>
+              <%= t(".conviction_search_text.unknown") %>
+            </p>
+          <% end %>
+        </div>
+
+        <hr>
+
+        <h2 class="heading-medium">
+          <% if @registration.unpaid_balance? %>
+            <%= t(".finance_information.heading_with_amount_owed", amount: display_pence_as_pounds(@registration.finance_details.balance)) %>
+          <% elsif @registration.finance_details.blank? %>
+            <%= t(".finance_information.balance.no_data") %>
+          <% else %>
+            <%= t(".finance_information.heading") %>
+          <% end %>
+        </h2>
+
+        <% if @registration.finance_details %>
+          <p>
+            <%= link_to t(".finance_information.section_link_label"), @registration.finance_details_link %>
+          </p>
+        <% end %>
+
+        <% if @registration.finance_details&.orders&.any? %>
+          <% order = @registration.finance_details.orders.first %>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <%= t(".order_information.labels.payment_method") %>
+                </th>
+                <td>
+                  <%= order.payment_method.titleize %>
+                </td>
+              </tr>
+              <% order.order_items.each do |item| %>
+                <tr>
+                  <th>
+                    <%= item.description %>
+                  </th>
+                  <td>
+                    £<%= display_pence_as_pounds(item.amount) %>
+                  </td>
+                </tr>
+              <% end %>
+              <tr>
+                <th>
+                  <strong class="bold-small">
+                    <%= t(".order_information.labels.total_amount") %>
+                  </strong>
+                </th>
+                <td>
+                  <strong class="bold-small">
+                    £<%= display_pence_as_pounds(order.total_amount) %>
+                  </strong>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <strong class="bold-small">
+                    <%= t(".order_information.labels.paid") %>
+                  </strong>
+                </th>
+                <td>
+                  <strong class="bold-small">
+                    £<%= display_pence_as_pounds(@registration.amount_paid) %>
+                  </strong>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <%= t(".order_information.labels.order_code") %>
+                </th>
+                <td>
+                  <%= order.order_code %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+
+
+        <% if @registration.main_people.any? %>
+          <h2 class="heading-medium">
+            <%= t(".person_information.heading.#{@registration.business_type}") %>
+          </h2>
+
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <%= t(".person_information.name") %>
+                </th>
+                <th>
+                  <%= t(".person_information.dob") %>
+                </th>
+                <th>
+                  <%= t(".person_information.convictions") %>
+                </th>
+              </tr>
+              <% @registration.main_people.each do |person| %>
+                <tr>
+                  <td>
+                    <%= person.first_name %> <%= person.last_name %>
+                  </td>
+                  <td>
+                    <%= person.dob.to_date %>
+                  </td>
+                  <td>
+                    <% if person.conviction_check_required? %>
+                      <div class="bold-xsmall">
+                        <%= t(".person_information.has_convictions.yes") %>
+                      </div>
+                    <% else %>
+                      <%= t(".person_information.has_convictions.no") %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+      <div class="column-one-third">
+        <div class="wcr-actions wcr-actions--push-down">
+          <h2 class="heading-medium">
+            <%= t(".actions_box.heading", reg_identifier: @registration.reg_identifier) %>
+          </h2>
+          <ul>
+            <% if @registration.pending_payment? %>
+              <li>
+                <%= link_to t(".actions_box.links.payment"), transient_registration_payments_path(@registration.reg_identifier) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
