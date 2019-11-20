@@ -21,6 +21,18 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
     end
   end
 
+  def show_finance_details_link?
+    finance_details.present? && upper_tier?
+  end
+
+  def show_order_details?
+    finance_details&.orders&.any? && upper_tier?
+  end
+
+  def order
+    finance_details&.orders&.first
+  end
+
   private
 
   def show_translation_or_filler(attribute)
