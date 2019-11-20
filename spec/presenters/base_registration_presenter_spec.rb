@@ -5,6 +5,11 @@ RSpec.describe BaseRegistrationPresenter do
   let(:view_context) { double(:view_context) }
   subject { described_class.new(registration, view_context) }
 
+  describe "#in_progress?" do
+    it "returns false" do
+      expect(subject).to_not be_in_progress
+    end
+  end
   describe "#order" do
     let(:order) { double(:order) }
     let(:registration) do
