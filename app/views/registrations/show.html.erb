@@ -36,6 +36,10 @@
           <% end %>
         <% end %>
 
+        <% if @registration.show_ceased_revoked_panel? %>
+          <%= render "shared/registrations/ceased_revoked_panel", resource: @registration %>
+        <% end %>
+
         <% if @registration.expired? %>
           <%= render "shared/registrations/expired_panel", resource: @registration %>
         <% end %>
