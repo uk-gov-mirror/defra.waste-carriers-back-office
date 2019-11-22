@@ -1,6 +1,22 @@
 en:
   shared:
     registrations:
+      main_people_details:
+        person_information:
+          name: "Name"
+          dob: "Date of birth"
+          convictions: "Convictions"
+          has_convictions:
+            "YES": "Yes"
+            "no": "No"
+            "UNKNOWN": "Unknown"
+          heading:
+            localAuthority: "Chief executive details"
+            limitedCompany: "Company director details"
+            limitedLiabilityPartnership: "Member details"
+            overseas: "Business owner details"
+            partnership: "Partners details"
+            soleTrader: "Business owner details"
       contact_and_business_details_panels:
         contact_information:
           heading: "Contact details"
@@ -17,6 +33,20 @@ en:
             company_no: "Company number: %{number}"
             location: "Place of business: %{location}"
             registered_address: "Registered address:"
+      pending_payment_panel:
+        status:
+          headings:
+            pending_payment: "Payment required"
+          messages:
+            pending_payment: "£%{total} to pay"
+          actions:
+            payment_button: "Process payment"
+      pending_convictions_panel:
+        status:
+          headings:
+            pending_convictions: "Conviction check required"
+          messages:
+            pending_convictions_check: "A convictions check is required before this registration can be approved."
       company_details_panel:
         tier:
           upper: Upper tier
