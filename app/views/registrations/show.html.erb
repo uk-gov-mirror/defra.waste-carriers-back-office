@@ -43,6 +43,10 @@
           <% end %>
         <% end %>
 
+        <% if @registration.expired? %>
+          <%= render "shared/registrations/expired_panel", resource: @registration %>
+        <% end %>
+
         <%= render "shared/registrations/company_details_panel", resource: @registration %>
 
         <div class="grid-row">
