@@ -144,5 +144,13 @@ RSpec.describe SearchService do
         expect(service[:results]).to include(matching_registration)
       end
     end
+
+    context "when the term has excess whitespace" do
+      let(:term) { " #{matching_registration.reg_identifier} " }
+
+      it "matches the term without whitespace" do
+        expect(service[:results]).to include(matching_registration)
+      end
+    end
   end
 end
