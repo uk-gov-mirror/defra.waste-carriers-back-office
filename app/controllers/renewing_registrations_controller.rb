@@ -4,10 +4,22 @@ class RenewingRegistrationsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    transient_registration = WasteCarriersEngine::RenewingRegistration.find_by(reg_identifier: params[:reg_identifier])
+    begin
+      transient_registration = fetch_renewing_registration
+    rescue Mongoid::Errors::DocumentNotFound
+      scope = WasteCarriersEngine::Registration.where(reg_identifier: params[:reg_identifier])
 
-    redirect_to bo_path unless transient_registration.present?
+      return redirect_to registration_path(params[:reg_identifier]) if scope.any?
+
+      return redirect_to bo_path
+    end
 
     @transient_registration = RenewingRegistrationPresenter.new(transient_registration, view_context)
+  end
+
+  private
+
+  def fetch_renewing_registration
+    WasteCarriersEngine::RenewingRegistration.find_by(reg_identifier: params[:reg_identifier])
   end
 end
