@@ -9,6 +9,8 @@ en:
         th:
           email: "User email"
           role: "Role"
+          status: "Status"
+          actions: "Actions"
         roles:
           agency: "agency"
           agency_with_refund: "agency with refund"
@@ -16,3 +18,17 @@ en:
           finance_admin: "finance admin"
           agency_super: "agency super"
           finance_super: "finance super"
+        statuses:
+          active: "active"
+          deactivated: "deactivated"
+          invited: "invitation sent"
+        actions:
+          change_role:
+            link_text: "Change role"
+            visually_hidden_text: " of %{email}"
+          deactivate:
+            link_text: "Deactivate"
+            visually_hidden_text: " %{email}"
+          activate:
+            link_text: "Activate"
+            visually_hidden_text: " %{email}"
