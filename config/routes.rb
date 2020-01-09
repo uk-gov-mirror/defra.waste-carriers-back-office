@@ -127,6 +127,22 @@ Rails.application.routes.draw do
       to: "users#index",
       as: :users
 
+  resources :users,
+            only: [],
+            path: "/bo/users" do
+              resources :user_activations,
+                        as: :activations,
+                        only: %i[new create],
+                        path: "activate",
+                        path_names: { new: "" }
+
+              resources :user_deactivations,
+                        as: :deactivations,
+                        only: %i[new create],
+                        path: "deactivate",
+                        path_names: { new: "" }
+            end
+
   resources :user_migrations,
             only: %i[new create],
             path: "/bo/users/migrate",
