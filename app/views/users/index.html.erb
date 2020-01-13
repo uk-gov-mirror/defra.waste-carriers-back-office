@@ -10,6 +10,7 @@
 
 <div class="grid-row">
   <div class="column-full">
+    <p><%= link_to t(".options.invite_link"), new_user_invitation_path %></p>
     <p><%= link_to t(".options.migrate_link"), new_user_migration_path %></p>
   </div>
 </div>
@@ -36,10 +37,12 @@
                   <%= t(".user_list.roles.#{user.role}") %>
                 </td>
                 <td>
-                  <% if user.active? %>
-                    <%= t(".user_list.statuses.active") %>
-                  <% else %>
+                  <% if !user.active? %>
                     <%= t(".user_list.statuses.deactivated") %>
+                  <% elsif user.invitation_token.present? %>
+                    <%= t(".user_list.statuses.invited") %>
+                  <% else %>
+                    <%= t(".user_list.statuses.active") %>
                   <% end %>
                 </td>
                 <td>

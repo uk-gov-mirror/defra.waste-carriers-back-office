@@ -12,21 +12,31 @@ en:
       no_invitations_remaining: "No invitations remaining"
       invitation_removed: "Your invitation was removed"
       new:
-        header: "Send invitation"
-        submit_button: "Send an invitation"
+        heading: "Invite a new user"
+        paragraph_1: "The new user will receive an email containing a confirmation link."
+        paragraph_2: "They must follow the link and create a password before they can access this system."
+        paragraph_3: "Email links expire after 2 weeks."
+        email_label: "Email"
+        submit_button: "Send invitation"
       edit:
-        header: "Set your password"
-        submit_button: "Set my password"
+        heading: "Create a new back office account"
+        paragraph_1: "To finish setting up your account, you need to create a password."
+        password_label: "Password"
+        password_hint:
+          text: "It must:"
+          list_item_1: "have at least 8 characters"
+          list_item_2: "include some numbers"
+          list_item_3: "have a mix of lower and upper case letters"
+        password_confirmation_label: "Confirm password"
+        submit_button: "Create account"
     mailer:
       invitation_instructions:
-        subject: "Invitation instructions"
-        hello: "Hello %{email}"
-        someone_invited_you: "You have been invited to join the service. Accept this invitation by clicking the link below. You can only use this link once."
-        accept: "Accept invitation"
-        ignore: "If you don't want to accept the invitation please ignore this email.<br />Your account won't be created until you access the link above and set your password."
+        subject: "Confirm a waste carriers back office account"
+        paragraph_1: "Hello %{email}"
+        paragraph_2: "You have been added as a user to the back office system for the waste carriers service (%{url})"
+        paragraph_3: "Use the link below to confirm this."
+        paragraph_4: "This link will expire on %{due_date}."
+        paragraph_5: "If you don't want to confirm the account, please ignore this email."
   time:
     formats:
-      devise:
-        mailer:
-          invitation_instructions:
-            accept_until_format: "%B %d, %Y %I:%M %p"
+      accept_until_format: "%e %B %Y at %l:%M%P"
