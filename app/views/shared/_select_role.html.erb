@@ -1,0 +1,18 @@
+<div class="form-group <%= "form-group-error" if resource.errors[:role].any? %>">
+  <fieldset id="role">
+    <legend>
+      <%= t(".roles.legend") %>
+    </legend>
+
+    <% if resource.errors[:role].any? %>
+      <span class="error-message"><%= resource.errors[:role].join(", ") %></span>
+    <% end %>
+
+    <% current_user_group_roles(current_user).each do |role| %>
+      <div class="multiple-choice">
+        <%= f.radio_button :role, role %>
+        <%= f.label :role, t(".roles.options.#{role}"), value: role %>
+      </div>
+    <% end %>
+  </fieldset>
+</div>

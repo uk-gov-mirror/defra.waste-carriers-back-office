@@ -141,6 +141,12 @@ Rails.application.routes.draw do
                         only: %i[new create],
                         path: "deactivate",
                         path_names: { new: "" }
+
+              resources :user_roles,
+                        as: :roles,
+                        only: %i[new create],
+                        path: "role",
+                        path_names: { new: "" }
             end
 
   resources :user_migrations,

@@ -2,16 +2,26 @@
 
 module UsersHelper
   def display_user_actions?(displayed_user, current_user)
-    agency_with_permission?(displayed_user, current_user) || finance_with_permission?(displayed_user, current_user)
+    current_user.can?(:modify_user, displayed_user)
+  end
+
+  def current_user_group_roles(current_user)
+    if current_user.in_agency_group?
+      User::AGENCY_ROLES
+    elsif current_user.in_finance_group?
+      User::FINANCE_ROLES
+    end
   end
 
   private
 
-  def agency_with_permission?(displayed_user, current_user)
-    displayed_user.in_agency_group? && current_user.can?(:manage_agency_users, displayed_user)
+  def assign_user
+    @user = User.find(params[:user_id])
   end
 
-  def finance_with_permission?(displayed_user, current_user)
-    displayed_user.in_finance_group? && current_user.can?(:manage_finance_users, displayed_user)
+  def check_modification_permissions
+    return if current_user.can?(:modify_user, @user)
+
+    raise CanCan::AccessDenied
   end
 end
