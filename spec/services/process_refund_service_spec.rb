@@ -50,11 +50,11 @@ RSpec.describe ProcessRefundService do
           expect(refund).to receive(:order_key=).with("123_REFUNDED")
           expect(refund).to receive(:date_entered=).with(Date.current)
           expect(refund).to receive(:date_received=).with(Date.current)
-          expect(refund).to receive(:amount=).with(500)
+          expect(refund).to receive(:amount=).with(-500)
           expect(refund).to receive(:registration_reference=).with("registration_reference")
           expect(refund).to receive(:updated_by_user=).with("user@example.com")
 
-          expect(I18n).to receive(:t).with("refunds.comment.card").and_return(description)
+          expect(I18n).to receive(:t).with("refunds.comments.card").and_return(description)
           expect(refund).to receive(:comment=).with(description)
 
           expect(Worldpay::RefundService).to receive(:run).with(payment: payment, amount: 500, merchant_code: "merchant_code").and_return(true)
@@ -69,7 +69,7 @@ RSpec.describe ProcessRefundService do
       let(:worldpay) { false }
 
       before do
-        expect(payment).to receive(:worldpay_missed?).and_return(false).twice
+        allow(payment).to receive(:worldpay_missed?).and_return(false)
       end
 
       it "generates a new refund payment and associate it with the right finance details" do
@@ -84,11 +84,11 @@ RSpec.describe ProcessRefundService do
         expect(refund).to receive(:order_key=).with("123_REFUNDED")
         expect(refund).to receive(:date_entered=).with(Date.current)
         expect(refund).to receive(:date_received=).with(Date.current)
-        expect(refund).to receive(:amount=).with(500)
+        expect(refund).to receive(:amount=).with(-500)
         expect(refund).to receive(:registration_reference=).with("registration_reference")
         expect(refund).to receive(:updated_by_user=).with("user@example.com")
 
-        expect(I18n).to receive(:t).with("refunds.comment.manual").and_return(description)
+        expect(I18n).to receive(:t).with("refunds.comments.manual").and_return(description)
 
         expect(refund).to receive(:comment=).with(description)
 
