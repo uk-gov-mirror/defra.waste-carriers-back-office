@@ -19,6 +19,8 @@ RSpec.describe Ability, type: :model do
     include_examples "agency_with_refund examples"
     include_examples "agency examples"
 
+    include_examples "non-developer examples"
+
     include_examples "active and inactive examples"
   end
 
@@ -28,6 +30,8 @@ RSpec.describe Ability, type: :model do
     include_examples "below agency_super examples"
     include_examples "agency_with_refund examples"
     include_examples "agency examples"
+
+    include_examples "non-developer examples"
 
     include_examples "active and inactive examples"
   end
@@ -39,6 +43,20 @@ RSpec.describe Ability, type: :model do
     include_examples "below agency_with_refund examples"
     include_examples "agency examples"
 
+    include_examples "non-developer examples"
+
+    include_examples "active and inactive examples"
+  end
+
+  context "when the user role is developer" do
+    let(:role) { "developer" }
+
+    include_examples "below agency_super examples"
+    include_examples "below agency_with_refund examples"
+    include_examples "agency examples"
+
+    include_examples "developer examples"
+
     include_examples "active and inactive examples"
   end
 
@@ -49,6 +67,8 @@ RSpec.describe Ability, type: :model do
 
     include_examples "finance_super examples"
 
+    include_examples "non-developer examples"
+
     include_examples "active and inactive examples"
   end
 
@@ -57,6 +77,8 @@ RSpec.describe Ability, type: :model do
 
     include_examples "finance_admin examples"
 
+    include_examples "non-developer examples"
+
     include_examples "active and inactive examples"
   end
 
@@ -64,6 +86,8 @@ RSpec.describe Ability, type: :model do
     let(:role) { "finance" }
 
     include_examples "finance examples"
+
+    include_examples "non-developer examples"
 
     include_examples "active and inactive examples"
   end
