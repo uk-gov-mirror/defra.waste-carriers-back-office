@@ -16,6 +16,14 @@ RSpec.shared_examples "finance_admin examples" do
     should_not be_able_to(:update, WasteCarriersEngine::RenewingRegistration)
   end
 
+  it "should be able to write off large finance details" do
+    should be_able_to(:write_off_large, WasteCarriersEngine::FinanceDetails)
+  end
+
+  it "should not be able to write off small finance details" do
+    should_not be_able_to(:write_off_small, WasteCarriersEngine::FinanceDetails)
+  end
+
   it "should not be able to renew" do
     should_not be_able_to(:renew, WasteCarriersEngine::RenewingRegistration)
     should_not be_able_to(:renew, WasteCarriersEngine::Registration)
