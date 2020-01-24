@@ -36,9 +36,9 @@ class Ability
     can :view_certificate, WasteCarriersEngine::Registration
     can :order_copy_cards, WasteCarriersEngine::Registration
 
-    can :record_cash_payment, WasteCarriersEngine::RenewingRegistration
-    can :record_cheque_payment, WasteCarriersEngine::RenewingRegistration
-    can :record_postal_order_payment, WasteCarriersEngine::RenewingRegistration
+    can :record_cash_payment, :all
+    can :record_cheque_payment, :all
+    can :record_postal_order_payment, :all
 
     can :review_convictions, :all
 
@@ -62,13 +62,13 @@ class Ability
 
   def permissions_for_finance_user
     can :view_certificate, WasteCarriersEngine::Registration
-    can :record_transfer_payment, WasteCarriersEngine::RenewingRegistration
+    can :record_bank_transfer_payment, :all
   end
 
   def permissions_for_finance_admin_user
     can :write_off_large, WasteCarriersEngine::FinanceDetails
     can :view_certificate, WasteCarriersEngine::Registration
-    can :record_worldpay_missed_payment, WasteCarriersEngine::RenewingRegistration
+    can :record_worldpay_missed_payment, :all
   end
 
   def permissions_for_agency_super_user

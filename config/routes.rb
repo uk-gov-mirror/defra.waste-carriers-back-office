@@ -27,6 +27,34 @@ Rails.application.routes.draw do
                         only: %i[index new create],
                         param: :order_key
 
+              resources :payments,
+                        only: %i[new create]
+
+              resources :cash_payment_forms,
+                        only: %i[new create],
+                        path: "payments/cash",
+                        path_names: { new: "" }
+
+              resources :cheque_payment_forms,
+                        only: %i[new create],
+                        path: "payments/cheque",
+                        path_names: { new: "" }
+
+              resources :postal_order_payment_forms,
+                        only: %i[new create],
+                        path: "payments/postal-order",
+                        path_names: { new: "" }
+
+              resources :bank_transfer_payment_forms,
+                        only: %i[new create],
+                        path: "payments/bank-transfer",
+                        path_names: { new: "" }
+
+              resources :worldpay_missed_payment_forms,
+                        only: %i[new create],
+                        path: "payments/worldpay-missed",
+                        path_names: { new: "" }
+
               resource :finance_details,
                        only: :show,
                        path: "finance-details"
@@ -87,38 +115,9 @@ Rails.application.routes.draw do
                         path: "convictions/reject",
                         path_names: { new: "" }
 
-              resources :transient_payments,
-                        only: %i[new create],
-                        path_names: { new: "" }
-
-              resources :cash_payment_forms,
-                        only: %i[new create],
-                        path: "payments/cash",
-                        path_names: { new: "" }
-
-              resources :cheque_payment_forms,
-                        only: %i[new create],
-                        path: "payments/cheque",
-                        path_names: { new: "" }
-
-              resources :postal_order_payment_forms,
-                        only: %i[new create],
-                        path: "payments/postal-order",
-                        path_names: { new: "" }
-
-              resources :transfer_payment_forms,
-                        only: %i[new create],
-                        path: "payments/transfer",
-                        path_names: { new: "" }
-
               resources :worldpay_escapes,
                         only: :new,
                         path: "revert-to-payment-summary",
-                        path_names: { new: "" }
-
-              resources :worldpay_missed_payment_forms,
-                        only: %i[new create],
-                        path: "payments/worldpay-missed",
                         path_names: { new: "" }
             end
 
