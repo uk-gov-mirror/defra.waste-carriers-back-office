@@ -20,7 +20,10 @@ module Reports
         return unless registration.finance_details.present?
         return unless registration.finance_details.orders.present?
 
-        registration.finance_details.orders.each.with_index do |order, order_uid|
+        registration.finance_details.orders.each.with_index do |order, index|
+          # Start counting from 1 rather than from 0
+          order_uid = index + 1
+
           csv << parse_order(order, uid, order_uid)
         end
       end
@@ -36,7 +39,7 @@ module Reports
           elsif key == :order_uid
             order_uid
           else
-            presenter.public_send(key)
+            sanitize(presenter.public_send(key))
           end
         end
       end

@@ -33,7 +33,7 @@ module Reports
 
           values = [
             0,
-            0,
+            1,
             "order_code",
             "payment_method",
             "total_amount",
@@ -61,6 +61,23 @@ module Reports
           expect(CSV).to receive(:open).and_return(csv)
           expect(csv).to receive(:<<).with(headers)
           expect(csv).to receive(:<<).with(values)
+
+          subject.add_entries_for(registration, 0)
+        end
+
+        it "sanitize data before inserting them in the csv" do
+          order = double(:order)
+          presenter = double(:presenter, description: "string to sanitize\n").as_null_object
+          finance_details = double(:finance_details)
+
+          allow(registration).to receive(:finance_details).and_return(finance_details)
+          allow(finance_details).to receive(:orders).and_return([order])
+          allow(OrderPresenter).to receive(:new).with(order, nil).and_return(presenter)
+
+          allow(CSV).to receive(:open).and_return(csv)
+          allow(csv).to receive(:<<).with(headers)
+
+          expect(csv).to receive(:<<).with(array_including("string to sanitize."))
 
           subject.add_entries_for(registration, 0)
         end
