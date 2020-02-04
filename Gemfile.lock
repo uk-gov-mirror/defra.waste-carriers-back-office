@@ -424,6 +424,7 @@ DEPENDENCIES
   webmock (~> 3.4)
   whenever (~> 0.10.0)
   whenever-test (~> 1.0)
+  wicked_pdf
 
 RUBY VERSION
    ruby 2.4.2p198
