@@ -99,9 +99,7 @@ module ActionLinksHelper
     can?(:update, WasteCarriersEngine::Registration)
   end
 
-  def display_view_confirmation_letter_link_for?(resource)
-    # TODO: delete next line filter when internal route exists https://eaflood.atlassian.net/browse/RUBY-786
-    return false if a_registration?(resource)
+  def display_certificate_link_for?(resource)
     return false unless display_registration_links?(resource)
     return false unless can?(:view_certificate, WasteCarriersEngine::Registration)
 
