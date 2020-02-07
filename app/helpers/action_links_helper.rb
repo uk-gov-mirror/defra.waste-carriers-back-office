@@ -1,44 +1,20 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength
 module ActionLinksHelper
   def details_link_for(resource)
     if a_transient_registration?(resource)
       renewing_registration_path(resource.reg_identifier)
     elsif a_registration?(resource)
       registration_path(resource.reg_identifier)
-    else
-      "#"
     end
   end
 
   def resume_link_for(resource)
-    return "#" unless a_transient_registration?(resource)
-
     ad_privacy_policy_path(resource.reg_identifier)
-  end
-
-  def convictions_link_for(resource)
-    if a_transient_registration?(resource)
-      transient_registration_convictions_path(resource.reg_identifier)
-    # TODO: re-implement when internal route exists https://eaflood.atlassian.net/browse/RUBY-786
-    # elsif a_registration?(resource)
-    #   "#{Rails.configuration.wcrs_backend_url}/registrations/#{resource.id}/approve"
-    else
-      "#"
-    end
   end
 
   def renew_link_for(resource)
-    return "#" unless a_registration?(resource)
-
     ad_privacy_policy_path(resource.reg_identifier)
-  end
-
-  def transfer_link_for(resource)
-    return "#" unless a_registration?(resource)
-
-    new_registration_registration_transfer_path(resource.reg_identifier)
   end
 
   def display_details_link_for?(resource)
@@ -113,13 +89,6 @@ module ActionLinksHelper
     resource.active? && resource.upper_tier?
   end
 
-  def display_convictions_link_for?(resource)
-    return false unless display_transient_registration_links?(resource) || display_registration_links?(resource)
-    return false unless can?(:review_convictions, WasteCarriersEngine::Registration)
-
-    resource.pending_manual_conviction_check?
-  end
-
   def display_renew_link_for?(resource)
     return false unless display_registration_links?(resource)
     return false unless can?(:renew, WasteCarriersEngine::Registration)
@@ -158,4 +127,3 @@ module ActionLinksHelper
     true
   end
 end
-# rubocop:enable Metrics/ModuleLength
