@@ -11,6 +11,11 @@ RSpec.shared_examples "finance_admin examples" do
     should be_able_to(:view_certificate, WasteCarriersEngine::Registration)
   end
 
+  it "should be able to charge adjust a resource" do
+    should be_able_to(:charge_adjust, WasteCarriersEngine::RenewingRegistration)
+    should be_able_to(:charge_adjust, WasteCarriersEngine::Registration)
+  end
+
   # finance_admin and finance_super users should not be able to do this:
 
   it "should not be able to update a transient registration" do
