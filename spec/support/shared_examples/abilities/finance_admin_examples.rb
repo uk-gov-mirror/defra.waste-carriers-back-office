@@ -11,6 +11,32 @@ RSpec.shared_examples "finance_admin examples" do
     should be_able_to(:view_certificate, WasteCarriersEngine::Registration)
   end
 
+  context ":reverse" do
+    context "when the payment is a worldpay" do
+      let(:payment) { build(:payment, :worldpay) }
+
+      it "should be able to reverse the payment" do
+        should be_able_to(:reverse, payment)
+      end
+    end
+
+    context "when the payment is a worldpay_missed" do
+      let(:payment) { build(:payment, :worldpay_missed) }
+
+      it "should be able to reverse the payment" do
+        should be_able_to(:reverse, payment)
+      end
+    end
+
+    context "when the payment is another type" do
+      let(:payment) { build(:payment) }
+
+      it "should not be able to reverse the payment" do
+        should_not be_able_to(:reverse, payment)
+      end
+    end
+  end
+
   it "should be able to charge adjust a resource" do
     should be_able_to(:charge_adjust, WasteCarriersEngine::RenewingRegistration)
     should be_able_to(:charge_adjust, WasteCarriersEngine::Registration)

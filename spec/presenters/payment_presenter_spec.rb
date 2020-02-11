@@ -5,8 +5,9 @@ require "rails_helper"
 RSpec.describe PaymentPresenter do
   let(:finance_details) { double(:finance_details) }
   let(:payment) { double(:payment, finance_details: finance_details, order_key: "123") }
+  let(:view) { nil }
 
-  subject { described_class.new(payment, nil) }
+  subject { described_class.new(payment, view) }
 
   describe ".create_from_collection" do
     it "given a list of objects, returns a list of instances of itself" do
@@ -50,6 +51,103 @@ RSpec.describe PaymentPresenter do
         expect(subject).to_not be_already_refunded
       end
     end
+  end
+
+  describe "#already_reversed?" do
+    before do
+      scope = double(:scope)
+
+      expect(finance_details).to receive(:payments).and_return(scope)
+      expect(scope).to receive(:where).with(order_key: "123_REVERSAL").and_return([reversed_payment])
+    end
+
+    context "if a reversal payment exist for that order key" do
+      let(:reversed_payment) { double(:reversed_payment) }
+
+      it "returns true" do
+        expect(subject).to be_already_reversed
+      end
+    end
+
+    context "if a reversal payment do not exist for that order key" do
+      let(:reversed_payment) {}
+
+      it "returns false" do
+        expect(subject).to_not be_already_reversed
+      end
+    end
+  end
+
+  describe "#no_action_message" do
+    let(:reversed_payment) { double(:reversed_payment) }
+
+    before do
+      allow(subject).to receive(:already_reversed?).and_return(already_reversed)
+    end
+
+    context "when the payment was already reversed" do
+      let(:already_reversed) { true }
+
+      it "returns an already reversed message" do
+        result = double(:result)
+
+        expect(I18n).to receive(:t).with(".reversal_forms.index.already_reversed").and_return(result)
+        expect(subject.no_action_message).to eq(result)
+      end
+    end
+
+    context "when the payment was not reversed" do
+      let(:already_reversed) { false }
+
+      it "returns an already reversed message" do
+        result = double(:result)
+
+        expect(I18n).to receive(:t).with(".reversal_forms.index.not_applicable").and_return(result)
+        expect(subject.no_action_message).to eq(result)
+      end
+    end
+  end
+
+  describe "#reversible?" do
+    let(:user) { double(:user) }
+    let(:view) { double(:view, current_user: user) }
+
+    before do
+      allow(user).to receive(:can?).with(:reverse, payment).and_return(can)
+    end
+
+    context "when current user cannot reverse the object" do
+      let(:can) { false }
+
+      it "returns false" do
+        expect(subject).to_not be_reversible
+      end
+    end
+
+    context "when current user can reverse the object" do
+      let(:can) { true }
+
+      before do
+        allow(subject).to receive(:already_reversed?).and_return(already_reversed)
+      end
+
+      context "when the payment is already reversed" do
+        let(:already_reversed) { true }
+
+        it "returns false" do
+          expect(subject).to_not be_reversible
+        end
+      end
+
+      context "when the payment has not been reversed yet" do
+        let(:already_reversed) { false }
+
+        it "returns true" do
+          expect(subject).to be_reversible
+        end
+      end
+    end
+
   end
 
   describe "#refunded_message" do
