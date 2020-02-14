@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 class WorldpayMissedPaymentFormsController < ResourceFormsController
-  include CanRenewIfPossible
-
-  after_action :change_state_if_possible, only: :create
+  before_renew :change_state_if_possible
 
   def new
-    super(WorldpayMissedPaymentForm,
-          "worldpay_missed_payment_form")
+    super(WorldpayMissedPaymentForm, "worldpay_missed_payment_form")
   end
 
   def create
     params[:worldpay_missed_payment_form][:updated_by_user] = current_user.email
 
-    return unless super(WorldpayMissedPaymentForm,
-                        "worldpay_missed_payment_form")
+    super(WorldpayMissedPaymentForm, "worldpay_missed_payment_form")
   end
 
   private
