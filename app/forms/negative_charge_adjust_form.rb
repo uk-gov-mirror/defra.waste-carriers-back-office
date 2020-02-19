@@ -14,5 +14,7 @@ class NegativeChargeAdjustForm < WasteCarriersEngine::BaseForm
 
     # Negative amount as this is a negative charge adjust
     self.amount = string_to_pence(amount) * -1
+
+    true
   end
 end

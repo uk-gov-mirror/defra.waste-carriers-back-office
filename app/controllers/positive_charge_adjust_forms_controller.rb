@@ -3,18 +3,14 @@
 class PositiveChargeAdjustFormsController < ResourceFormsController
   include FinanceDetailsHelper
 
+  before_renew_or_complete :process_charge_adjust
+
   def new
     super(PositiveChargeAdjustForm, "positive_charge_adjust_form")
   end
 
   def create
     return unless super(PositiveChargeAdjustForm, "positive_charge_adjust_form")
-
-    ProcessChargeAdjustService.run(
-      finance_details: @resource.finance_details,
-      form: @positive_charge_adjust_form,
-      user: current_user
-    )
 
     flash[:success] = I18n.t(
       "positive_charge_adjust_forms.messages.success",
@@ -23,6 +19,14 @@ class PositiveChargeAdjustFormsController < ResourceFormsController
   end
 
   private
+
+  def process_charge_adjust
+    ProcessChargeAdjustService.run(
+      finance_details: @resource.finance_details,
+      form: @positive_charge_adjust_form,
+      user: current_user
+    )
+  end
 
   def positive_charge_adjust_form_params
     params.fetch(:positive_charge_adjust_form, {}).permit(:amount, :reference, :description)
