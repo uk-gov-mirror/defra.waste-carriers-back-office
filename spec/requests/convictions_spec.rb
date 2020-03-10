@@ -8,87 +8,143 @@ RSpec.describe "Convictions", type: :request do
 
   describe "/bo/registrations/:reg_identifier/convictions" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, :agency_with_refund) }
       before(:each) do
         sign_in(user)
       end
 
-      it "renders the index template" do
+      it "renders the index template, returns a 200 response, and includes the reg identifier" do
         get "/bo/registrations/#{registration.reg_identifier}/convictions"
+
         expect(response).to render_template(:index)
-      end
-
-      it "returns a 200 response" do
-        get "/bo/registrations/#{registration.reg_identifier}/convictions"
         expect(response).to have_http_status(200)
+        expect(response.body).to include(registration.reg_identifier)
+      end
+    end
+
+    context "when a non-agency user is signed in" do
+      let(:user) { create(:user, :finance) }
+      before(:each) do
+        sign_in(user)
       end
 
-      it "includes the reg identifier" do
+      it "redirects to the permissions error page" do
         get "/bo/registrations/#{registration.reg_identifier}/convictions"
-        expect(response.body).to include(registration.reg_identifier)
+        expect(response).to redirect_to("/bo/pages/permission")
+      end
+    end
+
+    context "when a user is not signed in" do
+      it "redirects to the sign-in page" do
+        get "/bo/registrations/#{registration.reg_identifier}/convictions"
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
   describe "/bo/transient-registrations/:reg_identifier/convictions" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, :agency_with_refund) }
       before(:each) do
         sign_in(user)
       end
 
-      it "renders the index template" do
+      it "renders the index template, returns a 200 response, and includes the reg identifier" do
         get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions"
+
         expect(response).to render_template(:index)
-      end
-
-      it "returns a 200 response" do
-        get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions"
         expect(response).to have_http_status(200)
+        expect(response.body).to include(transient_registration.reg_identifier)
+      end
+    end
+
+    context "when a non-agency user is signed in" do
+      let(:user) { create(:user, :finance) }
+      before(:each) do
+        sign_in(user)
       end
 
-      it "includes the reg identifier" do
+      it "redirects to the permissions error page" do
         get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions"
-        expect(response.body).to include(transient_registration.reg_identifier)
+        expect(response).to redirect_to("/bo/pages/permission")
+      end
+    end
+
+    context "when a user is not signed in" do
+      it "redirects to the sign-in page" do
+        get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions"
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
   describe "/bo/registrations/:registration_reg_identifier/convictions/begin-checks" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, :agency_with_refund) }
       before(:each) do
         sign_in(user)
       end
 
-      it "updates the status of the conviction_sign_off" do
+      it "updates the status of the conviction_sign_off and redirects to the convictions page" do
         get "/bo/registrations/#{registration.reg_identifier}/convictions/begin-checks"
+
         expect(registration.reload.conviction_sign_offs.first.workflow_state).to eq("checks_in_progress")
+        expect(response).to redirect_to(convictions_path)
+      end
+    end
+
+    context "when a non-agency user is signed in" do
+      let(:user) { create(:user, :finance) }
+      before(:each) do
+        sign_in(user)
       end
 
-      it "redirects to the convictions page" do
+      it "redirects to the permissions error page" do
         get "/bo/registrations/#{registration.reg_identifier}/convictions/begin-checks"
-        expect(response).to redirect_to(convictions_path)
+        expect(response).to redirect_to("/bo/pages/permission")
+      end
+    end
+
+    context "when a user is not signed in" do
+      it "redirects to the sign-in page" do
+        get "/bo/registrations/#{registration.reg_identifier}/convictions/begin-checks"
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
   describe "/bo/transient-registrations/:transient_registration_reg_identifier/convictions/begin-checks" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user) }
+      let(:user) { create(:user, :agency_with_refund) }
       before(:each) do
         sign_in(user)
       end
 
-      it "updates the status of the conviction_sign_off" do
+      it "updates the status of the conviction_sign_off and redirects to the convictions page" do
         get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/begin-checks"
-        expect(transient_registration.reload.conviction_sign_offs.first.workflow_state).to eq("checks_in_progress")
-      end
 
-      it "redirects to the convictions page" do
-        get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/begin-checks"
+        expect(transient_registration.reload.conviction_sign_offs.first.workflow_state).to eq("checks_in_progress")
         expect(response).to redirect_to(convictions_path)
       end
+    end
+  end
+
+  context "when a non-agency user is signed in" do
+    let(:user) { create(:user, :finance) }
+    before(:each) do
+      sign_in(user)
+    end
+
+    it "redirects to the permissions error page" do
+      get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/begin-checks"
+      expect(response).to redirect_to("/bo/pages/permission")
+    end
+  end
+
+  context "when a user is not signed in" do
+    it "redirects to the sign-in page" do
+      get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/begin-checks"
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 end
