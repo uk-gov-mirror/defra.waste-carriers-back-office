@@ -2,26 +2,55 @@
 
 ## [Unreleased](https://github.com/defra/waste-carriers-back-office/tree/HEAD)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.0...HEAD)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...HEAD)
 
 **Implemented enhancements:**
 
+- Add configs for defra ruby address gem [\#832](https://github.com/DEFRA/waste-carriers-back-office/pull/832) ([cintamani](https://github.com/cintamani))
+- Change seeds api to set expires\_on [\#830](https://github.com/DEFRA/waste-carriers-back-office/pull/830) ([cintamani](https://github.com/cintamani))
+- Add API endpoint to seed data using JSON seeds [\#824](https://github.com/DEFRA/waste-carriers-back-office/pull/824) ([cintamani](https://github.com/cintamani))
+- Schedule second email reminder [\#823](https://github.com/DEFRA/waste-carriers-back-office/pull/823) ([cintamani](https://github.com/cintamani))
+- Generate second renewal reminder email [\#822](https://github.com/DEFRA/waste-carriers-back-office/pull/822) ([cintamani](https://github.com/cintamani))
 - Add feature toggle to email reminders [\#820](https://github.com/DEFRA/waste-carriers-back-office/pull/820) ([cintamani](https://github.com/cintamani))
 - Schedule first email reminder task [\#817](https://github.com/DEFRA/waste-carriers-back-office/pull/817) ([cintamani](https://github.com/cintamani))
 - Add  code to send first renewal reminder letter via rake task [\#814](https://github.com/DEFRA/waste-carriers-back-office/pull/814) ([cintamani](https://github.com/cintamani))
 - Add base service to fetch expiring registrations [\#812](https://github.com/DEFRA/waste-carriers-back-office/pull/812) ([cintamani](https://github.com/cintamani))
-- Add expired registrations in grace window to EPR [\#811](https://github.com/DEFRA/waste-carriers-back-office/pull/811) ([cintamani](https://github.com/cintamani))
 
 **Fixed bugs:**
 
+- Use env variable for AD email [\#836](https://github.com/DEFRA/waste-carriers-back-office/pull/836) ([cintamani](https://github.com/cintamani))
+- Fix SonarCloud code coverage reporting [\#825](https://github.com/DEFRA/waste-carriers-back-office/pull/825) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix error on configuration application [\#816](https://github.com/DEFRA/waste-carriers-back-office/pull/816) ([cintamani](https://github.com/cintamani))
 - Don't try to display account email if none exists [\#815](https://github.com/DEFRA/waste-carriers-back-office/pull/815) ([irisfaraway](https://github.com/irisfaraway))
 
 **Merged pull requests:**
 
+- Bump waste\_carriers\_engine from `08f2360` to `6561448` [\#839](https://github.com/DEFRA/waste-carriers-back-office/pull/839) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `dcfd2a0` to `08f2360` [\#838](https://github.com/DEFRA/waste-carriers-back-office/pull/838) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `60f00e0` to `dcfd2a0` [\#837](https://github.com/DEFRA/waste-carriers-back-office/pull/837) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `33df27c` to `60f00e0` [\#835](https://github.com/DEFRA/waste-carriers-back-office/pull/835) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `e3358fa` to `33df27c` [\#834](https://github.com/DEFRA/waste-carriers-back-office/pull/834) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `dc04bd5` to `e3358fa` [\#833](https://github.com/DEFRA/waste-carriers-back-office/pull/833) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `a26d99c` to `dc04bd5` [\#831](https://github.com/DEFRA/waste-carriers-back-office/pull/831) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `75330ec` to `a26d99c` [\#829](https://github.com/DEFRA/waste-carriers-back-office/pull/829) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump factory\_bot\_rails from 5.1.1 to 5.2.0 [\#828](https://github.com/DEFRA/waste-carriers-back-office/pull/828) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Use multiple rubocop formats in Travis build [\#827](https://github.com/DEFRA/waste-carriers-back-office/pull/827) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump defra\_ruby\_style from 0.1.4 to 0.2.1 [\#826](https://github.com/DEFRA/waste-carriers-back-office/pull/826) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `b6a56e6` to `75330ec` [\#821](https://github.com/DEFRA/waste-carriers-back-office/pull/821) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `336551e` to `b6a56e6` [\#819](https://github.com/DEFRA/waste-carriers-back-office/pull/819) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `46ec95b` to `336551e` [\#818](https://github.com/DEFRA/waste-carriers-back-office/pull/818) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `2799dbf` to `46ec95b` [\#813](https://github.com/DEFRA/waste-carriers-back-office/pull/813) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [v1.8.1](https://github.com/defra/waste-carriers-back-office/tree/v1.8.1) (2020-04-17)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.0...v1.8.1)
+
+**Implemented enhancements:**
+
+- Add expired registrations in grace window to EPR [\#811](https://github.com/DEFRA/waste-carriers-back-office/pull/811) ([cintamani](https://github.com/cintamani))
+
+**Merged pull requests:**
+
 - Bump waste\_carriers\_engine from `d66bdf7` to `2799dbf` [\#810](https://github.com/DEFRA/waste-carriers-back-office/pull/810) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `dbda1b9` to `d66bdf7` [\#809](https://github.com/DEFRA/waste-carriers-back-office/pull/809) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `18ec4fd` to `dbda1b9` [\#808](https://github.com/DEFRA/waste-carriers-back-office/pull/808) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
