@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require File.join(WasteCarriersEngine::Engine.root, *%w[app models waste_carriers_engine registration])
+
 module WasteCarriersEngine
   class Registration
     def self.lower_tier_or_in_grace_window
