@@ -38,19 +38,20 @@
     </div>
   </div>
 
-  <!-- TODO: restore link when internal route exists https://eaflood.atlassian.net/browse/RUBY-786 -->
-  <!-- <div class="column-one-third">
-    <div class="wcr-actions">
-      <h2 class="heading-small">
-        <%#= t(".actions.subheading") %>
-      </h2>
-      <ul>
-        <li>
-          <%#= link_to t(".actions.new_registration"), "#" %>
-        </li>
-      </ul>
+  <% if can?(:update, WasteCarriersEngine::Registration) %>
+    <div class="column-one-third">
+      <div class="wcr-actions">
+        <h2 class="heading-small">
+          <%= t(".actions.subheading") %>
+        </h2>
+        <ul>
+          <li>
+            <%= link_to t(".actions.new_registration"), ad_privacy_policy_path %>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div> -->
+  <% end %>
 </div>
 
 <% if @results.any? %>
