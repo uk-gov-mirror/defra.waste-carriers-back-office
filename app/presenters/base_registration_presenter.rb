@@ -1,6 +1,31 @@
 # frozen_string_literal: true
 
 class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
+  def display_company_details_panel?
+    company_name.present? ||
+      display_tier_and_registration_type.present? ||
+      display_expiry_text.present? ||
+      account_email.present?
+  end
+
+  def display_contact_information_panel?
+    first_name.present? ||
+      phone_number.present? ||
+      contact_email.present? ||
+      contact_address.present?
+  end
+
+  def display_business_information_panel?
+    company_name.present? ||
+      company_no.present? ||
+      registered_address.present? ||
+      location.present?
+  end
+
+  def display_tier_and_registration_type
+    [displayable_tier, displayable_business_type].compact.join(" - ")
+  end
+
   def displayable_location
     location = show_translation_or_filler(:location)
 
@@ -55,6 +80,7 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
   end
 
   def display_expiry_text
+    return unless expires_on.present?
     return unless upper_tier?
 
     if expired?
@@ -64,7 +90,30 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
     end
   end
 
+  def display_action_links_heading
+    text_path = ".shared.registrations.action_links_panel.actions_box.heading"
+    if reg_identifier.present?
+      I18n.t("#{text_path}.with_reg_identifier", reg_identifier: reg_identifier)
+    elsif company_name.present?
+      I18n.t("#{text_path}.with_company_name", company_name: company_name)
+    else
+      I18n.t("#{text_path}.without_company_name_or_reg_identifier")
+    end
+  end
+
   private
+
+  def displayable_tier
+    return unless tier.present?
+
+    I18n.t(".shared.registrations.attributes.tier.#{tier.downcase}")
+  end
+
+  def displayable_business_type
+    return unless business_type.present?
+
+    I18n.t(".shared.registrations.attributes.business_type.#{business_type}")
+  end
 
   def show_translation_or_filler(attribute)
     if send(attribute).present?

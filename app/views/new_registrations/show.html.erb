@@ -1,0 +1,51 @@
+<div class="grid-row">
+  <div class="column-full">
+    <%= render("waste_carriers_engine/shared/back", back_path: bo_path) %>
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <h1 class="heading-large">
+          <%= @transient_registration.display_heading %>
+        </h1>
+
+        <div class="panel">
+          <h2 class="heading-medium">
+            <%= t(".status.headings.in_progress") %>
+          </h2>
+
+          <% if @transient_registration.workflow_state == "worldpay_form" %>
+            <p>
+              <%= t(".status.messages.worldpay.paragraph_1") %>
+            </p>
+          <% else %>
+            <p>
+              <%= @transient_registration.display_current_workflow_state %>
+            </p>
+          <% end %>
+        </div>
+
+        <%= render "shared/registrations/company_details_panel", resource: @transient_registration %>
+
+        <%= render "shared/registrations/contact_and_business_details_panels", resource: @transient_registration %>
+
+        <hr>
+
+        <h2 class="heading-medium"><%= t(".conviction_heading") %></h2>
+        <div>
+          <p>
+            <%= @transient_registration.display_convictions_check_message %>
+          </p>
+        </div>
+
+        <hr>
+
+        <% if @transient_registration.main_people.any? %>
+          <%= render "shared/registrations/main_people_details", resource: @transient_registration %>
+        <% end %>
+      </div>
+      <div class="column-one-third">
+        <%= render "shared/registrations/action_links_panel", resource: @transient_registration %>
+      </div>
+    </div>
+  </div>
+</div>

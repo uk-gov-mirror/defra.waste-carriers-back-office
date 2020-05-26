@@ -2,7 +2,9 @@
 
 module ActionLinksHelper
   def details_link_for(resource)
-    if a_transient_registration?(resource)
+    if a_new_registration?(resource)
+      new_registration_path(resource.token)
+    elsif a_renewing_registration?(resource)
       renewing_registration_path(resource.reg_identifier)
     elsif a_registration?(resource)
       registration_path(resource.reg_identifier)
@@ -17,10 +19,6 @@ module ActionLinksHelper
     ad_privacy_policy_path(reg_identifier: resource.reg_identifier)
   end
 
-  def display_details_link_for?(resource)
-    a_transient_registration?(resource) || a_registration?(resource)
-  end
-
   def display_write_off_small_link_for?(resource)
     can?(:write_off_small, resource) && resource.balance != 0
   end
@@ -30,7 +28,7 @@ module ActionLinksHelper
   end
 
   def display_resume_link_for?(resource)
-    return false unless display_transient_registration_links?(resource)
+    return false unless display_renewing_registration_links?(resource)
     return false if resource.renewal_application_submitted?
     return false if resource.workflow_state == "worldpay_form"
 
@@ -38,7 +36,7 @@ module ActionLinksHelper
   end
 
   def display_payment_link_for?(resource)
-    return can_view_payments?(resource) unless a_transient_registration?(resource)
+    return can_view_payments?(resource) unless a_renewing_registration?(resource)
 
     resource.renewal_application_submitted? && can_view_payments?(resource)
   end
@@ -51,7 +49,7 @@ module ActionLinksHelper
 
   def display_finance_details_link_for?(resource)
     return false unless resource.upper_tier? && resource.finance_details.present?
-    return true unless a_transient_registration?(resource)
+    return true unless a_renewing_registration?(resource)
 
     resource.renewal_application_submitted?
   end
@@ -107,8 +105,8 @@ module ActionLinksHelper
 
   private
 
-  def display_transient_registration_links?(resource)
-    a_transient_registration?(resource) && not_revoked_or_refused?(resource)
+  def display_renewing_registration_links?(resource)
+    a_renewing_registration?(resource) && not_revoked_or_refused?(resource)
   end
 
   def display_registration_links?(resource)
@@ -119,7 +117,11 @@ module ActionLinksHelper
     resource.is_a?(WasteCarriersEngine::Registration) || resource.is_a?(RegistrationPresenter)
   end
 
-  def a_transient_registration?(resource)
+  def a_new_registration?(resource)
+    resource.is_a?(NewRegistrationPresenter) || resource.is_a?(WasteCarriersEngine::NewRegistration)
+  end
+
+  def a_renewing_registration?(resource)
     resource.is_a?(RenewingRegistrationPresenter) || resource.is_a?(WasteCarriersEngine::RenewingRegistration)
   end
 

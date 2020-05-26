@@ -1,0 +1,34 @@
+en:
+  new_registrations:
+    show:
+      title: "New registration details"
+      heading:
+        without_company_name: "New registration"
+        with_company_name: "New registration for %{company_name}"
+      filler: "–"
+      status:
+        headings:
+          in_progress: "Application in progress"
+        messages:
+          in_progress: "The current form is"
+          worldpay:
+            paragraph_1: "The user is currently attempting to pay by WorldPay."
+      conviction_heading: "Convictions"
+      conviction_link: "Conviction details"
+      conviction_information:
+        heading: "Conviction overview"
+        labels:
+          declared_convictions: "Declared convictions?"
+          business_conviction_search_result: "Matching convictions found for company?"
+          people_conviction_search_result: "Matching convictions found for people?"
+      attributes:
+        declaration:
+          "1": "Yes"
+        key_people:
+          number_of_people_with_matching_convictions:
+            zero: "No"
+            one: "1 match found"
+            other: "%{count} matches found"
+        key_person:
+          conviction_search_result:
+            pending: "No data yet"

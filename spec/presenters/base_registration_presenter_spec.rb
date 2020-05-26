@@ -304,13 +304,21 @@ RSpec.describe BaseRegistrationPresenter do
   describe "#display_expiry_text" do
     let(:upper_tier) { false }
     let(:expired) { false }
+    let(:expires_on) { nil }
     let(:registration) do
       double(
         :registration,
         expired?: expired,
         upper_tier?: upper_tier,
+        expires_on: expires_on,
         display_expiry_date: "1 January 2020"
       )
+    end
+
+    context "when the registration has no expiry date" do
+      it "returns nil" do
+        expect(subject.display_expiry_text).to eq(nil)
+      end
     end
 
     context "when the registration is not upper tier" do
@@ -319,7 +327,8 @@ RSpec.describe BaseRegistrationPresenter do
       end
     end
 
-    context "when the registration is upper tier" do
+    context "when the registration has an expiry date and is upper tier" do
+      let(:expires_on) { Date.new(2020, 1, 1) }
       let(:upper_tier) { true }
 
       context "when it is not expired" do
@@ -338,6 +347,44 @@ RSpec.describe BaseRegistrationPresenter do
 
           expect(subject.display_expiry_text).to eq(message)
         end
+      end
+    end
+  end
+
+  describe "#display_action_links_heading" do
+    let(:reg_identifier) { nil }
+    let(:company_name) { nil }
+    let(:registration) do
+      double(:registration,
+             reg_identifier: reg_identifier,
+             company_name: company_name)
+    end
+
+    context "when there is a reg_identifier" do
+      let(:reg_identifier) { "CBDU1234" }
+
+      it "returns a heading with the name" do
+        result = subject.display_action_links_heading
+
+        expect(result).to eq("Actions for CBDU1234")
+      end
+    end
+
+    context "when there is a company_name" do
+      let(:company_name) { "Foo" }
+
+      it "returns a heading with the name" do
+        result = subject.display_action_links_heading
+
+        expect(result).to eq("Actions for Foo")
+      end
+    end
+
+    context "when there is no company_name or reg_identifier" do
+      it "returns a heading without a name or reg_identifier" do
+        result = subject.display_action_links_heading
+
+        expect(result).to eq("Actions")
       end
     end
   end
