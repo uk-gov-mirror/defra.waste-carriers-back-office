@@ -34,7 +34,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
     let(:resource) { double(:resource, balance: balance) }
 
     before do
-      allow(helper).to receive(:can?).and_return(can)
+      allow(helper).to receive(:can?).with(:write_off_small, resource).and_return(can)
     end
 
     context "when the user has permission to write off small" do
@@ -69,10 +69,10 @@ RSpec.describe ActionLinksHelper, type: :helper do
     let(:resource) { double(:resource, balance: balance) }
 
     before do
-      allow(helper).to receive(:can?).and_return(can)
+      allow(helper).to receive(:can?).with(:write_off_large, resource).and_return(can)
     end
 
-    context "when the user has permission to write off small" do
+    context "when the user has permission to write off large" do
       let(:can) { true }
 
       context "when the balance is equal to 0" do
@@ -90,7 +90,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
       end
     end
 
-    context "when the user does not have permissions to write off small" do
+    context "when the user does not have permissions to write off large" do
       let(:can) { false }
 
       it "returns false" do
@@ -171,16 +171,20 @@ RSpec.describe ActionLinksHelper, type: :helper do
     context "when the resource is a NewRegistration" do
       let(:resource) { build(:new_registration) }
 
-      it "returns true" do
-        expect(helper.display_resume_link_for?(resource)).to eq(true)
+      context "when the user does not have permission" do
+        before { allow(helper).to receive(:can?).with(:create, WasteCarriersEngine::Registration).and_return(false) }
+
+        it "returns false" do
+          expect(helper.display_resume_link_for?(resource)).to eq(false)
+        end
       end
-    end
 
-    context "when the resource is not a RenewingRegistration" do
-      let(:resource) { build(:registration) }
+      context "when the user has permission" do
+        before { allow(helper).to receive(:can?).with(:create, WasteCarriersEngine::Registration).and_return(true) }
 
-      it "returns false" do
-        expect(helper.display_resume_link_for?(resource)).to eq(false)
+        it "returns true" do
+          expect(helper.display_resume_link_for?(resource)).to eq(true)
+        end
       end
     end
 
@@ -215,7 +219,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         before { resource.workflow_state = "location_form" }
 
         context "when the user does not have permission" do
-          before { allow(helper).to receive(:can?).and_return(false) }
+          before { allow(helper).to receive(:can?).with(:renew, resource).and_return(false) }
 
           it "returns false" do
             expect(helper.display_resume_link_for?(resource)).to eq(false)
@@ -223,12 +227,20 @@ RSpec.describe ActionLinksHelper, type: :helper do
         end
 
         context "when the user has permission" do
-          before { allow(helper).to receive(:can?).and_return(true) }
+          before { allow(helper).to receive(:can?).with(:renew, resource).and_return(true) }
 
           it "returns true" do
             expect(helper.display_resume_link_for?(resource)).to eq(true)
           end
         end
+      end
+    end
+
+    context "when the resource is not a NewRegistration or a RenewingRegistration" do
+      let(:resource) { build(:registration) }
+
+      it "returns false" do
+        expect(helper.display_resume_link_for?(resource)).to eq(false)
       end
     end
   end
@@ -292,7 +304,8 @@ RSpec.describe ActionLinksHelper, type: :helper do
       let(:resource) { build(:registration) }
 
       before do
-        allow(helper).to receive(:can?).and_return(can)
+        allow(helper).to receive(:can?).with(:revoke, resource).and_return(can)
+        allow(helper).to receive(:can?).with(:cease, resource).and_return(can)
       end
 
       context "when the user has permission for revoking" do
@@ -342,7 +355,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
       let(:resource) { build(:registration) }
 
       before do
-        allow(helper).to receive(:can?).and_return(can)
+        allow(helper).to receive(:can?).with(:cancel, WasteCarriersEngine::Registration).and_return(can)
       end
 
       context "when the user has permission for cancelling" do
@@ -684,7 +697,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         before { resource.metaData.status = %w[ACTIVE EXPIRED PENDING].sample }
 
         context "when the user does not have permission" do
-          before { allow(helper).to receive(:can?).and_return(false) }
+          before { allow(helper).to receive(:can?).with(:transfer_registration, WasteCarriersEngine::Registration).and_return(false) }
 
           it "returns false" do
             expect(helper.display_transfer_link_for?(resource)).to eq(false)
@@ -692,7 +705,7 @@ RSpec.describe ActionLinksHelper, type: :helper do
         end
 
         context "when the user has permission" do
-          before { allow(helper).to receive(:can?).and_return(true) }
+          before { allow(helper).to receive(:can?).with(:transfer_registration, WasteCarriersEngine::Registration).and_return(true) }
 
           it "returns true" do
             expect(helper.display_transfer_link_for?(resource)).to eq(true)
