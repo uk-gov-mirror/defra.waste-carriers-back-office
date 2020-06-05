@@ -80,6 +80,11 @@ Rails.application.routes.draw do
                         path: "payments/worldpay-missed",
                         path_names: { new: "" }
 
+              resources :worldpay_escapes,
+                        only: :new,
+                        path: "revert-to-payment-summary",
+                        path_names: { new: "" }
+
               resource :finance_details,
                        only: :show,
                        path: "finance-details"
@@ -160,11 +165,6 @@ Rails.application.routes.draw do
               resources :conviction_rejection_forms,
                         only: %i[new create],
                         path: "convictions/reject",
-                        path_names: { new: "" }
-
-              resources :worldpay_escapes,
-                        only: :new,
-                        path: "revert-to-payment-summary",
                         path_names: { new: "" }
             end
 
