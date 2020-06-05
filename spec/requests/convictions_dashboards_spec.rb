@@ -60,7 +60,7 @@ RSpec.describe "ConvictionsDashboards", type: :request do
     transient_registration_convictions_path(renewal.reg_identifier)
   end
 
-  let!(:link_to_checks_cancelled_registration) do
+  let!(:link_to_possible_matches_cancelled_registration) do
     registration = create(:registration, :requires_conviction_check, :cancelled)
     # Make sure it's one of the 'oldest' registrations so would be top of the list
     registration.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
@@ -74,6 +74,14 @@ RSpec.describe "ConvictionsDashboards", type: :request do
     renewal.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
 
     transient_registration_convictions_path(renewal.reg_identifier)
+  end
+
+  let!(:link_to_checks_in_progress_cancelled_registration) do
+    registration = create(:registration, :has_flagged_conviction_check, :cancelled)
+    # Make sure it's one of the 'oldest' registrations so would be top of the list
+    registration.metaData.update_attributes(last_modified: Date.new(1999, 1, 1))
+
+    transient_registration_convictions_path(registration.reg_identifier)
   end
 
   let!(:link_to_approved_renewal) do
@@ -111,7 +119,7 @@ RSpec.describe "ConvictionsDashboards", type: :request do
 
         expect(response.body).to_not include(link_to_checks_in_progress_registration)
         expect(response.body).to_not include(link_to_checks_in_progress_renewal)
-        expect(response.body).to_not include(link_to_checks_cancelled_registration)
+        expect(response.body).to_not include(link_to_possible_matches_cancelled_registration)
       end
     end
 
@@ -154,6 +162,7 @@ RSpec.describe "ConvictionsDashboards", type: :request do
         expect(response.body).to_not include(link_to_possible_matches_registration)
         expect(response.body).to_not include(link_to_new_from_frontend_registration)
         expect(response.body).to_not include(link_to_rejected_renewal)
+        expect(response.body).to_not include(link_to_checks_in_progress_cancelled_registration)
       end
     end
 
