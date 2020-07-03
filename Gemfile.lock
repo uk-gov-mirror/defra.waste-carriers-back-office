@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DEFRA/defra-ruby-features
-  revision: 4d94a5c259067b6e706dbda673d1e035ccd119cf
+  revision: 01d45f5caad159033c9885a9a7a04e6df4dae63e
   branch: main
   specs:
     defra-ruby-features (0.1.0)
