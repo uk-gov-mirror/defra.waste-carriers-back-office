@@ -2,7 +2,6 @@
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
-
   root to: "application#redirect_root_to_dashboard"
 
   scope "/bo" do
@@ -222,6 +221,8 @@ Rails.application.routes.draw do
             path_names: { new: "" }
 
   mount DefraRubyMocks::Engine => "/bo/mocks"
+
+  mount DefraRubyFeatures::Engine => "/bo/features"
 
   mount WasteCarriersEngine::Engine => "/bo", as: "basic_app_engine"
 end
