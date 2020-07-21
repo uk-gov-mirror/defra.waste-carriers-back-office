@@ -117,6 +117,7 @@ group :test do
   gem "database_cleaner"
   gem "factory_bot_rails"
   gem "rails-controller-testing"
+  gem "timecop"
 
   # Generates a test coverage report on every `bundle exec rspec` call. We use
   # the output to feed SonarCloud's stats and analysis
