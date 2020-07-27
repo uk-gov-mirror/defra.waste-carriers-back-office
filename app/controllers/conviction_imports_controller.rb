@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ConvictionImportsController < ApplicationController
+  include CanSetFlashMessages
+
   before_action :authorize
 
   def new; end
@@ -31,16 +33,14 @@ class ConvictionImportsController < ApplicationController
   def add_success_flash_message
     conviction_records_count = WasteCarriersEngine::ConvictionsCheck::Entity.count
 
-    flash[:success] = I18n.t(
-      "conviction_imports.flash_messages.successful",
-      count: conviction_records_count
+    flash_success(
+      I18n.t("conviction_imports.flash_messages.successful", count: conviction_records_count)
     )
   end
 
   def add_error_flash_message(error)
-    flash[:error] = I18n.t(
-      "conviction_imports.flash_messages.error",
-      error: error
+    flash_error(
+      I18n.t("conviction_imports.flash_messages.error", error: error), nil
     )
   end
 end
