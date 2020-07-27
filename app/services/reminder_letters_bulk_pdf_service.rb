@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FinalReminderLettersBulkPdfService < ::WasteCarriersEngine::BaseService
+class ReminderLettersBulkPdfService < ::WasteCarriersEngine::BaseService
   def run(registrations)
     return unless registrations.any?
 
@@ -8,7 +8,7 @@ class FinalReminderLettersBulkPdfService < ::WasteCarriersEngine::BaseService
 
     ApplicationController.new.render_to_string(
       pdf: true,
-      template: "final_reminder_letters/bulk",
+      template: template,
       disable_smart_shrinking: true,
       margin: { top: "20mm", bottom: "30mm", left: "20mm", right: "20mm" },
       page_size: "A4",
@@ -18,7 +18,7 @@ class FinalReminderLettersBulkPdfService < ::WasteCarriersEngine::BaseService
     )
   rescue StandardError => e
     Airbrake.notify e
-    Rails.logger.error "Generate non-AD Final reminder letters PDF bulk error:\n#{e}"
+    Rails.logger.error "Generate #{error_label} letters PDF bulk error:\n#{e}"
 
     raise e
   end
@@ -33,7 +33,17 @@ class FinalReminderLettersBulkPdfService < ::WasteCarriersEngine::BaseService
 
   def presenters
     @registrations.map do |registration|
-      FinalReminderLetterPresenter.new(registration)
+      ReminderLetterPresenter.new(registration)
     end
+  end
+
+  # Implement in subclasses
+
+  def error_label
+    raise NotImplementedError
+  end
+
+  def template
+    raise NotImplementedError
   end
 end

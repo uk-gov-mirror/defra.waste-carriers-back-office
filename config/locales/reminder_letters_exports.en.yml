@@ -1,0 +1,9 @@
+en:
+  reminder_letters_exports:
+    index:
+      table:
+        letters_label: "letter"
+      labels:
+        none_to_print: "None to print"
+        no_registrations: "No registrations"
+        printed: "%{printed_by}, %{printed_on}"

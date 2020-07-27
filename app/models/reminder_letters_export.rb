@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FinalReminderLettersExport
+class ReminderLettersExport
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -10,9 +10,9 @@ class FinalReminderLettersExport
     DELETED = "deleted"
   ].freeze
 
-  store_in collection: "final_reminder_letters_exports"
-
   validates :expires_on, uniqueness: true
+
+  store_in collection: "reminder_letters_exports"
 
   scope :not_deleted, -> { where.not(status: DELETED) }
 
@@ -23,8 +23,9 @@ class FinalReminderLettersExport
   field :printed_on, type: Date
   field :status, type: String, default: SUCCEEDED
 
+  # Implement in subclasses
   def export!
-    FinalReminderLettersExportService.run(self)
+    raise NotImplementedError
   end
 
   def printed?
