@@ -1,17 +1,77 @@
 # Changelog
 
-## [Unreleased](https://github.com/defra/waste-carriers-back-office/tree/HEAD)
+## [v1.10.0](https://github.com/defra/waste-carriers-back-office/tree/v1.10.0) (2020-07-31)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.9.1...HEAD)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.9.1...v1.10.0)
 
 **Implemented enhancements:**
 
+- Update default letter config to allow more leeway [\#984](https://github.com/DEFRA/waste-carriers-back-office/pull/984) ([irisfaraway](https://github.com/irisfaraway))
+- Show err msg when resend reminder to AD contact [\#976](https://github.com/DEFRA/waste-carriers-back-office/pull/976) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update flash message logic [\#973](https://github.com/DEFRA/waste-carriers-back-office/pull/973) ([Cruikshanks](https://github.com/Cruikshanks))
+- Show err msg when resend reminder to empty contact [\#972](https://github.com/DEFRA/waste-carriers-back-office/pull/972) ([Cruikshanks](https://github.com/Cruikshanks))
+- Implement bulk letter export for AD renewal reminders [\#966](https://github.com/DEFRA/waste-carriers-back-office/pull/966) ([irisfaraway](https://github.com/irisfaraway))
+- Add letters link to nav [\#965](https://github.com/DEFRA/waste-carriers-back-office/pull/965) ([irisfaraway](https://github.com/irisfaraway))
+- Display renewal reminder magic link in reg. detail [\#963](https://github.com/DEFRA/waste-carriers-back-office/pull/963) ([Cruikshanks](https://github.com/Cruikshanks))
+- Generate renewal token when one is requested [\#962](https://github.com/DEFRA/waste-carriers-back-office/pull/962) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update payment confirmation behaviour [\#961](https://github.com/DEFRA/waste-carriers-back-office/pull/961) ([Cruikshanks](https://github.com/Cruikshanks))
+- Tell engine we are the back-office [\#959](https://github.com/DEFRA/waste-carriers-back-office/pull/959) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add template for non-AD renewal letters [\#956](https://github.com/DEFRA/waste-carriers-back-office/pull/956) ([irisfaraway](https://github.com/irisfaraway))
+- Extend back office renewal grace period [\#953](https://github.com/DEFRA/waste-carriers-back-office/pull/953) ([irisfaraway](https://github.com/irisfaraway))
+- Allow individual pages to include page\_scripts [\#950](https://github.com/DEFRA/waste-carriers-back-office/pull/950) ([irisfaraway](https://github.com/irisfaraway))
+- Add payment confirmation email to view details [\#948](https://github.com/DEFRA/waste-carriers-back-office/pull/948) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update privacy policy link txt in AD page [\#946](https://github.com/DEFRA/waste-carriers-back-office/pull/946) ([Cruikshanks](https://github.com/Cruikshanks))
+- Remove link to certificate from renewal complete [\#945](https://github.com/DEFRA/waste-carriers-back-office/pull/945) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update defra-ruby-aws to encryption configurable [\#941](https://github.com/DEFRA/waste-carriers-back-office/pull/941) ([Cruikshanks](https://github.com/Cruikshanks))
+- Toggle where new registration redirects to [\#933](https://github.com/DEFRA/waste-carriers-back-office/pull/933) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add link to menu to feature toggles [\#928](https://github.com/DEFRA/waste-carriers-back-office/pull/928) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add final reminder letters dashboard [\#924](https://github.com/DEFRA/waste-carriers-back-office/pull/924) ([cintamani](https://github.com/cintamani))
+- Integrate feature toggles engine [\#922](https://github.com/DEFRA/waste-carriers-back-office/pull/922) ([cintamani](https://github.com/cintamani))
+- Amend acceptance test seed API for expires\_on [\#921](https://github.com/DEFRA/waste-carriers-back-office/pull/921) ([Cruikshanks](https://github.com/Cruikshanks))
 - Update registration seeding API [\#919](https://github.com/DEFRA/waste-carriers-back-office/pull/919) ([cintamani](https://github.com/cintamani))
 - Update defra-ruby-aws to AWS:KMS version [\#918](https://github.com/DEFRA/waste-carriers-back-office/pull/918) ([Cruikshanks](https://github.com/Cruikshanks))
+- Upgrade ruby and rails versions [\#915](https://github.com/DEFRA/waste-carriers-back-office/pull/915) ([cintamani](https://github.com/cintamani))
 
 **Fixed bugs:**
 
+- Don't enforce expiry date uniqueness across exports [\#983](https://github.com/DEFRA/waste-carriers-back-office/pull/983) ([irisfaraway](https://github.com/irisfaraway))
+- Don't hardcode EA email into digital reminder letter [\#982](https://github.com/DEFRA/waste-carriers-back-office/pull/982) ([irisfaraway](https://github.com/irisfaraway))
+- Add missing quote [\#981](https://github.com/DEFRA/waste-carriers-back-office/pull/981) ([irisfaraway](https://github.com/irisfaraway))
+- Don't allow resending/sharing of magic link emails that users can't use [\#980](https://github.com/DEFRA/waste-carriers-back-office/pull/980) ([irisfaraway](https://github.com/irisfaraway))
+- Only display renew/new reg links to those who can use them [\#975](https://github.com/DEFRA/waste-carriers-back-office/pull/975) ([irisfaraway](https://github.com/irisfaraway))
+- Fix broken renewal link panel [\#971](https://github.com/DEFRA/waste-carriers-back-office/pull/971) ([Cruikshanks](https://github.com/Cruikshanks))
+- Do not copy receipt\_email when init. renewal [\#967](https://github.com/DEFRA/waste-carriers-back-office/pull/967) ([Cruikshanks](https://github.com/Cruikshanks))
+- Remove create new reg. link if feature disabled [\#952](https://github.com/DEFRA/waste-carriers-back-office/pull/952) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update link to privacy policy [\#930](https://github.com/DEFRA/waste-carriers-back-office/pull/930) ([irisfaraway](https://github.com/irisfaraway))
+- Fix defra-ruby-features ActiveRecord error [\#927](https://github.com/DEFRA/waste-carriers-back-office/pull/927) ([Cruikshanks](https://github.com/Cruikshanks))
 - Convert max transient reg age in days to integer [\#920](https://github.com/DEFRA/waste-carriers-back-office/pull/920) ([irisfaraway](https://github.com/irisfaraway))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `59c6732` to `878d417` [\#979](https://github.com/DEFRA/waste-carriers-back-office/pull/979) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump defra\_ruby\_features from 0.1.0 to 0.1.1 [\#978](https://github.com/DEFRA/waste-carriers-back-office/pull/978) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `531fc39` to `59c6732` [\#977](https://github.com/DEFRA/waste-carriers-back-office/pull/977) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `3c3a6cb` to `531fc39` [\#970](https://github.com/DEFRA/waste-carriers-back-office/pull/970) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update whenever to latest [\#968](https://github.com/DEFRA/waste-carriers-back-office/pull/968) ([Cruikshanks](https://github.com/Cruikshanks))
+- Merge email\_reminders and renew\_via\_magic\_link [\#964](https://github.com/DEFRA/waste-carriers-back-office/pull/964) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add extend grace window toggle to .yml file [\#958](https://github.com/DEFRA/waste-carriers-back-office/pull/958) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump waste\_carriers\_engine from `1eb289d` to `5f43afa` [\#957](https://github.com/DEFRA/waste-carriers-back-office/pull/957) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `8f00002` to `1eb289d` [\#955](https://github.com/DEFRA/waste-carriers-back-office/pull/955) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `cbb6789` to `8f00002` [\#947](https://github.com/DEFRA/waste-carriers-back-office/pull/947) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Switch defra-ruby-features to rubygems [\#944](https://github.com/DEFRA/waste-carriers-back-office/pull/944) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump defra-ruby-features from `2442a62` to `e2add40` [\#943](https://github.com/DEFRA/waste-carriers-back-office/pull/943) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update defra-ruby-alert to use blocklist [\#942](https://github.com/DEFRA/waste-carriers-back-office/pull/942) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump dotenv-rails from 2.7.5 to 2.7.6 [\#940](https://github.com/DEFRA/waste-carriers-back-office/pull/940) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump web-console from 4.0.3 to 4.0.4 [\#939](https://github.com/DEFRA/waste-carriers-back-office/pull/939) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `63b8003` to `af6ff54` [\#937](https://github.com/DEFRA/waste-carriers-back-office/pull/937) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump defra-ruby-features from `01d45f5` to `2442a62` [\#936](https://github.com/DEFRA/waste-carriers-back-office/pull/936) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `1cf3939` to `63b8003` [\#935](https://github.com/DEFRA/waste-carriers-back-office/pull/935) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump factory\_bot\_rails from 6.0.0 to 6.1.0 [\#934](https://github.com/DEFRA/waste-carriers-back-office/pull/934) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `344bdb7` to `1cf3939` [\#932](https://github.com/DEFRA/waste-carriers-back-office/pull/932) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `e237c00` to `344bdb7` [\#931](https://github.com/DEFRA/waste-carriers-back-office/pull/931) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `2e42dfb` to `e237c00` [\#929](https://github.com/DEFRA/waste-carriers-back-office/pull/929) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Changes need to support switch to 'main' branch [\#925](https://github.com/DEFRA/waste-carriers-back-office/pull/925) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump waste\_carriers\_engine from `d1a9a53` to `342b2e7` [\#923](https://github.com/DEFRA/waste-carriers-back-office/pull/923) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v1.9.1](https://github.com/defra/waste-carriers-back-office/tree/v1.9.1) (2020-06-18)
 
@@ -27,7 +87,7 @@
 
 ## [v1.9.0](https://github.com/defra/waste-carriers-back-office/tree/v1.9.0) (2020-06-18)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.3...v1.9.0)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.2...v1.9.0)
 
 **Implemented enhancements:**
 
@@ -70,6 +130,7 @@
 
 **Fixed bugs:**
 
+- Correct reminder email default values [\#912](https://github.com/DEFRA/waste-carriers-back-office/pull/912) ([andrewhick](https://github.com/andrewhick))
 - Move .cancelled scope in convictions dashboard [\#897](https://github.com/DEFRA/waste-carriers-back-office/pull/897) ([irisfaraway](https://github.com/irisfaraway))
 - Restore registration type instead of business type [\#883](https://github.com/DEFRA/waste-carriers-back-office/pull/883) ([cintamani](https://github.com/cintamani))
 - Update .travis.yml [\#863](https://github.com/DEFRA/waste-carriers-back-office/pull/863) ([cintamani](https://github.com/cintamani))
@@ -86,7 +147,6 @@
 
 - Bump waste\_carriers\_engine from `cd29ed5` to `35af4c3` [\#914](https://github.com/DEFRA/waste-carriers-back-office/pull/914) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `4cc7970` to `cd29ed5` [\#913](https://github.com/DEFRA/waste-carriers-back-office/pull/913) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Correct reminder email default values [\#912](https://github.com/DEFRA/waste-carriers-back-office/pull/912) ([andrewhick](https://github.com/andrewhick))
 - Bump wicked\_pdf from 2.0.2 to 2.1.0 [\#911](https://github.com/DEFRA/waste-carriers-back-office/pull/911) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump defra\_ruby\_style from 0.2.1 to 0.2.2 [\#910](https://github.com/DEFRA/waste-carriers-back-office/pull/910) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `0e4c50d` to `4cc7970` [\#909](https://github.com/DEFRA/waste-carriers-back-office/pull/909) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -140,13 +200,13 @@
 - Bump waste\_carriers\_engine from `46ec95b` to `336551e` [\#818](https://github.com/DEFRA/waste-carriers-back-office/pull/818) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `2799dbf` to `46ec95b` [\#813](https://github.com/DEFRA/waste-carriers-back-office/pull/813) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
-## [v1.8.3](https://github.com/defra/waste-carriers-back-office/tree/v1.8.3) (2020-05-12)
-
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.2...v1.8.3)
-
 ## [v1.8.2](https://github.com/defra/waste-carriers-back-office/tree/v1.8.2) (2020-05-12)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...v1.8.2)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.3...v1.8.2)
+
+## [v1.8.3](https://github.com/defra/waste-carriers-back-office/tree/v1.8.3) (2020-05-12)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...v1.8.3)
 
 ## [v1.8.1](https://github.com/defra/waste-carriers-back-office/tree/v1.8.1) (2020-04-17)
 
@@ -684,6 +744,7 @@
 - Bump waste\_carriers\_engine from `b03350d` to `61acc6d` [\#338](https://github.com/DEFRA/waste-carriers-back-office/pull/338) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump simplecov from 0.16.1 to 0.17.0 [\#337](https://github.com/DEFRA/waste-carriers-back-office/pull/337) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `a0c211c` to `b03350d` [\#336](https://github.com/DEFRA/waste-carriers-back-office/pull/336) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump dotenv-rails from 2.7.2 to 2.7.4 [\#334](https://github.com/DEFRA/waste-carriers-back-office/pull/334) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v1.4.3](https://github.com/defra/waste-carriers-back-office/tree/v1.4.3) (2019-06-25)
 
@@ -702,7 +763,6 @@
 **Merged pull requests:**
 
 - Bump waste\_carriers\_engine from `65a0536` to `a0c211c` [\#335](https://github.com/DEFRA/waste-carriers-back-office/pull/335) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump dotenv-rails from 2.7.2 to 2.7.4 [\#334](https://github.com/DEFRA/waste-carriers-back-office/pull/334) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `6f4fdc0` to `65a0536` [\#333](https://github.com/DEFRA/waste-carriers-back-office/pull/333) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump spring from 2.0.2 to 2.1.0 [\#331](https://github.com/DEFRA/waste-carriers-back-office/pull/331) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump jquery-rails from 4.3.3 to 4.3.5 [\#330](https://github.com/DEFRA/waste-carriers-back-office/pull/330) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
