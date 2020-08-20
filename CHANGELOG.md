@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.10.1](https://github.com/defra/waste-carriers-back-office/tree/v1.10.1) (2020-08-20)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.10.0...v1.10.1)
+
+**Fixed bugs:**
+
+- Fix criteria for renewal reminders [\#985](https://github.com/DEFRA/waste-carriers-back-office/pull/985) ([
+irisfaraway](https://github.com/irisfaraway))
+
 ## [v1.10.0](https://github.com/defra/waste-carriers-back-office/tree/v1.10.0) (2020-07-31)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.9.1...v1.10.0)
