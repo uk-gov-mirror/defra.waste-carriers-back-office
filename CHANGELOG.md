@@ -1,5 +1,38 @@
 # Changelog
 
+## [v1.12.0](https://github.com/defra/waste-carriers-back-office/tree/v1.12.0) (2020-12-10)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.11.1...v1.12.0)
+
+**Implemented enhancements:**
+
+- Upload EPR exports to EPR folder [\#1027](https://github.com/DEFRA/waste-carriers-back-office/pull/1027) ([irisfaraway](https://github.com/irisfaraway))
+
+**Fixed bugs:**
+
+- Temporarily lock Mongoid version to 7.1 [\#1030](https://github.com/DEFRA/waste-carriers-back-office/pull/1030) ([irisfaraway](https://github.com/irisfaraway))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `532f941` to `e9e26bd` [\#1032](https://github.com/DEFRA/waste-carriers-back-office/pull/1032) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `b939962` to `532f941` [\#1031](https://github.com/DEFRA/waste-carriers-back-office/pull/1031) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Create Dependabot config file [\#1025](https://github.com/DEFRA/waste-carriers-back-office/pull/1025) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Switch from Travis CI to GitHub Actions [\#1024](https://github.com/DEFRA/waste-carriers-back-office/pull/1024) ([irisfaraway](https://github.com/irisfaraway))
+- Bump mongoid from 7.1.5 to 7.2.0 [\#1023](https://github.com/DEFRA/waste-carriers-back-office/pull/1023) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump aws-healthcheck from 1.0.1 to 2.0.0 [\#1022](https://github.com/DEFRA/waste-carriers-back-office/pull/1022) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.9.4 to 3.10.0 [\#1021](https://github.com/DEFRA/waste-carriers-back-office/pull/1021) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `2a90a09` to `b939962` [\#1018](https://github.com/DEFRA/waste-carriers-back-office/pull/1018) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump mongoid from 7.1.4 to 7.1.5 [\#1017](https://github.com/DEFRA/waste-carriers-back-office/pull/1017) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.9.3 to 3.9.4 [\#1016](https://github.com/DEFRA/waste-carriers-back-office/pull/1016) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump web-console from 4.0.4 to 4.1.0 [\#1015](https://github.com/DEFRA/waste-carriers-back-office/pull/1015) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `4541b1e` to `2a90a09` [\#1014](https://github.com/DEFRA/waste-carriers-back-office/pull/1014) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.9.2 to 3.9.3 [\#1013](https://github.com/DEFRA/waste-carriers-back-office/pull/1013) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump timecop from 0.9.1 to 0.9.2 [\#1012](https://github.com/DEFRA/waste-carriers-back-office/pull/1012) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `17b6a15` to `4541b1e` [\#1011](https://github.com/DEFRA/waste-carriers-back-office/pull/1011) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `f435a15` to `17b6a15` [\#1010](https://github.com/DEFRA/waste-carriers-back-office/pull/1010) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump mongoid from 7.1.2 to 7.1.3 [\#1008](https://github.com/DEFRA/waste-carriers-back-office/pull/1008) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.9.1 to 3.9.2 [\#1006](https://github.com/DEFRA/waste-carriers-back-office/pull/1006) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [v1.11.1](https://github.com/defra/waste-carriers-back-office/tree/v1.11.1) (2020-10-12)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.11.0...v1.11.1)
@@ -134,7 +167,7 @@
 
 ## [v1.9.0](https://github.com/defra/waste-carriers-back-office/tree/v1.9.0) (2020-06-18)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.3...v1.9.0)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.2...v1.9.0)
 
 **Implemented enhancements:**
 
@@ -247,13 +280,13 @@
 - Bump waste\_carriers\_engine from `46ec95b` to `336551e` [\#818](https://github.com/DEFRA/waste-carriers-back-office/pull/818) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `2799dbf` to `46ec95b` [\#813](https://github.com/DEFRA/waste-carriers-back-office/pull/813) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
-## [v1.8.3](https://github.com/defra/waste-carriers-back-office/tree/v1.8.3) (2020-05-12)
-
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.2...v1.8.3)
-
 ## [v1.8.2](https://github.com/defra/waste-carriers-back-office/tree/v1.8.2) (2020-05-12)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...v1.8.2)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.3...v1.8.2)
+
+## [v1.8.3](https://github.com/defra/waste-carriers-back-office/tree/v1.8.3) (2020-05-12)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...v1.8.3)
 
 ## [v1.8.1](https://github.com/defra/waste-carriers-back-office/tree/v1.8.1) (2020-04-17)
 
@@ -1032,7 +1065,6 @@
 
 - Improve address update rake task [\#150](https://github.com/DEFRA/waste-carriers-back-office/pull/150) ([irisfaraway](https://github.com/irisfaraway))
 - Add missing translation for overseas business types [\#145](https://github.com/DEFRA/waste-carriers-back-office/pull/145) ([irisfaraway](https://github.com/irisfaraway))
-- Add rake task to fix addresses in incorrect format [\#143](https://github.com/DEFRA/waste-carriers-back-office/pull/143) ([irisfaraway](https://github.com/irisfaraway))
 
 **Merged pull requests:**
 
@@ -1047,6 +1079,7 @@
 
 **Fixed bugs:**
 
+- Add rake task to fix addresses in incorrect format [\#143](https://github.com/DEFRA/waste-carriers-back-office/pull/143) ([irisfaraway](https://github.com/irisfaraway))
 - Use shared displayable\_address method for displaying addresses [\#141](https://github.com/DEFRA/waste-carriers-back-office/pull/141) ([irisfaraway](https://github.com/irisfaraway))
 -  Don't automatically list all renewals in back office dashboard [\#140](https://github.com/DEFRA/waste-carriers-back-office/pull/140) ([irisfaraway](https://github.com/irisfaraway))
 
@@ -1085,7 +1118,6 @@
 **Fixed bugs:**
 
 - Fix finish link not going to backend [\#132](https://github.com/DEFRA/waste-carriers-back-office/pull/132) ([Cruikshanks](https://github.com/Cruikshanks))
-- Stop users accessing pages with back button after signout [\#125](https://github.com/DEFRA/waste-carriers-back-office/pull/125) ([irisfaraway](https://github.com/irisfaraway))
 
 **Merged pull requests:**
 
@@ -1110,6 +1142,7 @@
 
 **Fixed bugs:**
 
+- Stop users accessing pages with back button after signout [\#125](https://github.com/DEFRA/waste-carriers-back-office/pull/125) ([irisfaraway](https://github.com/irisfaraway))
 - Set link for header title to be /bo [\#82](https://github.com/DEFRA/waste-carriers-back-office/pull/82) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix routing to ensure /bo/ path is included [\#75](https://github.com/DEFRA/waste-carriers-back-office/pull/75) ([Cruikshanks](https://github.com/Cruikshanks))
 - Ignore Passengerfile.json [\#29](https://github.com/DEFRA/waste-carriers-back-office/pull/29) ([Cruikshanks](https://github.com/Cruikshanks))
