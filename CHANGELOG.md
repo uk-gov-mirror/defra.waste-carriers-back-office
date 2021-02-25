@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.12.2](https://github.com/defra/waste-carriers-back-office/tree/v1.12.2) (2021-02-25)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.12.1...v1.12.2)
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `5f83f4f` to `640aca1` [\#1053](https://github.com/DEFRA/waste-carriers-back-office/pull/1053) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump webmock from 3.11.2 to 3.11.3 [\#1052](https://github.com/DEFRA/waste-carriers-back-office/pull/1052) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mongoid from 7.1.6 to 7.1.7 [\#1051](https://github.com/DEFRA/waste-carriers-back-office/pull/1051) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.12.1](https://github.com/defra/waste-carriers-back-office/tree/v1.12.1) (2021-02-18)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.12.0...v1.12.1)
@@ -187,7 +197,7 @@
 
 ## [v1.9.0](https://github.com/defra/waste-carriers-back-office/tree/v1.9.0) (2020-06-18)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.3...v1.9.0)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.2...v1.9.0)
 
 **Implemented enhancements:**
 
@@ -300,13 +310,13 @@
 - Bump waste\_carriers\_engine from `46ec95b` to `336551e` [\#818](https://github.com/DEFRA/waste-carriers-back-office/pull/818) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `2799dbf` to `46ec95b` [\#813](https://github.com/DEFRA/waste-carriers-back-office/pull/813) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
-## [v1.8.3](https://github.com/defra/waste-carriers-back-office/tree/v1.8.3) (2020-05-12)
-
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.2...v1.8.3)
-
 ## [v1.8.2](https://github.com/defra/waste-carriers-back-office/tree/v1.8.2) (2020-05-12)
 
-[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...v1.8.2)
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.3...v1.8.2)
+
+## [v1.8.3](https://github.com/defra/waste-carriers-back-office/tree/v1.8.3) (2020-05-12)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.8.1...v1.8.3)
 
 ## [v1.8.1](https://github.com/defra/waste-carriers-back-office/tree/v1.8.1) (2020-04-17)
 
@@ -1016,6 +1026,7 @@
 
 **Merged pull requests:**
 
+- Bump uglifier from 4.1.19 to 4.1.20 [\#193](https://github.com/DEFRA/waste-carriers-back-office/pull/193) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `d83e3b4` to `e283ec6` [\#190](https://github.com/DEFRA/waste-carriers-back-office/pull/190) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `b95d5ce` to `d83e3b4` [\#189](https://github.com/DEFRA/waste-carriers-back-office/pull/189) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `c9d8c00` to `b95d5ce` [\#188](https://github.com/DEFRA/waste-carriers-back-office/pull/188) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -1052,7 +1063,6 @@
 
 **Merged pull requests:**
 
-- Bump uglifier from 4.1.19 to 4.1.20 [\#193](https://github.com/DEFRA/waste-carriers-back-office/pull/193) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `b535c6c` to `c9d8c00` [\#184](https://github.com/DEFRA/waste-carriers-back-office/pull/184) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump passenger from 5.3.6 to 5.3.7 [\#183](https://github.com/DEFRA/waste-carriers-back-office/pull/183) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump govuk\_template from 0.24.1 to 0.25.0 [\#177](https://github.com/DEFRA/waste-carriers-back-office/pull/177) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -1093,6 +1103,7 @@
 - Bump devise\_invitable from 1.7.4 to 1.7.5 [\#148](https://github.com/DEFRA/waste-carriers-back-office/pull/148) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `d6b6696` to `231e839` [\#146](https://github.com/DEFRA/waste-carriers-back-office/pull/146) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `3565d4e` to `d6b6696` [\#144](https://github.com/DEFRA/waste-carriers-back-office/pull/144) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `4297b34` to `3565d4e` [\#142](https://github.com/DEFRA/waste-carriers-back-office/pull/142) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v1.2.1](https://github.com/defra/waste-carriers-back-office/tree/v1.2.1) (2018-10-11)
 
@@ -1105,8 +1116,8 @@
 
 **Merged pull requests:**
 
-- Bump waste\_carriers\_engine from `4297b34` to `3565d4e` [\#142](https://github.com/DEFRA/waste-carriers-back-office/pull/142) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump waste\_carriers\_engine from `0f1f11b` to `4297b34` [\#139](https://github.com/DEFRA/waste-carriers-back-office/pull/139) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump waste\_carriers\_engine from `75a23f7` to `0f1f11b` [\#137](https://github.com/DEFRA/waste-carriers-back-office/pull/137) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v1.2](https://github.com/defra/waste-carriers-back-office/tree/v1.2) (2018-10-05)
 
@@ -1116,14 +1127,11 @@
 
 - Agency super users inherit normal agency permissions [\#138](https://github.com/DEFRA/waste-carriers-back-office/pull/138) ([irisfaraway](https://github.com/irisfaraway))
 - NCCC users can send renewal stuck in WorldPay back to payment summary [\#136](https://github.com/DEFRA/waste-carriers-back-office/pull/136) ([irisfaraway](https://github.com/irisfaraway))
+- Better renewal end screens for back office users [\#130](https://github.com/DEFRA/waste-carriers-back-office/pull/130) ([irisfaraway](https://github.com/irisfaraway))
 
 **Security fixes:**
 
 - \[Security\] Bump nokogiri from 1.8.4 to 1.8.5 [\#134](https://github.com/DEFRA/waste-carriers-back-office/pull/134) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-
-**Merged pull requests:**
-
-- Bump waste\_carriers\_engine from `75a23f7` to `0f1f11b` [\#137](https://github.com/DEFRA/waste-carriers-back-office/pull/137) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v1.1](https://github.com/defra/waste-carriers-back-office/tree/v1.1) (2018-09-27)
 
@@ -1131,7 +1139,6 @@
 
 **Implemented enhancements:**
 
-- Better renewal end screens for back office users [\#130](https://github.com/DEFRA/waste-carriers-back-office/pull/130) ([irisfaraway](https://github.com/irisfaraway))
 - Clarify account\_email label on transient\_registration page [\#128](https://github.com/DEFRA/waste-carriers-back-office/pull/128) ([irisfaraway](https://github.com/irisfaraway))
 - Invalidate user session cookies after logout [\#124](https://github.com/DEFRA/waste-carriers-back-office/pull/124) ([irisfaraway](https://github.com/irisfaraway))
 
