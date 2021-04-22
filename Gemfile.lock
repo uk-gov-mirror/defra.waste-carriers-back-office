@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: 27afb7aba1f89e29cdd3515623171b2c75e008eb
-  branch: main
+  revision: ab19a6bd5f3eb1e8b08357e0ec92a1cfb91cd6fe
+  branch: feature/send-pending-payment-with-notify
   specs:
     waste_carriers_engine (0.0.1)
       aasm (~> 4.12)
