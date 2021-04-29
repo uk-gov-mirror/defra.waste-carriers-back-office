@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ResendRenewalEmailController < ApplicationController
+class ResendConfirmationEmailController < ApplicationController
   include CanSetFlashMessages
   include CanResendEmail
 
@@ -10,17 +10,17 @@ class ResendRenewalEmailController < ApplicationController
     begin
       validate_contact_email(registration)
 
-      Notify::RenewalReminderEmailService.run(registration: registration)
+      WasteCarriersEngine::Notify::RegistrationActivatedEmailService.run(registration: registration)
 
       flash_success(
-        I18n.t("resend_renewal_email.messages.success", email: registration.contact_email)
+        I18n.t("resend_confirmation_email.messages.success", email: registration.contact_email)
       )
     rescue Exceptions::MissingContactEmailError
-      handle_missing_contact_email(:resend_renewal_email)
+      handle_missing_contact_email(:resend_confirmation_email)
     rescue Exceptions::AssistedDigitalContactEmailError
-      handle_assisted_digital_contact_email(:resend_renewal_email)
+      handle_assisted_digital_contact_email(:resend_confirmation_email)
     rescue StandardError => e
-      handle_resend_errored(e, :resend_renewal_email, "resending renewal email")
+      handle_resend_errored(e, :resend_confirmation_email, "resending confirmation email")
     end
 
     redirect_back(fallback_location: "/")
@@ -29,7 +29,7 @@ class ResendRenewalEmailController < ApplicationController
   private
 
   def authenticate_user!
-    authorize! :renew, WasteCarriersEngine::Registration
+    authorize! :resend_confirmation_email, WasteCarriersEngine::Registration
   end
 
   def registration
