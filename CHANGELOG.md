@@ -1,5 +1,32 @@
 # Changelog
 
+## [v1.13.1](https://github.com/defra/waste-carriers-back-office/tree/v1.13.1) (2021-04-30)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.13.0...v1.13.1)
+
+**Implemented enhancements:**
+
+- Re-send confirmation emails from Notify on demand [\#1088](https://github.com/DEFRA/waste-carriers-back-office/pull/1088) ([tobyprivett](https://github.com/tobyprivett))
+- Re-send second renewal reminder emails with notify [\#1087](https://github.com/DEFRA/waste-carriers-back-office/pull/1087) ([tobyprivett](https://github.com/tobyprivett))
+- Send second reminder emails from Notify [\#1085](https://github.com/DEFRA/waste-carriers-back-office/pull/1085) ([tobyprivett](https://github.com/tobyprivett))
+- Send first reminder emails from Notify [\#1083](https://github.com/DEFRA/waste-carriers-back-office/pull/1083) ([tobyprivett](https://github.com/tobyprivett))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `00e44a4` to `7b84563` [\#1093](https://github.com/DEFRA/waste-carriers-back-office/pull/1093) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump gem: rexml in response to: CVE-2021-28965 [\#1092](https://github.com/DEFRA/waste-carriers-back-office/pull/1092) ([tobyprivett](https://github.com/tobyprivett))
+- Bump waste\_carriers\_engine from `2950a08` to `00e44a4` [\#1091](https://github.com/DEFRA/waste-carriers-back-office/pull/1091) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump devise from 4.7.3 to 4.8.0 [\#1090](https://github.com/DEFRA/waste-carriers-back-office/pull/1090) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github\_changelog\_generator from 1.16.1 to 1.16.2 [\#1089](https://github.com/DEFRA/waste-carriers-back-office/pull/1089) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Fix spec that depends on CI's World Pay URL [\#1086](https://github.com/DEFRA/waste-carriers-back-office/pull/1086) ([tobyprivett](https://github.com/tobyprivett))
+- Bump waste\_carriers\_engine from `7bb410d` to `2950a08` [\#1084](https://github.com/DEFRA/waste-carriers-back-office/pull/1084) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump cancancan [\#1082](https://github.com/DEFRA/waste-carriers-back-office/pull/1082) ([tobyprivett](https://github.com/tobyprivett))
+- Bump waste\_carriers\_engine from `3981d0f` to `7bb410d` [\#1081](https://github.com/DEFRA/waste-carriers-back-office/pull/1081) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `27afb7a` to `3981d0f` [\#1080](https://github.com/DEFRA/waste-carriers-back-office/pull/1080) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `53c7610` to `27afb7a` [\#1079](https://github.com/DEFRA/waste-carriers-back-office/pull/1079) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `f47a9cf` to `53c7610` [\#1078](https://github.com/DEFRA/waste-carriers-back-office/pull/1078) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `2e5cd06` to `f47a9cf` [\#1077](https://github.com/DEFRA/waste-carriers-back-office/pull/1077) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.13.0](https://github.com/defra/waste-carriers-back-office/tree/v1.13.0) (2021-04-11)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.12.2...v1.13.0)
