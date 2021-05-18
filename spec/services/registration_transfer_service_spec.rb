@@ -34,25 +34,29 @@ RSpec.describe RegistrationTransferService do
         end
       end
 
-      it "sends an email" do
-        old_emails_sent_count = ActionMailer::Base.deliveries.count
-        run_service
-        expect(ActionMailer::Base.deliveries.count).to eq(old_emails_sent_count + 1)
-      end
-
-      it "sends an email to the correct address" do
-        run_service
-        last_delivery = ActionMailer::Base.deliveries.last
-        expect(last_delivery.header["to"].value).to eq(recipient_email)
-      end
-
-      it "returns :success_existing_user" do
-        expect(run_service).to eq(:success_existing_user)
-      end
-
-      context "when the mailer encounters an error" do
+      context "when the notify service is called" do
         before do
-          allow(RegistrationTransferMailer).to receive(:transfer_to_existing_account_email).and_raise(StandardError)
+          expect(Notify::RegistrationTransferEmailService)
+            .to receive(:run)
+            .with(registration: registration)
+            .once
+        end
+
+        it "updates the registration's account_email" do
+          run_service
+          expect(registration.reload.account_email).to eq(recipient_email)
+        end
+
+        it "returns :success_existing_user" do
+          expect(run_service).to eq(:success_existing_user)
+        end
+      end
+
+      context "when the notify service encounters an error" do
+        before do
+          allow(Notify::RegistrationTransferEmailService)
+            .to receive(:run)
+            .and_raise(StandardError)
         end
 
         it "returns :success_existing_user" do
@@ -90,20 +94,40 @@ RSpec.describe RegistrationTransferService do
         end
       end
 
-      it "sends an email" do
-        old_emails_sent_count = ActionMailer::Base.deliveries.count
-        run_service
-        expect(ActionMailer::Base.deliveries.count).to eq(old_emails_sent_count + 1)
+      context "when the notify service is called" do
+        before do
+          token = double(:token)
+
+          allow_any_instance_of(ExternalUser)
+            .to receive(:raw_invitation_token)
+            .and_return(token)
+
+          expect(Notify::RegistrationTransferWithInviteEmailService)
+            .to receive(:run)
+            .with(registration: registration, token: token)
+            .once
+        end
+
+        it "updates the registration's account_email" do
+          run_service
+          expect(registration.reload.account_email).to eq(recipient_email)
+        end
+
+        it "returns :success_existing_user" do
+          expect(run_service).to eq(:success_new_user)
+        end
       end
 
-      it "sends an email to the correct address" do
-        run_service
-        last_delivery = ActionMailer::Base.deliveries.last
-        expect(last_delivery.header["to"].value).to eq(recipient_email)
-      end
+      context "when the notify service encounters an error" do
+        before do
+          allow(Notify::RegistrationTransferWithInviteEmailService)
+            .to receive(:run)
+            .and_raise(StandardError)
+        end
 
-      it "returns :success_new_user" do
-        expect(run_service).to eq(:success_new_user)
+        it "returns :success_existing_user" do
+          expect(run_service).to eq(:success_new_user)
+        end
       end
     end
 
