@@ -1,5 +1,37 @@
 # Changelog
 
+## [v1.13.2](https://github.com/defra/waste-carriers-back-office/tree/v1.13.2) (2021-05-24)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.13.1...v1.13.2)
+
+**Implemented enhancements:**
+
+- Handle no account\_email on registration transfer page [\#1117](https://github.com/DEFRA/waste-carriers-back-office/pull/1117) ([tobyprivett](https://github.com/tobyprivett))
+- Integrate account transfer email in Notify [\#1114](https://github.com/DEFRA/waste-carriers-back-office/pull/1114) ([tobyprivett](https://github.com/tobyprivett))
+
+**Fixed bugs:**
+
+- Fix the Registration Transfer email validation [\#1118](https://github.com/DEFRA/waste-carriers-back-office/pull/1118) ([tobyprivett](https://github.com/tobyprivett))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `b7753be` to `8a3b5d1` [\#1116](https://github.com/DEFRA/waste-carriers-back-office/pull/1116) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `322e175` to `b7753be` [\#1115](https://github.com/DEFRA/waste-carriers-back-office/pull/1115) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump github\_changelog\_generator from 1.16.2 to 1.16.3 [\#1112](https://github.com/DEFRA/waste-carriers-back-office/pull/1112) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump webmock from 3.12.2 to 3.13.0 [\#1111](https://github.com/DEFRA/waste-carriers-back-office/pull/1111) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `b407cd4` to `322e175` [\#1110](https://github.com/DEFRA/waste-carriers-back-office/pull/1110) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mongoid gem to 7.3 [\#1109](https://github.com/DEFRA/waste-carriers-back-office/pull/1109) ([tobyprivett](https://github.com/tobyprivett))
+- Remove redundant AD Letter functionality [\#1108](https://github.com/DEFRA/waste-carriers-back-office/pull/1108) ([tobyprivett](https://github.com/tobyprivett))
+- Refactor the notify services into a Notify scope [\#1107](https://github.com/DEFRA/waste-carriers-back-office/pull/1107) ([tobyprivett](https://github.com/tobyprivett))
+- Rename a Notify service that has been changed in the engine [\#1106](https://github.com/DEFRA/waste-carriers-back-office/pull/1106) ([tobyprivett](https://github.com/tobyprivett))
+- Bump waste\_carriers\_engine from `5e1031b` to `c4435c9` [\#1104](https://github.com/DEFRA/waste-carriers-back-office/pull/1104) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump factory\_bot\_rails from 6.1.0 to 6.2.0 [\#1103](https://github.com/DEFRA/waste-carriers-back-office/pull/1103) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mongoid from 7.1.7 to 7.1.8 [\#1102](https://github.com/DEFRA/waste-carriers-back-office/pull/1102) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `bc5a0a5` to `5e1031b` [\#1100](https://github.com/DEFRA/waste-carriers-back-office/pull/1100) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `d00f684` to `bc5a0a5` [\#1099](https://github.com/DEFRA/waste-carriers-back-office/pull/1099) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `7b84563` to `d00f684` [\#1098](https://github.com/DEFRA/waste-carriers-back-office/pull/1098) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rails and rdoc: CVE-2021-31799 / 22902 / 22904 [\#1097](https://github.com/DEFRA/waste-carriers-back-office/pull/1097) ([tobyprivett](https://github.com/tobyprivett))
+
 ## [v1.13.1](https://github.com/defra/waste-carriers-back-office/tree/v1.13.1) (2021-04-30)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.13.0...v1.13.1)
