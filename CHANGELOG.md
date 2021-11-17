@@ -1,5 +1,23 @@
 # Changelog
 
+## [v1.14.1](https://github.com/defra/waste-carriers-back-office/tree/v1.14.1) (2021-10-28)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.14.0...v1.14.1)
+
+**Implemented enhancements:**
+
+- Improve UX for back office user management [\#1176](https://github.com/DEFRA/waste-carriers-back-office/pull/1176) ([irisfaraway](https://github.com/irisfaraway))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `79a25e9` to `300b012` [\#1178](https://github.com/DEFRA/waste-carriers-back-office/pull/1178) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `060715c` to `79a25e9` [\#1177](https://github.com/DEFRA/waste-carriers-back-office/pull/1177) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `bb96b1f` to `060715c` [\#1175](https://github.com/DEFRA/waste-carriers-back-office/pull/1175) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `8ff4e8a` to `bb96b1f` [\#1174](https://github.com/DEFRA/waste-carriers-back-office/pull/1174) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update Ubuntu version in CI [\#1173](https://github.com/DEFRA/waste-carriers-back-office/pull/1173) ([irisfaraway](https://github.com/irisfaraway))
+- Bump govuk\_design\_system\_formbuilder from 2.7.4 to 2.7.5 [\#1172](https://github.com/DEFRA/waste-carriers-back-office/pull/1172) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump nokogiri from 1.12.4 to 1.12.5 [\#1171](https://github.com/DEFRA/waste-carriers-back-office/pull/1171) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.14.0](https://github.com/defra/waste-carriers-back-office/tree/v1.14.0) (2021-09-13)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.13.2...v1.14.0)
