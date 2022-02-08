@@ -116,6 +116,7 @@ end
 group :test do
   gem "database_cleaner-mongoid"
   gem "factory_bot_rails"
+  gem "faker"
   gem "rails-controller-testing"
   gem "timecop"
 
