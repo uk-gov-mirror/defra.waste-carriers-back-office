@@ -6,12 +6,15 @@ module Reports
   RSpec.describe CardOrdersExportPresenter do
     subject { described_class.new(order_item_log) }
 
+    # Allow this to be overridden to test company name on line 1
+    let(:reg_address_line_1) { Faker::Address.street_name }
+
     # Use different address structures for registered and contact addresses
     # to test handling of blank fields.
     let(:registered_address) do
       {
         house_number: "",
-        address_line_1: Faker::Address.street_name,
+        address_line_1: reg_address_line_1,
         address_line_2: Faker::Address.secondary_address,
         address_line_3: nil,
         address_line_4: Faker::Address.community,
@@ -42,21 +45,28 @@ module Reports
     end
 
     let(:business_type) { "limitedCompany" }
-    let(:registration) { create(:registration, :has_orders_and_payments, business_type: business_type) }
+    let(:company_name) { Faker::Company.name }
+    let(:registration) do
+      create(:registration,
+             :has_orders_and_payments,
+             business_type: business_type,
+             company_name: company_name,
+             expires_on: DateTime.now.next_year(3))
+    end
     let(:order) { registration.finance_details.orders[0] }
     let(:order_item_log) { create(:order_item_log, registration_id: registration.id, order_id: order.id) }
 
     before { registration.addresses = addresses }
 
     describe "#reg_identifier" do
-      it "returns the registration id" do
-        expect(subject.reg_identifier).to eq order_item_log.registration_id
+      it "returns the registration identifier" do
+        expect(subject.reg_identifier).to eq registration.reg_identifier
       end
     end
 
     describe "#date_of_issue" do
       it "returns the date of the registration activation which activated the card order" do
-        expect(subject.date_of_issue).to eq order_item_log.activated_at
+        expect(subject.date_of_issue).to eq order_item_log.activated_at.strftime("%-m/%-d/%y")
       end
     end
 
@@ -92,13 +102,13 @@ module Reports
       it "returns the relevant registration attributes" do
         expect(subject.company_name).to eq registration.company_name
         expect(subject.registration_type).to eq registration.registration_type
-        expect(subject.registration_date.to_i).to eq registration.metaData.dateRegistered.to_i
-        expect(subject.expires_on).to eq registration.expires_on
+        expect(subject.registration_date).to eq registration.metaData.dateRegistered.strftime("%-m/%-d/%y")
+        expect(subject.expires_on).to eq registration.expires_on.strftime("%-m/%-d/%y")
         expect(subject.contact_phone_number).to eq registration.phone_number
       end
     end
 
-    describe "registered_address fields" do
+    describe "registered address fields" do
       it "returns the registered address fields" do
         registered_addr = registration.addresses.select { |a| a.addressType == "REGISTERED" }[0]
         expect(subject.registered_address_line_1).to eq registered_addr.address_line_1
@@ -113,8 +123,8 @@ module Reports
       end
     end
 
-    describe "#contact_address" do
-      it "returns the contact address fields as a hash" do
+    describe "contact address fields" do
+      it "returns the contact address fields" do
         contact_addr = registration.addresses.select { |a| a.addressType == "POSTAL" }[0]
         expect(subject.contact_address_line_1).to eq contact_addr.house_number
         expect(subject.contact_address_line_2).to eq contact_addr.address_line_1
@@ -128,5 +138,15 @@ module Reports
       end
     end
 
+    context "with company name in address line 1" do
+      let(:reg_address_line_1) { company_name }
+
+      it "does not present the company name in address line 1" do
+        registered_addr = registration.addresses.select { |a| a.addressType == "REGISTERED" }[0]
+        expect(subject.registered_address_line_1).not_to eq registered_addr.address_line_1
+        expect(subject.registered_address_line_1).to eq registered_addr.address_line_2
+      end
+
+    end
   end
 end
