@@ -1,5 +1,27 @@
 # Changelog
 
+## [v1.16.1](https://github.com/defra/waste-carriers-back-office/tree/v1.16.1) (2022-03-10)
+
+[Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.15.1...v1.16.1)
+
+**Implemented enhancements:**
+
+- Copy card improvements - Include blank address line [\#1252](https://github.com/DEFRA/waste-carriers-back-office/pull/1252) ([tobyprivett](https://github.com/tobyprivett))
+- Check registration for active status during copy card export [\#1251](https://github.com/DEFRA/waste-carriers-back-office/pull/1251) ([tobyprivett](https://github.com/tobyprivett))
+- Copy cards - remove duplicate business name from house number [\#1249](https://github.com/DEFRA/waste-carriers-back-office/pull/1249) ([tobyprivett](https://github.com/tobyprivett))
+- Copy card fix telephone number issue [\#1247](https://github.com/DEFRA/waste-carriers-back-office/pull/1247) ([tobyprivett](https://github.com/tobyprivett))
+
+**Merged pull requests:**
+
+- Bump waste\_carriers\_engine from `b7566f0` to `ce60e37` [\#1266](https://github.com/DEFRA/waste-carriers-back-office/pull/1266) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rails from 6.1.4.6 to 6.1.4.7 [\#1263](https://github.com/DEFRA/waste-carriers-back-office/pull/1263) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rspec-rails from 5.1.0 to 5.1.1 [\#1259](https://github.com/DEFRA/waste-carriers-back-office/pull/1259) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump timecop from 0.9.4 to 0.9.5 [\#1257](https://github.com/DEFRA/waste-carriers-back-office/pull/1257) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump faker from 2.19.0 to 2.20.0 [\#1255](https://github.com/DEFRA/waste-carriers-back-office/pull/1255) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump waste\_carriers\_engine from `7343d85` to `9086e62` [\#1250](https://github.com/DEFRA/waste-carriers-back-office/pull/1250) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump nokogiri from 1.13.1 to 1.13.3 [\#1248](https://github.com/DEFRA/waste-carriers-back-office/pull/1248) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump mongoid from 7.3.3 to 7.3.4 [\#1245](https://github.com/DEFRA/waste-carriers-back-office/pull/1245) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v1.15.1](https://github.com/defra/waste-carriers-back-office/tree/v1.15.1) (2022-02-17)
 
 [Full Changelog](https://github.com/defra/waste-carriers-back-office/compare/v1.14.1...v1.15.1)
