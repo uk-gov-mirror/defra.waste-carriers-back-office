@@ -33,29 +33,38 @@ module Reports
     end
 
     describe "#carrier_name" do
-      context "when the registration is lower tier" do
-        let(:lower_tier) { true }
-        let(:upper_tier) { false }
+      context "when the registration business type is 'soleTrader'" do
+        let(:business_type) { "soleTrader" }
 
-        it "returns the company name" do
-          expect(subject.carrier_name).to eq(registration.company_name)
+        it "returns the carrier's name" do
+          main_person = registration.key_people[0]
+          expect(subject.carrier_name).to eq("#{main_person.first_name} #{main_person.last_name}")
         end
       end
 
-      context "when the registration is upper tier" do
-        context "when the registration business type is 'soleTrader'" do
-          let(:business_type) { "soleTrader" }
+      context "when the registration business type is NOT 'sole trader'" do
+        context "when the registration has a registered_company_name" do
+          before { registration.update(registered_company_name: "Acme Ltd") }
 
-          it "returns the carrier's name" do
-            main_person = registration.key_people[0]
-            expect(subject.carrier_name).to eq("#{main_person.first_name} #{main_person.last_name}")
+          it "returns the registered_company_name" do
+            expect(subject.carrier_name).to eq("Acme Ltd")
           end
         end
 
-        context "when the registration business type is NOT 'sole trader'" do
+        context "when the registration does not have a registered_company_name" do
           it "returns the company name" do
             expect(subject.carrier_name).to eq(registration.company_name)
           end
+        end
+      end
+    end
+
+    describe "#company_name" do
+      context "when they registration does not have a company_name" do
+        let(:company_name) { nil }
+
+        it "is blank" do
+          expect(subject.company_name).to be_blank
         end
       end
     end
