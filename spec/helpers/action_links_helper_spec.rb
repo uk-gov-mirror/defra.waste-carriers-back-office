@@ -747,7 +747,6 @@ RSpec.describe ActionLinksHelper, type: :helper do
     end
 
     context "when the user does not have permission for editing" do
-
       let(:renewing_registration) { create(:renewing_registration) }
       let(:can) { false }
 
