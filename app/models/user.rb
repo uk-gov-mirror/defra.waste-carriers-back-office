@@ -42,10 +42,11 @@ class User
   # Roles
 
   AGENCY_ROLES = %w[agency
-                    import_conviction_data
+                    cbd_user
                     agency_with_refund
                     agency_super
-                    developer].freeze
+                    developer
+                    data_agent].freeze
 
   FINANCE_ROLES = %w[finance
                      finance_admin

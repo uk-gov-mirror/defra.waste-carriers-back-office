@@ -10,18 +10,24 @@ class Ability
 
     can :use_back_office, :all
 
+    assign_data_agent_user_permissions(user)
     assign_agency_user_permissions(user)
     assign_finance_user_permissions(user)
   end
 
   private
 
+  def assign_data_agent_user_permissions(user)
+    # Could assign here but assigned in a separate method to align with other permissions
+    permissions_for_data_agent_user if data_agent?(user)
+  end
+
   def assign_agency_user_permissions(user)
     permissions_for_agency_user if agency_user?(user)
     permissions_for_agency_user_with_refund if agency_user_with_refund?(user)
     permissions_for_agency_super_user if agency_super_user?(user)
     permissions_for_developer_user if developer?(user)
-    permissions_for_import_conviction_data_user if import_conviction_data?(user)
+    permissions_for_cbd_user if cbd_user?(user)
   end
 
   def assign_finance_user_permissions(user)
@@ -32,6 +38,11 @@ class Ability
 
   # Permissions for specific roles
 
+  def permissions_for_data_agent_user
+    can :view_certificate, WasteCarriersEngine::Registration
+    can :view_revoked_reasons, :all
+  end
+
   def permissions_for_agency_user
     # This covers everything mounted in the engine and used for the assisted digital journey, including WorldPay
     can :update, WasteCarriersEngine::RenewingRegistration
@@ -41,6 +52,7 @@ class Ability
     can :resend_confirmation_email, WasteCarriersEngine::Registration
     can :order_copy_cards, WasteCarriersEngine::Registration
     can :edit, WasteCarriersEngine::Registration
+    can :refresh_company_name, WasteCarriersEngine::Registration
 
     can :revert_to_payment_summary, :all
 
@@ -108,6 +120,7 @@ class Ability
 
     can :manage_back_office_users, User
     can :charge_adjust, :all
+    can :run_finance_reports, :all
 
     # rubocop:disable Style/SymbolProc
     can :modify_user, User do |user|
@@ -122,12 +135,14 @@ class Ability
 
     can :manage, WasteCarriersEngine::FeatureToggle
     can :import_conviction_data, :all
+    can :run_finance_reports, :all
   end
 
-  def permissions_for_import_conviction_data_user
+  def permissions_for_cbd_user
     permissions_for_agency_user
 
     can :import_conviction_data, :all
+    can :run_finance_reports, :all
   end
 
   # Checks to see if role matches
@@ -160,8 +175,12 @@ class Ability
     user.role == "developer"
   end
 
-  def import_conviction_data?(user)
-    user.role == "import_conviction_data"
+  def cbd_user?(user)
+    user.role == "cbd_user"
+  end
+
+  def data_agent?(user)
+    user.role == "data_agent"
   end
 
   def write_off_agency_user_cap
