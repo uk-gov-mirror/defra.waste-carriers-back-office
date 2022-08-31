@@ -66,6 +66,9 @@ module WasteCarriersBackOffice
     config.boxi_exports_filename = ENV["BOXI_EXPORTS_FILENAME"] || "waste_carriers_boxi_daily_full"
     config.weekly_exports_bucket_name = ENV["AWS_WEEKLY_EXPORT_BUCKET"]
     config.card_orders_export_filename = ENV["CARD_ORDERS_EXPORT_FILENAME"] || "card_orders"
+    config.finance_report_filename_prefix = ENV["FINANCE_REPORT_FILENAME_PREFIX"] || "finance_stats_"
+    config.finance_reports_bucket_name = ENV["FINANCE_REPORTS_BUCKET"]
+    config.finance_reports_directory = ENV["FINANCE_REPORTS"] || "FINANCE_REPORTS"
 
     # Data retention
     config.data_retention_years = ENV["DATA_RETENTION_YEARS"] || 7
