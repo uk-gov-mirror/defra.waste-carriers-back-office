@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: ff4aba8ed08bd77a55d07ce66c2685ee2082bf4f
-  branch: main
+  revision: f1776b30a4ec717aa22069d7d1ee3c174945b38f
+  branch: govpay
   specs:
     waste_carriers_engine (0.0.1)
       aasm (~> 4.12)
@@ -89,7 +89,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
-    airbrake (13.0.2)
+    airbrake (13.0.3)
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.0)
       rbtree3 (~> 0.5)
@@ -317,7 +317,7 @@ GEM
     passenger (5.3.7)
       rack
       rake (>= 0.8.1)
-    phonelib (0.7.2)
+    phonelib (0.7.3)
     protocol-hpack (1.4.2)
     protocol-http (0.22.5)
     protocol-http1 (0.14.1)
