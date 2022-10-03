@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :payment, class: WasteCarriersEngine::Payment do
+  factory :payment, class: "WasteCarriersEngine::Payment" do
     amount { 100 }
-    date_received { Time.now }
+    date_received { Time.zone.now }
     order_key { SecureRandom.uuid.split("-").last }
 
     trait :bank_transfer do

@@ -8,33 +8,33 @@ RSpec.describe RegistrationTransfersHelper, type: :helper do
   let(:registration) { build(:registration) }
 
   describe "#newly_invited_account?" do
-    let(:subject) { helper.newly_invited_account?(email) }
+    subject { helper.newly_invited_account?(email) }
 
     context "when there is an invitation_created_at" do
       before do
-        external_user.update_attributes(invitation_created_at: Time.current)
+        external_user.update(invitation_created_at: Time.current)
       end
 
-      context "and there is no invitation_accepted_at" do
+      context "when there is no invitation_accepted_at" do
         it "returns true" do
-          expect(subject).to eq(true)
+          expect(subject).to be(true)
         end
       end
 
-      context "and there is an invitation_accepted_at" do
+      context "when there is an invitation_accepted_at" do
         before do
-          external_user.update_attributes(invitation_accepted_at: Time.current)
+          external_user.update(invitation_accepted_at: Time.current)
         end
 
         it "returns false" do
-          expect(subject).to eq(false)
+          expect(subject).to be(false)
         end
       end
     end
 
     context "when there is no invitation_created_at" do
       it "returns false" do
-        expect(subject).to eq(false)
+        expect(subject).to be(false)
       end
     end
   end

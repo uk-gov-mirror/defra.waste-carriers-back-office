@@ -7,7 +7,7 @@ RSpec.describe "Sessions", type: :request do
     context "when a user is not signed in" do
       it "returns a success response" do
         get new_user_session_path
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
@@ -21,7 +21,7 @@ RSpec.describe "Sessions", type: :request do
           post user_session_path, params: { user: { email: user.email, password: user.password } }
 
           expect(controller.current_user).to eq(user)
-          expect(response).to have_http_status(302)
+          expect(response).to have_http_status(:found)
           expect(response).to redirect_to(bo_path)
         end
       end
@@ -32,7 +32,7 @@ RSpec.describe "Sessions", type: :request do
     context "when the user is signed in" do
       let(:user) { create(:user) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -42,9 +42,9 @@ RSpec.describe "Sessions", type: :request do
         get destroy_user_session_path
 
         expect(controller.current_user).to be_nil
-        expect(response).to have_http_status(302)
+        expect(response).to have_http_status(:found)
         expect(response).to redirect_to(new_user_session_path)
-        expect(user.reload.session_token).to_not eq(old_session_token)
+        expect(user.reload.session_token).not_to eq(old_session_token)
       end
 
       context "when the user is inactive" do

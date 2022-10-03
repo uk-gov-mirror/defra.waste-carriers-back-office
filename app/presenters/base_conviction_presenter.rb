@@ -14,9 +14,10 @@ class BaseConvictionPresenter < WasteCarriersEngine::BasePresenter
   end
 
   def declared_convictions_message
-    if declared_convictions == "yes"
+    case declared_convictions
+    when "yes"
       I18n.t(".convictions.index.declared_convictions.yes")
-    elsif declared_convictions == "no"
+    when "no"
       I18n.t(".convictions.index.declared_convictions.no")
     else
       I18n.t(".convictions.index.declared_convictions.unknown")
@@ -66,7 +67,7 @@ class BaseConvictionPresenter < WasteCarriersEngine::BasePresenter
   private
 
   def unknown_people_convictions?
-    return true unless key_people.present?
+    return true if key_people.blank?
 
     # Check to see if any conviction_search_results are present
     conviction_search_results = key_people.map(&:conviction_search_result).compact

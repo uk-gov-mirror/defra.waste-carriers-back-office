@@ -11,7 +11,8 @@ RSpec.describe "ConvictionApprovalForms", type: :request do
   describe "GET /bo/transient-registrations/:reg_identifier/convictions/approve" do
     context "when a valid user is signed in" do
       let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -19,14 +20,15 @@ RSpec.describe "ConvictionApprovalForms", type: :request do
         get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/approve"
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
         expect(response.body).to include(transient_registration.reg_identifier)
       end
     end
 
     context "when a non-agency user is signed in" do
       let(:user) { create(:user, :finance) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -41,19 +43,17 @@ RSpec.describe "ConvictionApprovalForms", type: :request do
   describe "POST /bo/transient-registrations/:reg_identifier/convictions/approve" do
     context "when a valid user is signed in" do
       let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
-        sign_in(user)
-      end
-
-      before do
-        # Block renewal completion so we can check the values of the transient_registration after submission
-        allow_any_instance_of(WasteCarriersEngine::RenewalCompletionService).to receive(:complete_renewal).and_return(nil)
-      end
-
       let(:params) do
         {
           revoked_reason: "foo"
         }
+      end
+
+      before do
+        sign_in(user)
+
+        # Block renewal completion so we can check the values of the transient_registration after submission
+        allow_any_instance_of(WasteCarriersEngine::RenewalCompletionService).to receive(:complete_renewal).and_return(nil)
       end
 
       it "redirects to the convictions page and updates the revoked_reason, workflow_state, and 'confirmed_' attributes" do
@@ -93,7 +93,7 @@ RSpec.describe "ConvictionApprovalForms", type: :request do
           it "rescues the error" do
             expect do
               post "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/approve", params: { conviction_approval_form: params }
-            end.to_not raise_error
+            end.not_to raise_error
           end
         end
       end
@@ -125,7 +125,7 @@ RSpec.describe "ConvictionApprovalForms", type: :request do
           post "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/approve", params: { conviction_approval_form: params }
 
           expect(response).to render_template(:new)
-          expect(transient_registration.reload.metaData.revoked_reason).to_not eq(params[:revoked_reason])
+          expect(transient_registration.reload.metaData.revoked_reason).not_to eq(params[:revoked_reason])
           expect(transient_registration.reload.conviction_sign_offs.first.confirmed).to eq("no")
         end
       end
@@ -133,21 +133,21 @@ RSpec.describe "ConvictionApprovalForms", type: :request do
 
     context "when a non-agency user is signed in" do
       let(:user) { create(:user, :finance) }
-      before(:each) do
-        sign_in(user)
-      end
-
       let(:params) do
         {
           revoked_reason: "foo"
         }
       end
 
+      before do
+        sign_in(user)
+      end
+
       it "redirects to the permissions error page, does not update the revoked_reason, and does not update the conviction_sign_off" do
         post "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions/approve", params: { conviction_approval_form: params }
 
         expect(response).to redirect_to("/bo/pages/permission")
-        expect(transient_registration.reload.metaData.revoked_reason).to_not eq(params[:revoked_reason])
+        expect(transient_registration.reload.metaData.revoked_reason).not_to eq(params[:revoked_reason])
         expect(transient_registration.reload.conviction_sign_offs.first.confirmed).to eq("no")
       end
     end

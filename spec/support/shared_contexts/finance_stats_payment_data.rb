@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
-RSpec.shared_context "Finance stats payment data" do
+RSpec.shared_context "with finance stats payment data" do
 
   def an_amount
     Faker::Number.number(digits: 4)
@@ -91,7 +90,7 @@ RSpec.shared_context "Finance stats payment data" do
     "WORLDPAY_MISSED" => :worldpay_missed
   }.freeze
 
-  before(:each) do
+  before do
     # create registrations with payment details as above
     payment_data.each do |date_set|
       date_set[:payments].each do |type, amounts|
@@ -106,4 +105,3 @@ RSpec.shared_context "Finance stats payment data" do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

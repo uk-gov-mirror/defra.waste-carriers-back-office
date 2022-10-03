@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :finance_details, class: WasteCarriersEngine::FinanceDetails do
+  factory :finance_details, class: "WasteCarriersEngine::FinanceDetails" do
 
     transient do
       payment_type { :bank_transfer }
       payment_amount { 0 }
-      payment_date_entered { Date.today }
+      payment_date_entered { Time.zone.today }
     end
 
     trait :positive_balance do

@@ -8,7 +8,8 @@ RSpec.describe "Registrations", type: :request do
   describe "/bo/registrations/:reg_identifier" do
     context "when a valid user is signed in" do
       let(:user) { create(:user) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -16,7 +17,7 @@ RSpec.describe "Registrations", type: :request do
         get "/bo/registrations/#{registration.reg_identifier}"
 
         expect(response).to render_template(:show)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       context "when no matching registration exists" do

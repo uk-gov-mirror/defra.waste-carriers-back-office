@@ -3,12 +3,12 @@
 require "rails_helper"
 
 RSpec.describe RenewalMagicLinkService do
-  before(:each) do
+  before do
     allow(Rails.configuration).to receive(:wcrs_renewals_url).and_return("http://example.com")
   end
 
   let(:service) do
-    RenewalMagicLinkService.run(token: token)
+    described_class.run(token: token)
   end
 
   context "when token is nil" do

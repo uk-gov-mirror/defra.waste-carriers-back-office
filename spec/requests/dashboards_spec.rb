@@ -6,7 +6,8 @@ RSpec.describe "Dashboards", type: :request do
   describe "/bo" do
     context "when a valid user is signed in" do
       let(:user) { create(:user) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -14,7 +15,7 @@ RSpec.describe "Dashboards", type: :request do
         get "/bo"
 
         expect(response).to render_template(:index)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       context "when a search term is included" do
@@ -44,7 +45,7 @@ RSpec.describe "Dashboards", type: :request do
           it "links to renewal details pages" do
             link_to_renewal = renewing_registration_path(matching_renewal.reg_identifier)
 
-            get "/bo", params: { term: "#{first_name} #{last_name}", "search_fullname": "1" }
+            get "/bo", params: { term: "#{first_name} #{last_name}", search_fullname: "1" }
 
             expect(response.body).to include(link_to_renewal)
           end

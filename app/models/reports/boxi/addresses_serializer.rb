@@ -8,10 +8,10 @@ module Reports
         address_type: "AddressType",
         uprn: "UPRN",
         house_number: "Premises",
-        address_line_1: "AddressLine1",
-        address_line_2: "AddressLine2",
-        address_line_3: "AddressLine3",
-        address_line_4: "AddressLine4",
+        address_line1: "AddressLine1",
+        address_line2: "AddressLine2",
+        address_line3: "AddressLine3",
+        address_line4: "AddressLine4",
         town_city: "TownCity",
         postcode: "Postcode",
         country: "Country",
@@ -22,7 +22,7 @@ module Reports
       }.freeze
 
       def add_entries_for(registration, uid)
-        return unless registration.addresses.present?
+        return if registration.addresses.blank?
 
         registration.addresses.each do |address|
           csv << parse_address(address, uid)

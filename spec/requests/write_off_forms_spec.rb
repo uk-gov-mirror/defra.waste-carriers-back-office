@@ -8,7 +8,7 @@ RSpec.describe "WriteOffForms", type: :request do
       let(:user) { create(:user, :agency_with_refund) }
       let(:renewing_registration) { create(:renewing_registration, :overpaid) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -22,7 +22,7 @@ RSpec.describe "WriteOffForms", type: :request do
           get new_resource_write_off_form_path(renewing_registration._id)
 
           expect(response).to render_template(:new)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
         end
       end
 
@@ -43,7 +43,7 @@ RSpec.describe "WriteOffForms", type: :request do
       let(:user) { create(:user, :finance_admin) }
       let(:renewing_registration) { create(:renewing_registration, :overpaid) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -51,7 +51,7 @@ RSpec.describe "WriteOffForms", type: :request do
         get new_resource_write_off_form_path(renewing_registration._id)
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe "WriteOffForms", type: :request do
       let(:user) { create(:user, :finance_admin) }
       let(:renewing_registration) { create(:renewing_registration, :overpaid, workflow_state: :renewal_received_pending_payment_form) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -82,7 +82,7 @@ RSpec.describe "WriteOffForms", type: :request do
           }
         end
 
-        context "when the resource is a registration" do
+        context "when the resource is a registration with an unpaid order" do
           let(:registration) { create(:registration, :has_unpaid_order, :pending) }
 
           it "activates the registration" do
@@ -107,11 +107,11 @@ RSpec.describe "WriteOffForms", type: :request do
           expect(transient_registrations_count).to eq(0)
           expect(registration.finance_details.payments.count).to be > before_request_payments_count
           expect(registration.finance_details.balance).to eq(0)
-          expect(response).to have_http_status(302)
+          expect(response).to have_http_status(:found)
           expect(response).to redirect_to(resource_finance_details_path(registration._id))
         end
 
-        context "when the resource is a registration" do
+        context "when the resource is a registration with an overpayment" do
           let(:registration) { create(:registration, :overpaid) }
 
           it "generates a new payment, updates the registration balance, returns a 302 status and redirects to the registration finance details page" do
@@ -123,7 +123,7 @@ RSpec.describe "WriteOffForms", type: :request do
 
             expect(registration.finance_details.payments.count).to be > before_request_payments_count
             expect(registration.finance_details.balance).to eq(0)
-            expect(response).to have_http_status(302)
+            expect(response).to have_http_status(:found)
             expect(response).to redirect_to(resource_finance_details_path(registration._id))
           end
         end
@@ -133,7 +133,7 @@ RSpec.describe "WriteOffForms", type: :request do
         it "returns a 200 status and renders the :new template" do
           post resource_write_off_form_path(renewing_registration._id), params: {}
 
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
           expect(response).to render_template(:new)
         end
       end

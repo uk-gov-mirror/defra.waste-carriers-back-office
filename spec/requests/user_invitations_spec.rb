@@ -6,7 +6,8 @@ RSpec.describe "User Invitations", type: :request do
   describe "GET /bo/users/invitation/new" do
     context "when a super user is signed in" do
       let(:user) { create(:user, :agency_super) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -19,7 +20,8 @@ RSpec.describe "User Invitations", type: :request do
 
     context "when a non-super user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -40,7 +42,8 @@ RSpec.describe "User Invitations", type: :request do
 
     context "when a super user is signed in" do
       let(:user) { create(:user, :agency_super) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -70,7 +73,8 @@ RSpec.describe "User Invitations", type: :request do
 
     context "when a non-super user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 

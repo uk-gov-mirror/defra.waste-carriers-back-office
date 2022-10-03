@@ -11,7 +11,8 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
   describe "GET /bo/resources/:_id/payments/bank-transfer" do
     context "when a valid user is signed in" do
       let(:user) { create(:user, :finance) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -19,7 +20,7 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
         get "/bo/resources/#{transient_registration._id}/payments/bank-transfer"
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
         expect(response.body).to include(transient_registration.reg_identifier)
       end
 
@@ -30,7 +31,7 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
           get "/bo/resources/#{registration._id}/payments/bank-transfer"
 
           expect(response).to render_template(:new)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
           expect(response.body).to include(registration.reg_identifier)
         end
       end
@@ -38,7 +39,8 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
 
     context "when a non-finance user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -65,7 +67,7 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
     context "when a valid user is signed in" do
       let(:user) { create(:user, :finance) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -145,7 +147,7 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
 
             registration.reload
 
-            expect(registration).to_not be_active
+            expect(registration).not_to be_active
           end
         end
       end
@@ -170,7 +172,8 @@ RSpec.describe "BankTransferPaymentForms", type: :request do
 
     context "when a non-finance user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 

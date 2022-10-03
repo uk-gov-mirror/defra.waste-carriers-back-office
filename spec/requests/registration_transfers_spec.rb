@@ -9,7 +9,8 @@ RSpec.describe "RegistrationTransfers", type: :request do
   describe "GET /bo/registrations/:reg_identifier/transfer" do
     context "when a valid user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -18,13 +19,14 @@ RSpec.describe "RegistrationTransfers", type: :request do
 
         expect(response).to render_template(:new)
         expect(response.body).to include("Transfer registration #{registration.reg_identifier}")
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context "when a non-agency user is signed in" do
       let(:user) { create(:user, :finance) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -54,7 +56,8 @@ RSpec.describe "RegistrationTransfers", type: :request do
 
     context "when a valid user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -83,6 +86,7 @@ RSpec.describe "RegistrationTransfers", type: :request do
           expect(registration.reload.account_email).to eq(old_email)
         end
       end
+
       context "when the email addresses do not match" do
         let(:params) do
           {
@@ -103,7 +107,8 @@ RSpec.describe "RegistrationTransfers", type: :request do
 
     context "when a non-agency user is signed in" do
       let(:user) { create(:user, :finance) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -131,7 +136,8 @@ RSpec.describe "RegistrationTransfers", type: :request do
 
     context "when a valid user is signed in" do
       let(:user) { create(:user, :agency) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -140,13 +146,14 @@ RSpec.describe "RegistrationTransfers", type: :request do
 
         expect(response).to render_template(:success)
         expect(response.body).to include("Registration #{registration.reg_identifier} has been transferred")
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context "when a non-agency user is signed in" do
       let(:user) { create(:user, :finance) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 

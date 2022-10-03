@@ -10,13 +10,13 @@ RSpec.describe "CardOrderExports", type: :request do
     context "when an agency-with-refund user is signed in" do
       let(:user) { create(:user, :agency_with_refund) }
 
-      before(:each) do
+      before do
         sign_in(user)
         get card_order_exports_path
       end
 
       it "returns HTTP status 200" do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "presents the latest export date and time" do
@@ -32,7 +32,7 @@ RSpec.describe "CardOrderExports", type: :request do
     context "when a non agency-with-refund user is signed in" do
       let(:user) { create(:user, :agency) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -40,7 +40,7 @@ RSpec.describe "CardOrderExports", type: :request do
         get card_order_exports_path
 
         expect(response).to redirect_to("/bo/pages/permission")
-        expect(response).to have_http_status(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe "CardOrderExports", type: :request do
     end
 
     it "redirects the user to the AWS S3 download link" do
-      expect(response.status).to eq 302
+      expect(response).to have_http_status(:found)
       # Match against location instead of expect redirect_to in order to exclude
       # variable "X-Amz-"" parameters from the comparison.
       expected_redirect_url = CardOrdersExportLog.first.download_link.split("&X-Amz")[0]

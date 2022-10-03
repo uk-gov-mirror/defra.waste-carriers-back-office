@@ -13,10 +13,13 @@ module ConvictionsDashboardsHelper
   end
 
   def details_path(resource)
-    if resource.is_a?(WasteCarriersEngine::Registration)
+    case resource
+    when WasteCarriersEngine::Registration
       registration_convictions_path(resource.reg_identifier)
-    elsif resource.is_a?(WasteCarriersEngine::RenewingRegistration)
+    when WasteCarriersEngine::RenewingRegistration
       transient_registration_convictions_path(resource.reg_identifier)
+    else
+      raise StandardError, "Unsupported resource type #{resource.class}"
     end
   end
 end

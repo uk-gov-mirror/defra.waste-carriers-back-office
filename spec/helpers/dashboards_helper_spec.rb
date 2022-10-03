@@ -12,7 +12,7 @@ RSpec.describe DashboardsHelper, type: :helper do
       end
 
       it "returns nil" do
-        expect(helper.inline_registered_address(result)).to eq(nil)
+        expect(helper.inline_registered_address(result)).to be_nil
       end
     end
 
@@ -21,7 +21,7 @@ RSpec.describe DashboardsHelper, type: :helper do
         reg_address = result.addresses.select { |a| a.address_type == "REGISTERED" }.first
         expect(helper.inline_registered_address(result).split(/\s*,\s*/))
           .to include(reg_address.house_number,
-                      reg_address.address_line_1,
+                      reg_address.address_line1,
                       reg_address.town_city,
                       reg_address.postcode)
       end
@@ -50,7 +50,7 @@ RSpec.describe DashboardsHelper, type: :helper do
 
       context "when the result is not pending" do
         it "returns nil" do
-          expect(helper.result_type(result)).to eq(nil)
+          expect(helper.result_type(result)).to be_nil
         end
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe DashboardsHelper, type: :helper do
       before { result.metaData.status = %w[INACTIVE REFUSED REVOKED].sample }
 
       it "returns nil" do
-        expect(helper.result_date(result)).to eq(nil)
+        expect(helper.result_date(result)).to be_nil
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe DashboardsHelper, type: :helper do
         let(:result) { build(:renewing_registration) }
 
         it "returns the expected text" do
-          date = Date.today.strftime("%d/%m/%Y")
+          date = Time.zone.today.strftime("%d/%m/%Y")
           expect(helper.result_date(result)).to eq("Updated #{date}")
         end
       end

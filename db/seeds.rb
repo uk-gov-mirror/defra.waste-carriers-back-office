@@ -5,12 +5,12 @@ def find_or_create_user(email, role)
     email: email,
     role: role,
     password: ENV["WCRS_DEFAULT_PASSWORD"] || "Secret123",
-    confirmed_at: Time.new(2015, 1, 1)
+    confirmed_at: Time.zone.local(2015, 1, 1)
   )
 end
 
 def seed_users
-  seeds = JSON.parse(File.read("#{Rails.root}/db/seeds/users.json"))
+  seeds = JSON.parse(Rails.root.join("db/seeds/users.json").read)
   users = seeds["users"]
 
   users.each do |user|

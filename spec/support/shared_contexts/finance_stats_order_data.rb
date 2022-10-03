@@ -1,80 +1,79 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
-RSpec.shared_context "Finance stats order data" do
+RSpec.shared_context "with finance stats order data" do
 
   let(:order_data) do
     [
       # Include values for 36 months prior to the core test period, to allow for exipiries
       { date: 41.months.ago,
         orders: [
-          { "NEW": 10_500 },
-          { "NEW": 10_500, "COPY_CARDS": 1500 },
-          { "COPY_CARDS": 1500 },
-          { "RENEW": 10_000, "COPY_CARDS": 2500 },
-          { "CHARGE_ADJUST": 1200 }
+          { NEW: 10_500 },
+          { NEW: 10_500, COPY_CARDS: 1500 },
+          { COPY_CARDS: 1500 },
+          { RENEW: 10_000, COPY_CARDS: 2500 },
+          { CHARGE_ADJUST: 1200 }
         ] },
       { date: 40.months.ago,
         orders: [
-          { "NEW": 10_500 },
-          { "COPY_CARDS": 1500 },
-          { "RENEW": 10_000 },
-          { "EDIT": 2500 }
+          { NEW: 10_500 },
+          { COPY_CARDS: 1500 },
+          { RENEW: 10_000 },
+          { EDIT: 2500 }
         ] },
       { date: 39.months.ago,
         orders: [
-          { "NEW": 10_500 },
-          { "RENEW": 10_000 },
-          { "RENEW": 10_000 }
+          { NEW: 10_500 },
+          { RENEW: 10_000 },
+          { RENEW: 10_000 }
         ] },
       { date: 5.months.ago,
         orders: [
-          { "CHARGE_ADJUST": 1200 },
-          { "NEW": 10_500, "COPY_CARDS": 1500 },
-          { "NEW": 10_500 },
-          { "COPY_CARDS": 1500 },
-          { "RENEW": 10_000 },
-          { "RENEW": 10_000, "COPY_CARDS": 2500 },
-          { "EDIT": 2500 },
-          { "IR_IMPORT": 9876 }
+          { CHARGE_ADJUST: 1200 },
+          { NEW: 10_500, COPY_CARDS: 1500 },
+          { NEW: 10_500 },
+          { COPY_CARDS: 1500 },
+          { RENEW: 10_000 },
+          { RENEW: 10_000, COPY_CARDS: 2500 },
+          { EDIT: 2500 },
+          { IR_IMPORT: 9876 }
         ] },
       # ensure there are values for multiple days in at least one month
       { date: 5.months.ago + 1.day,
         orders: [
-          { "NEW": 10_500 },
-          { "NEW": 10_500 },
-          { "RENEW": 10_000 }
+          { NEW: 10_500 },
+          { NEW: 10_500 },
+          { RENEW: 10_000 }
         ] },
       { date: 4.months.ago - 1.day,
         orders: [
-          { "NEW": 10_500 },
-          { "RENEW": 10_000 },
-          { "RENEW": 10_000 }
+          { NEW: 10_500 },
+          { RENEW: 10_000 },
+          { RENEW: 10_000 }
         ] },
       { date: 4.months.ago,
         orders: [
-          { "CHARGE_ADJUST": 1200 },
-          { "NEW": 10_500, "COPY_CARDS": 1500 },
-          { "NEW": 10_500, "COPY_CARDS": 500 },
-          { "NEW": 10_500, "COPY_CARDS": 3500 },
-          { "NEW": 10_500 },
-          { "COPY_CARDS": 1500 },
-          { "RENEW": 10_000 },
-          { "RENEW": 10_000, "COPY_CARDS": 2500 },
-          { "RENEW": 10_000, "COPY_CARDS": 1500 },
-          { "EDIT": 2500 },
-          { "EDIT": 2500 }
+          { CHARGE_ADJUST: 1200 },
+          { NEW: 10_500, COPY_CARDS: 1500 },
+          { NEW: 10_500, COPY_CARDS: 500 },
+          { NEW: 10_500, COPY_CARDS: 3500 },
+          { NEW: 10_500 },
+          { COPY_CARDS: 1500 },
+          { RENEW: 10_000 },
+          { RENEW: 10_000, COPY_CARDS: 2500 },
+          { RENEW: 10_000, COPY_CARDS: 1500 },
+          { EDIT: 2500 },
+          { EDIT: 2500 }
         ] },
       { date: 3.months.ago,
         orders: [
-          { "CHARGE_ADJUST": 9600 },
-          { "NEW": 10_500, "COPY_CARDS": 1500 },
-          { "NEW": 10_500 },
-          { "COPY_CARDS": 1500 },
-          { "RENEW": 10_000 },
-          { "RENEW": 10_000 },
-          { "RENEW": 10_000, "COPY_CARDS": 7500 },
-          { "EDIT": 2500 }
+          { CHARGE_ADJUST: 9600 },
+          { NEW: 10_500, COPY_CARDS: 1500 },
+          { NEW: 10_500 },
+          { COPY_CARDS: 1500 },
+          { RENEW: 10_000 },
+          { RENEW: 10_000 },
+          { RENEW: 10_000, COPY_CARDS: 7500 },
+          { EDIT: 2500 }
         ] }
     ]
   end
@@ -118,7 +117,7 @@ RSpec.shared_context "Finance stats order data" do
     }
   end
 
-  before(:each) do
+  before do
     # create registrations with order details as above
     order_data.each do |date_set|
       date_set[:orders].each do |order|
@@ -129,4 +128,3 @@ RSpec.shared_context "Finance stats order data" do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength

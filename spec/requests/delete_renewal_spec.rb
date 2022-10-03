@@ -11,7 +11,7 @@ RSpec.describe "Delete renewal", type: :request do
 
       it "redirects to the same page" do
         subject
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
         expect(response.location).to end_with registration_path(registration.reg_identifier)
       end
     end
@@ -26,8 +26,8 @@ RSpec.describe "Delete renewal", type: :request do
       it_behaves_like "all restart renewal requests"
 
       it "does not delete any registrations or transient_registrations" do
-        expect { subject }.not_to change { WasteCarriersEngine::Registration.count }
-        expect { subject }.not_to change { WasteCarriersEngine::TransientRegistration.count }
+        expect { subject }.not_to change(WasteCarriersEngine::Registration, :count)
+        expect { subject }.not_to change(WasteCarriersEngine::TransientRegistration, :count)
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe "Delete renewal", type: :request do
       it_behaves_like "all restart renewal requests"
 
       it "deletes the renewing registration" do
-        expect { subject }.to change { WasteCarriersEngine::RenewingRegistration.count }.from(1).to(0)
+        expect { subject }.to change(WasteCarriersEngine::RenewingRegistration, :count).from(1).to(0)
       end
     end
   end

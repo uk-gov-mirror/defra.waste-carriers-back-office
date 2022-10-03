@@ -41,7 +41,7 @@ class BasePaymentForm < WasteCarriersEngine::BaseForm
   private
 
   def convert_amount_to_pence(amount_in_pounds)
-    return amount_in_pounds unless amount_in_pounds.present?
+    return amount_in_pounds if amount_in_pounds.blank?
 
     amount_in_pounds.to_d * 100
   end
@@ -62,11 +62,7 @@ class BasePaymentForm < WasteCarriersEngine::BaseForm
 
   def set_date_received
     self.date_received = Date.new(date_received_year, date_received_month, date_received_day)
-  rescue NoMethodError
-    errors.add(:date_received, :invalid_date)
-  rescue ArgumentError
-    errors.add(:date_received, :invalid_date)
-  rescue TypeError
+  rescue NoMethodError, ArgumentError, TypeError
     errors.add(:date_received, :invalid_date)
   end
 

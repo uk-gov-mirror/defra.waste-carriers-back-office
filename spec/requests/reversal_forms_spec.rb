@@ -8,7 +8,7 @@ RSpec.describe "ReversalForms", type: :request do
       let(:user) { create(:user, :agency_with_refund) }
       let(:renewing_registration) { create(:renewing_registration, :overpaid) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -16,7 +16,7 @@ RSpec.describe "ReversalForms", type: :request do
         get resource_reversal_forms_path(renewing_registration._id)
 
         expect(response).to render_template(:index)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe "ReversalForms", type: :request do
       let(:renewing_registration) { create(:renewing_registration, :overpaid) }
       let(:payment) { renewing_registration.finance_details.payments.first }
 
-      before(:each) do
+      before do
         sign_in(user)
 
         payment.payment_type = "CASH"
@@ -46,7 +46,7 @@ RSpec.describe "ReversalForms", type: :request do
         get new_resource_reversal_form_path(renewing_registration._id, order_key: payment.order_key)
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe "ReversalForms", type: :request do
       let(:renewing_registration) { create(:renewing_registration, :overpaid) }
       let(:payment) { renewing_registration.finance_details.payments.first }
 
-      before(:each) do
+      before do
         sign_in(user)
 
         payment.payment_type = WasteCarriersEngine::Payment::CASH
@@ -90,7 +90,7 @@ RSpec.describe "ReversalForms", type: :request do
           expect(renewing_registration.finance_details.payments.count).to eq(expected_payments_count)
 
           expect(response).to redirect_to(resource_finance_details_path(renewing_registration._id))
-          expect(response).to have_http_status(302)
+          expect(response).to have_http_status(:found)
         end
       end
 
@@ -104,7 +104,7 @@ RSpec.describe "ReversalForms", type: :request do
           expect(renewing_registration.finance_details.payments.count).to eq(expected_payments_count)
 
           expect(response).to render_template(:new)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
         end
       end
     end

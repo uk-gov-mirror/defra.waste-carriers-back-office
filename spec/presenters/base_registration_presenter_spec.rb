@@ -3,33 +3,34 @@
 require "rails_helper"
 
 RSpec.describe BaseRegistrationPresenter do
+  subject { described_class.new(registration, view_context) }
+
   let(:registration) { double(:registration) }
   let(:view_context) { double(:view_context) }
-  subject { described_class.new(registration, view_context) }
 
   describe "#in_progress?" do
     it "returns false" do
-      expect(subject).to_not be_in_progress
+      expect(subject).not_to be_in_progress
     end
   end
 
   describe "#show_no_finance_details_data?" do
     before do
-      expect(registration).to receive(:upper_tier?).and_return(upper_tier)
+      allow(registration).to receive(:upper_tier?).and_return(upper_tier)
     end
 
     context "when the registration is an upper tier" do
       let(:upper_tier) { true }
 
       before do
-        expect(registration).to receive(:finance_details).and_return(finance_details)
+        allow(registration).to receive(:finance_details).and_return(finance_details)
       end
 
       context "when finance details object is missing" do
         let(:finance_details) { nil }
 
         it "returns true" do
-          expect(subject.show_no_finance_details_data?).to be_truthy
+          expect(subject.show_no_finance_details_data?).to be(true)
         end
       end
 
@@ -37,7 +38,7 @@ RSpec.describe BaseRegistrationPresenter do
         let(:finance_details) { "Something" }
 
         it "returns false" do
-          expect(subject.show_no_finance_details_data?).to be_falsey
+          expect(subject.show_no_finance_details_data?).to be(false)
         end
       end
     end
@@ -46,7 +47,7 @@ RSpec.describe BaseRegistrationPresenter do
       let(:upper_tier) { false }
 
       it "returns false" do
-        expect(subject.show_no_finance_details_data?).to be_falsey
+        expect(subject.show_no_finance_details_data?).to be(false)
       end
     end
   end
@@ -56,8 +57,8 @@ RSpec.describe BaseRegistrationPresenter do
       finance_details = double(:finance_details)
       balance = double(:balance)
 
-      expect(registration).to receive(:finance_details).and_return(finance_details)
-      expect(finance_details).to receive(:balance).and_return(balance)
+      allow(registration).to receive(:finance_details).and_return(finance_details)
+      allow(finance_details).to receive(:balance).and_return(balance)
 
       expect(subject.finance_details_balance).to eq(balance)
     end
@@ -76,7 +77,7 @@ RSpec.describe BaseRegistrationPresenter do
 
     context "when it is neither revoked nor inactive" do
       it "returns false" do
-        expect(subject.show_ceased_revoked_panel?).to be_falsey
+        expect(subject.show_ceased_revoked_panel?).to be(false)
       end
     end
 
@@ -84,7 +85,7 @@ RSpec.describe BaseRegistrationPresenter do
       let(:revoked) { true }
 
       it "returns true" do
-        expect(subject.show_ceased_revoked_panel?).to be_truthy
+        expect(subject.show_ceased_revoked_panel?).to be(true)
       end
     end
 
@@ -92,7 +93,7 @@ RSpec.describe BaseRegistrationPresenter do
       let(:inactive) { true }
 
       it "returns true" do
-        expect(subject.show_ceased_revoked_panel?).to be_truthy
+        expect(subject.show_ceased_revoked_panel?).to be(true)
       end
     end
   end
@@ -146,8 +147,8 @@ RSpec.describe BaseRegistrationPresenter do
 
     it "returns the last order in the list of finance details orders" do
       scope = double(:scope)
-      expect(registration.finance_details.orders).to receive(:order_by).with(dateCreated: :desc).and_return(scope)
-      expect(scope).to receive(:first).and_return(latest_order)
+      allow(registration.finance_details.orders).to receive(:order_by).with(dateCreated: :desc).and_return(scope)
+      allow(scope).to receive(:first).and_return(latest_order)
 
       expect(subject.latest_order).to eq(latest_order)
     end
@@ -169,7 +170,7 @@ RSpec.describe BaseRegistrationPresenter do
 
       context "when the registration is an upper tier" do
         it "returns true" do
-          expect(subject.show_order_details?).to be_truthy
+          expect(subject.show_order_details?).to be(true)
         end
       end
 
@@ -177,7 +178,7 @@ RSpec.describe BaseRegistrationPresenter do
         let(:upper_tier) { false }
 
         it "returns false" do
-          expect(subject.show_order_details?).to be_falsey
+          expect(subject.show_order_details?).to be(false)
         end
       end
     end
@@ -186,7 +187,7 @@ RSpec.describe BaseRegistrationPresenter do
       let(:orders) { [] }
 
       it "returns false" do
-        expect(subject.show_order_details?).to be_falsey
+        expect(subject.show_order_details?).to be(false)
       end
     end
   end
@@ -320,14 +321,18 @@ RSpec.describe BaseRegistrationPresenter do
     end
 
     context "when the registration has no expiry date" do
+      let(:expires_on) { nil }
+
       it "returns nil" do
-        expect(subject.display_expiry_text).to eq(nil)
+        expect(subject.display_expiry_text).to be_nil
       end
     end
 
     context "when the registration is not upper tier" do
+      let(:upper_tier) { false }
+
       it "returns nil" do
-        expect(subject.display_expiry_text).to eq(nil)
+        expect(subject.display_expiry_text).to be_nil
       end
     end
 

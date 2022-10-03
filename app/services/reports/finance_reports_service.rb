@@ -11,7 +11,7 @@ module Reports
       Dir.mktmpdir do |dir_path|
         @tmp_dir = dir_path
 
-        @report_timestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
+        @report_timestamp = Time.zone.now.strftime("%Y-%m-%d_%H-%M-%S")
 
         generate_csv_files
 
@@ -26,7 +26,7 @@ module Reports
       Rails.logger.error "Error generating finance reports:\n#{e}"
     ensure
       # In case of failure before the temporary directory gets cleaned up:
-      File.unlink(file_path) if File.exist?(file_path)
+      FileUtils.rm_f(file_path)
     end
 
     private
@@ -37,9 +37,7 @@ module Reports
     end
 
     def write_csv_file(granularity, serializer_class)
-      File.open(csv_file_path(granularity), "w+") do |file|
-        file.write(serializer_class.new(finance_stats(granularity)).to_csv)
-      end
+      File.write(csv_file_path(granularity), serializer_class.new(finance_stats(granularity)).to_csv)
     end
 
     def zip_report_files

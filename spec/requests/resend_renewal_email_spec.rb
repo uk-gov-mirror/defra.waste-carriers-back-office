@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "ResendRenewalEmail", type: :request do
   describe "GET /bo/resend-renewal-email/:reg_identifier" do
-    before(:each) { sign_in(user) }
+    before { sign_in(user) }
 
     let(:request_path) { "/bo/resend-renewal-email/#{registration.reg_identifier}" }
 
@@ -23,7 +23,7 @@ RSpec.describe "ResendRenewalEmail", type: :request do
       let(:user) { create(:user, :agency) }
       let(:registration) { create(:registration, :expires_soon, contact_email: email) }
 
-      context "and the registration has a contact email" do
+      context "when the registration has a contact email" do
         let(:email) { "simone@example.com" }
 
         it "sends an email, redirects to the previous page and displays a flash 'success' message" do
@@ -36,7 +36,7 @@ RSpec.describe "ResendRenewalEmail", type: :request do
         end
       end
 
-      context "and the registration has no contact email" do
+      context "when the registration has no contact email" do
         let(:email) { nil }
 
         it "does not send an email, redirects to the previous page and displays a flash 'error' message" do

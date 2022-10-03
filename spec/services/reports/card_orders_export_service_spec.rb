@@ -5,10 +5,11 @@ require "rails_helper"
 module Reports
   RSpec.describe CardOrdersExportService do
     describe ".run" do
-      let(:file_name) { "card_orders_#{Date.today.strftime('%Y-%m-%d')}.csv" }
+      let(:file_name) { "card_orders_#{Time.zone.today.strftime('%Y-%m-%d')}.csv" }
       let(:aws_file_pattern) { %r{https://.*\.s3\.eu-west-1\.amazonaws\.com/CARD_ORDERS/#{file_name}.*} }
       let(:end_time) { DateTime.now + 1.hour }
       let(:start_time) { end_time - 7.days }
+
       aws_stub = nil
 
       before do
@@ -22,10 +23,12 @@ module Reports
 
         subject { described_class.new.run(start_time: start_time, end_time: end_time) }
 
+        # rubocop:disable RSpec/NoExpectationExample
         it "executes a put request to AWS" do
           subject
           assert_requested aws_stub
         end
+        # rubocop:enable RSpec/NoExpectationExample
 
         it "updates the status of the exported order_item_logs" do
           expect { subject }
@@ -34,7 +37,7 @@ module Reports
         end
 
         it "creates a CardOrdersExportLog with the correct attributes" do
-          expect { subject }.to change { CardOrdersExportLog.count }.from(0).to(1)
+          expect { subject }.to change(CardOrdersExportLog, :count).from(0).to(1)
           export_log = CardOrdersExportLog.first
           expect(export_log.start_time.to_i).to eq start_time.to_i
           expect(export_log.end_time.to_i).to eq end_time.to_i
@@ -43,7 +46,7 @@ module Reports
         end
 
         it "does not report an error" do
-          expect(Airbrake).to_not receive(:notify)
+          expect(Airbrake).not_to receive(:notify)
 
           described_class.new.run(start_time: start_time, end_time: end_time)
         end
