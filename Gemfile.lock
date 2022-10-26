@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: c9afdaed1a5e11f2eb9d9a16fd0154cda4c553ab
+  revision: e3a4bcf87c2e60a375f8e1ba3c3894bc7dd00212
   branch: main
   specs:
     waste_carriers_engine (0.0.1)
@@ -423,7 +423,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.14.1)
+    rubocop-rspec (2.14.2)
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
