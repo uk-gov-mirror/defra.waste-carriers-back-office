@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: e3a4bcf87c2e60a375f8e1ba3c3894bc7dd00212
+  revision: 36bd51ec486321ed31f16dc76054aadd9ad8641c
   branch: main
   specs:
     waste_carriers_engine (0.0.1)
@@ -536,7 +536,7 @@ DEPENDENCIES
   rubocop-rspec
   rubyzip
   sass-rails (~> 5.0)
-  secure_headers (~> 6.3)
+  secure_headers (~> 6.5)
   simplecov (~> 0.17.1)
   spring
   timecop
