@@ -22,7 +22,16 @@ module Reports
     private
 
     def populate_temp_file
-      File.write(file_path, epr_report)
+      # Write the registrations first, then use the registration ids
+      # for de-duplication while writing the renewing_registrations
+
+      epr_serializer = EprSerializer.new(path: file_path, processed_ids: nil)
+      csv = epr_serializer.to_csv
+
+      epr_renewal_serializer = EprRenewalSerializer.new(path: nil, processed_ids: epr_serializer.registration_ids)
+      epr_renewal_serializer.to_csv(csv: csv)
+
+      csv.close
     end
 
     def file_path
@@ -31,10 +40,6 @@ module Reports
 
     def file_name
       WasteCarriersBackOffice::Application.config.epr_export_filename
-    end
-
-    def epr_report
-      EprSerializer.new.to_csv
     end
 
     def bucket_name

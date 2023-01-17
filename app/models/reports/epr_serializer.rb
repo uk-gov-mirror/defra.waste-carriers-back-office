@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module Reports
-  class EprSerializer < BaseSerializer
+  class EprSerializer < BaseCsvFileSerializer
+
+    attr_reader :registration_ids
+
     ATTRIBUTES = {
       reg_identifier: "Registration number",
       entity_display_name: "Organisation name",
@@ -24,6 +27,12 @@ module Reports
       company_no: "Company number"
     }.freeze
 
+    def initialize(path: nil, processed_ids: nil)
+      @processed_ids = processed_ids
+
+      super(path)
+    end
+
     private
 
     def scope
@@ -31,22 +40,23 @@ module Reports
                       .active_and_expired
                       .lower_tier_or_unexpired_or_in_covid_grace_window
 
-      renewing_registrations = ::WasteCarriersEngine::RenewingRegistration
-                               .where("conviction_sign_offs.confirmed": "no")
-                               .select do |rr|
-        rr.pending_manual_conviction_check? &&
-          !rr.pending_payment? &&
-          rr.metaData.status != "REVOKED"
-      end
+      # Save these for de-duplication purposes
+      @registration_ids = registrations.pluck(:reg_identifier)
 
-      (registrations + renewing_registrations).uniq(&:reg_identifier)
+      registrations
     end
 
     def parse_object(registration)
+      return if already_processed(registration.reg_identifier)
+
       ATTRIBUTES.map do |key, _value|
         presenter = RegistrationEprPresenter.new(registration, nil)
         presenter.public_send(key)
       end
+    end
+
+    def already_processed(_reg_identifier)
+      false
     end
   end
 end

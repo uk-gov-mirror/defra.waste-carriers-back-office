@@ -27,7 +27,8 @@ module Reports
     private
 
     def populate_temp_file
-      File.write(file_path, card_orders_export)
+      @serializer = CardOrdersExportSerializer.new(file_path, @start_time, @end_time)
+      @serializer.to_csv
     end
 
     def file_path
@@ -37,11 +38,6 @@ module Reports
     def file_name
       "#{WasteCarriersBackOffice::Application.config.card_orders_export_filename}" \
         "_#{Time.zone.today.strftime('%Y-%m-%d')}.csv"
-    end
-
-    def card_orders_export
-      @serializer = CardOrdersExportSerializer.new(@start_time, @end_time)
-      @serializer.to_csv
     end
 
     def bucket_name
