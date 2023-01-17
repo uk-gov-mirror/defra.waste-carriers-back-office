@@ -55,7 +55,7 @@ module Reports
       end
     end
 
-    def already_processed(_reg_identifier)
+    def already_processed(_)
       false
     end
   end
