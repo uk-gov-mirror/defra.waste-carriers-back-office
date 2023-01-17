@@ -21,8 +21,7 @@ module Reports
 
       # for renewing registrations, use the original registration's expiry date plus three years
       if __getobj__.instance_of?(WasteCarriersEngine::RenewingRegistration)
-        original_expiry = registration.expires_on
-        return (original_expiry + 3.years).to_formatted_s(:year_month_day_hyphens)
+        return __getobj__.future_expiry_date.to_formatted_s(:year_month_day_hyphens)
       end
 
       return if super.blank?
