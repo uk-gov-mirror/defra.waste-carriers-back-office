@@ -41,7 +41,7 @@ module Reports
                       .lower_tier_or_unexpired_or_in_covid_grace_window
 
       # Save these for de-duplication purposes
-      @registration_ids = registrations.pluck(:reg_identifier)
+      @registration_ids = registrations.pluck(:reg_identifier).to_set
 
       registrations
     end
