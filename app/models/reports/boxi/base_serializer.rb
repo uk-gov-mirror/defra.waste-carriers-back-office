@@ -21,7 +21,7 @@ module Reports
 
       def open_csv
         file_path = File.join(destination_dir, file_name)
-        csv = CSV.open(file_path, "w+", force_quotes: true)
+        csv = CSV.open(file_path, "w", force_quotes: true)
 
         # Add headers
         csv << self.class::ATTRIBUTES.values

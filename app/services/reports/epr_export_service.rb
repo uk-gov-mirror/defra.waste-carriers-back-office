@@ -30,8 +30,8 @@ module Reports
 
       epr_renewal_serializer = EprRenewalSerializer.new(path: nil, processed_ids: epr_serializer.registration_ids)
       epr_renewal_serializer.to_csv(csv: csv)
-
-      csv.close
+    ensure
+      csv.close unless csv.nil? || csv.closed?
     end
 
     def file_path

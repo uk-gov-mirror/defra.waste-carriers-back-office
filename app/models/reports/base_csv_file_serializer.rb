@@ -13,7 +13,7 @@ module Reports
 
     def to_csv(csv: nil, force_quotes: true)
       unless csv
-        csv = CSV.open(@path, "w+", force_quotes: force_quotes)
+        csv = CSV.open(@path, "w", force_quotes: force_quotes)
         csv << self.class::ATTRIBUTES.values
       end
 
@@ -22,6 +22,9 @@ module Reports
       end
 
       csv
+    rescue StandardError => e
+      Rails.logger.error "Error writing CSV file to #{@path}: #{e}"
+      Airbrake.notify(e, csv_file_path: @path)
     end
   end
 end
