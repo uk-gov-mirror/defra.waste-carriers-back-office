@@ -18,7 +18,7 @@
 #     )
 #
 class TimedServiceRunner
-  def self.run(scope:, run_for:, service:)
+  def self.run(scope:, run_for:, service:, throttle: 0)
     run_until = run_for.minutes.from_now
 
     scope.each do |address|
@@ -30,6 +30,7 @@ class TimedServiceRunner
       rescue StandardError => e
         handle_error(e, address.id, service)
       end
+      sleep(throttle) if throttle.positive?
     end
   end
 

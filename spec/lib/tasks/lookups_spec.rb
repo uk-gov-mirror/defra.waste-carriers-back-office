@@ -26,7 +26,8 @@ RSpec.describe "lookups:update:missing_area", type: :rake do
     expect(TimedServiceRunner).to have_received(:run).with(
       scope: array_with_size(50, WasteCarriersEngine::Address),
       run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
-      service: WasteCarriersEngine::AssignSiteDetailsService
+      service: WasteCarriersEngine::AssignSiteDetailsService,
+      throttle: 0.1
     ).at_least(:once)
   end
 
@@ -41,7 +42,8 @@ RSpec.describe "lookups:update:missing_area", type: :rake do
       expect(TimedServiceRunner).to have_received(:run).with(
         scope: [],
         run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
-        service: WasteCarriersEngine::AssignSiteDetailsService
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
       ).at_least(:once)
     end
   end
@@ -57,7 +59,8 @@ RSpec.describe "lookups:update:missing_area", type: :rake do
       expect(TimedServiceRunner).to have_received(:run).with(
         scope: [],
         run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
-        service: WasteCarriersEngine::AssignSiteDetailsService
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
       ).at_least(:once)
     end
   end
@@ -73,7 +76,8 @@ RSpec.describe "lookups:update:missing_area", type: :rake do
       expect(TimedServiceRunner).to have_received(:run).with(
         scope: [],
         run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
-        service: WasteCarriersEngine::AssignSiteDetailsService
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
       ).at_least(:once)
     end
   end
@@ -89,7 +93,8 @@ RSpec.describe "lookups:update:missing_area", type: :rake do
       expect(TimedServiceRunner).to have_received(:run).with(
         scope: array_including(registration.company_address),
         run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
-        service: WasteCarriersEngine::AssignSiteDetailsService
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
       ).at_least(:once)
     end
   end
