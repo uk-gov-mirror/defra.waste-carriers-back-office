@@ -14,14 +14,12 @@ namespace :lookups do
       WasteCarriersEngine::Registration.where("address.area": nil).each do |registration|
         break if counter >= address_limit
 
-        missing_area_addresses = registration.addresses.missing_area.with_postcode
-        missing_area_count = missing_area_addresses.count
-        counter += missing_area_count
+        address = registration.company_address
+        next if address.blank? || address.postcode.blank? || address.area.present?
 
-        # Limit the number of addresses added if the counter goes over the limit
-        missing_area_count -= (counter - address_limit) if counter > address_limit
+        counter += 1
 
-        addresses_scope.concat(missing_area_addresses.limit(missing_area_count))
+        addresses_scope.push(address)
       end
 
       addresses_scope = addresses_scope.take(address_limit) if addresses_scope.count > address_limit
