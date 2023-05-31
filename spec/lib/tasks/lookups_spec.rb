@@ -5,12 +5,15 @@ require "rails_helper"
 
 RSpec.describe "lookups:update:missing_area", type: :rake do
   include_context "rake"
+  before do
+    Rake::Task["lookups:update:missing_area"].reenable
+  end
 
   it "updates the area field for a maximum of 50 addresses with missing area and a postcode" do
     # Create registrations with addresses that have a missing area and a postcode
     registrations = create_list(:registration, 55)
     registrations.each do |registration|
-      create(:address, registration: registration, area: nil, postcode: "AB1 2CD")
+      create(:address, :registered, registration: registration, area: nil, postcode: "AB1 2CD")
     end
 
     # Set up TimedServiceRunner as a spy
@@ -22,8 +25,77 @@ RSpec.describe "lookups:update:missing_area", type: :rake do
     # Expect TimedServiceRunner to be called with the correct amount of addresses
     expect(TimedServiceRunner).to have_received(:run).with(
       scope: array_with_size(50, WasteCarriersEngine::Address),
-      run_for: 60,
-      service: WasteCarriersEngine::AssignSiteDetailsService
+      run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
+      service: WasteCarriersEngine::AssignSiteDetailsService,
+      throttle: 0.1
     ).at_least(:once)
+  end
+
+  context "when the company address is blank" do
+    it "does not include the address in the service call" do
+      create(:registration, addresses: [build(:address, :contact)])
+
+      allow(TimedServiceRunner).to receive(:run)
+
+      Rake::Task["lookups:update:missing_area"].invoke
+
+      expect(TimedServiceRunner).to have_received(:run).with(
+        scope: [],
+        run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
+      ).at_least(:once)
+    end
+  end
+
+  context "when the postcode is blank" do
+    it "does not include the address in the service call" do
+      create(:registration, addresses: [build(:address, :registered, postcode: nil)])
+
+      allow(TimedServiceRunner).to receive(:run)
+
+      Rake::Task["lookups:update:missing_area"].invoke
+
+      expect(TimedServiceRunner).to have_received(:run).with(
+        scope: [],
+        run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
+      ).at_least(:once)
+    end
+  end
+
+  context "when the area is present" do
+    it "does not include the address in the service call" do
+      create(:registration, addresses: [build(:address, :registered, area: "Test Area", postcode: "AB1 2CD")])
+
+      allow(TimedServiceRunner).to receive(:run)
+
+      Rake::Task["lookups:update:missing_area"].invoke
+
+      expect(TimedServiceRunner).to have_received(:run).with(
+        scope: [],
+        run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
+      ).at_least(:once)
+    end
+  end
+
+  context "when the correct attributes are passed in" do
+    it "calls the TimedServiceRunner with the correct attributes" do
+      registration = create(:registration, addresses: [build(:address, :registered, area: nil, postcode: "AB1 2CD")])
+
+      allow(TimedServiceRunner).to receive(:run)
+
+      Rake::Task["lookups:update:missing_area"].invoke
+
+      expect(TimedServiceRunner).to have_received(:run).with(
+        scope: array_including(registration.company_address),
+        run_for: WasteCarriersBackOffice::Application.config.area_lookup_run_for.to_i,
+        service: WasteCarriersEngine::AssignSiteDetailsService,
+        throttle: 0.1
+      ).at_least(:once)
+    end
   end
 end
