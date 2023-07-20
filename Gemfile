@@ -127,6 +127,7 @@ group :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "rails-controller-testing"
+  gem "rspec-retry"
   gem "timecop"
 
   # Generates a test coverage report on every `bundle exec rspec` call. We use
