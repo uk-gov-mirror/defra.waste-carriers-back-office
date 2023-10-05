@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby "3.1.2"
+ruby "3.2.2"
 
 # Use MongoDB as the database, and mongoid as our ORM for it.
-gem "mongoid", "~> 7.5"
+gem "mongoid"
 
 gem "mongo_session_store"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", ">= 6.1.7"
+gem "rails", "~> 7.0"
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.0"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
 # Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 4.2.0"
+gem "uglifier"
 
 # Use CanCanCan for user roles and permissions
-gem "cancancan", "~> 3.3"
+gem "cancancan"
 
 gem "defra_ruby_template"
 
 # Use Devise for user authentication
-gem "devise", ">= 4.8"
-gem "devise_invitable", "~> 2.0"
+gem "devise"
+gem "devise_invitable"
 
 # To support method: :patch requests
 gem "jquery-rails"
@@ -31,16 +31,16 @@ gem "jquery-rails"
 # Manage, create and open zip files https://github.com/rubyzip/rubyzip
 gem "rubyzip"
 
-gem "secure_headers", "~> 6.5"
+gem "secure_headers"
 
 # Design system form builder
 gem "govuk_design_system_formbuilder"
 
-gem "kaminari", "~> 1.2"
-gem "kaminari-mongoid", "~> 1.0"
+gem "kaminari"
+gem "kaminari-mongoid"
 
 # Use Whenever to manage cron tasks
-gem "whenever", "~> 1.0"
+gem "whenever"
 
 gem "wicked_pdf"
 
@@ -51,7 +51,7 @@ gem "net-pop"
 gem "net-smtp"
 
 # Use the Defra Ruby Aws gem for loading files to AWS buckets
-gem "defra_ruby_aws", "~> 0.5"
+gem "defra_ruby_aws"
 
 # Use the waste carriers engine for the user journey
 gem "waste_carriers_engine",
@@ -60,7 +60,7 @@ gem "waste_carriers_engine",
 
 # Use the Defra Ruby Features gem to allow users with the correct permissions to
 # manage feature toggle (create / update / delete) from the back-office.
-gem "defra_ruby_features", "~> 0.1"
+gem "defra_ruby_features"
 
 gem "defra_ruby_govpay"
 
