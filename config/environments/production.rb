@@ -58,7 +58,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
@@ -80,7 +80,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Sending e-mails is required for user management and registration e-mails
   config.action_mailer.default_url_options = { host: config.wcrs_back_office_url, protocol: "https" }
@@ -90,11 +90,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-    user_name: ENV["WCRS_EMAIL_USERNAME"],
-    password: ENV["WCRS_EMAIL_PASSWORD"],
+    user_name: ENV.fetch("WCRS_EMAIL_USERNAME", nil),
+    password: ENV.fetch("WCRS_EMAIL_PASSWORD", nil),
     domain: config.wcrs_back_office_url,
-    address: ENV["WCRS_EMAIL_HOST"],
-    port: ENV["WCRS_EMAIL_PORT"],
+    address: ENV.fetch("WCRS_EMAIL_HOST", nil),
+    port: ENV.fetch("WCRS_EMAIL_PORT", nil),
     authentication: :plain,
     enable_starttls_auto: true
   }

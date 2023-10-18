@@ -10,12 +10,12 @@ require "open3"
 # work by actually running the deployment and seeing if it breaks (or not)
 # See https://github.com/rafaelsales/whenever-test for more details
 
-RSpec.describe "Whenever schedule" do
+RSpec.describe "Whenever::Test::Shedule" do
   let(:schedule) { Whenever::Test::Schedule.new(file: "config/schedule.rb") }
 
   it "makes sure 'rake' statements exist" do
     rake_jobs = schedule.jobs[:rake]
-    expect(rake_jobs.count).to eq(10)
+    expect(rake_jobs.count).to eq(13)
   end
 
   it "picks up the EPR export run frequency and time" do
@@ -23,6 +23,13 @@ RSpec.describe "Whenever schedule" do
 
     expect(job_details[:every][0]).to eq(:day)
     expect(job_details[:every][1][:at]).to eq("21:05")
+  end
+
+  it "picks up the finance reports generation run frequency and time" do
+    job_details = schedule.jobs[:rake].find { |h| h[:task] == "reports:export:generate_finance_reports" }
+
+    expect(job_details[:every][0]).to eq(:day)
+    expect(job_details[:every][1][:at]).to eq("03:40")
   end
 
   it "picks up the first email reminder run frequency and time" do
@@ -47,10 +54,10 @@ RSpec.describe "Whenever schedule" do
   end
 
   it "picks up the Notify digital renewal letters run frequency and time" do
-    job_details = schedule.jobs[:rake].find { |h| h[:task] == "notify:letters:digital_renewals" }
+    job_details = schedule.jobs[:rake].find { |h| h[:task] == "notify:notifications:digital_renewals" }
 
     expect(job_details[:every][0]).to eq(:day)
-    expect(job_details[:every][1][:at]).to eq("02:45")
+    expect(job_details[:every][1][:at]).to eq("10:00")
   end
 
   it "picks up the BOXI export run frequency and time" do

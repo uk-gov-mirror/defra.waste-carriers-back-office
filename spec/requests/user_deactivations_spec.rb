@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "User Activations", type: :request do
+RSpec.describe "User Activations" do
   let(:current_user_role) { :agency_super }
   let(:subject_user_role) { :agency }
   let(:active_user) { create(:user, role: subject_user_role) }
@@ -11,7 +11,8 @@ RSpec.describe "User Activations", type: :request do
   describe "GET /bo/users/:id/deactivate" do
     context "when a super user is signed in" do
       let(:user) { create(:user, role: current_user_role) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -51,7 +52,8 @@ RSpec.describe "User Activations", type: :request do
   describe "POST /bo/users/:id/deactivate" do
     context "when a super user is signed in" do
       let(:user) { create(:user, role: current_user_role) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -64,7 +66,7 @@ RSpec.describe "User Activations", type: :request do
             post "/bo/users/#{active_user.id}/deactivate"
 
             expect(response).to redirect_to(users_path)
-            expect(active_user.reload.active?).to eq(false)
+            expect(active_user.reload.active?).to be(false)
           end
         end
 

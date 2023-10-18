@@ -41,7 +41,7 @@ class BasePaymentForm < WasteCarriersEngine::BaseForm
   private
 
   def convert_amount_to_pence(amount_in_pounds)
-    return amount_in_pounds unless amount_in_pounds.present?
+    return amount_in_pounds if amount_in_pounds.blank?
 
     amount_in_pounds.to_d * 100
   end
@@ -57,23 +57,19 @@ class BasePaymentForm < WasteCarriersEngine::BaseForm
   def format_date_field_value(value)
     # If this isn't a valid integer, .to_i returns 0
     integer_value = value.to_i
-    return integer_value if integer_value.positive?
+    integer_value if integer_value.positive?
   end
 
   def set_date_received
     self.date_received = Date.new(date_received_year, date_received_month, date_received_day)
-  rescue NoMethodError
-    errors.add(:date_received, :invalid_date)
-  rescue ArgumentError
-    errors.add(:date_received, :invalid_date)
-  rescue TypeError
+  rescue NoMethodError, ArgumentError, TypeError
     errors.add(:date_received, :invalid_date)
   end
 
   def build_payment(params)
     params[:amount] = convert_amount_to_pence(params[:amount])
 
-    self.payment = WasteCarriersEngine::Payment.new_from_non_worldpay(params, order)
+    self.payment = WasteCarriersEngine::Payment.new_from_non_online_payment(params, order)
   end
 
   def update_finance_details

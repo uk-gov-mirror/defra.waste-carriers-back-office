@@ -21,13 +21,14 @@ module Reports
       Airbrake.notify e, file_name: file_name
       Rails.logger.error "Generate card orders export csv error for #{file_name}:\n#{e}"
     ensure
-      File.unlink(file_path) if File.exist?(file_path)
+      FileUtils.rm_f(file_path)
     end
 
     private
 
     def populate_temp_file
-      File.open(file_path, "w+") { |file| file.write(card_orders_export) }
+      @serializer = CardOrdersExportSerializer.new(file_path, @start_time, @end_time)
+      @serializer.to_csv
     end
 
     def file_path
@@ -35,13 +36,8 @@ module Reports
     end
 
     def file_name
-      "#{WasteCarriersBackOffice::Application.config.card_orders_export_filename}"\
-      "_#{Date.today.strftime('%Y-%m-%d')}.csv"
-    end
-
-    def card_orders_export
-      @serializer = CardOrdersExportSerializer.new(@start_time, @end_time)
-      @serializer.to_csv
+      "#{WasteCarriersBackOffice::Application.config.card_orders_export_filename}" \
+        "_#{Time.zone.today.strftime('%Y-%m-%d')}.csv"
     end
 
     def bucket_name
@@ -49,7 +45,7 @@ module Reports
     end
 
     def log_export
-      CardOrdersExportLog.new(@start_time, @end_time, file_name, Time.now).save!
+      CardOrdersExportLog.new(@start_time, @end_time, file_name, Time.zone.now).save!
       mark_order_items_exported
     end
 

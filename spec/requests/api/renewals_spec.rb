@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Renewals API", type: :request do
+RSpec.describe "Renewals API" do
   let(:renewal) { create(:renewing_registration) }
 
   before do
@@ -11,9 +11,9 @@ RSpec.describe "Renewals API", type: :request do
 
   describe "GET /bo/api/renewals/:reg_identifier" do
     context "when a user is signed in" do
-      let(:user) { create(:user, :finance) }
+      let(:user) { create(:user, role: :finance) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 

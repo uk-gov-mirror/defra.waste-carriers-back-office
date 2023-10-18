@@ -2,12 +2,12 @@
 
 require "rails_helper"
 
-RSpec.describe "FinanceDetails", type: :request do
+RSpec.describe "FinanceDetails" do
   describe "GET /bo/resource/:_id/finance-details" do
     context "when a valid user is signed in" do
       let(:user) { create(:user) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -18,7 +18,7 @@ RSpec.describe "FinanceDetails", type: :request do
           get resource_finance_details_path(renewing_registration._id)
 
           expect(response).to render_template(:show)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
         end
       end
 
@@ -29,7 +29,7 @@ RSpec.describe "FinanceDetails", type: :request do
           get resource_finance_details_path(registration._id)
 
           expect(response).to render_template(:show)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
         end
       end
     end

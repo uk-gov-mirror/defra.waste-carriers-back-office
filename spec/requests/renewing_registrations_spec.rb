@@ -2,13 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe "RenewingRegistrations", type: :request do
+RSpec.describe "RenewingRegistrations" do
   let(:transient_registration) { create(:renewing_registration, workflow_state: "tier_check_form") }
 
   describe "/bo/renewing-registrations/:reg_identifier" do
     context "when a valid user is signed in" do
       let(:user) { create(:user) }
-      before(:each) do
+
+      before do
         sign_in(user)
       end
 
@@ -16,7 +17,7 @@ RSpec.describe "RenewingRegistrations", type: :request do
         get "/bo/renewing-registrations/#{transient_registration.reg_identifier}"
 
         expect(response).to render_template(:show)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "includes a properly-displayed workflow_state and includes a link to continue the renewal" do

@@ -37,6 +37,7 @@ en:
             company_no: "Company number: %{number}"
             location: "Place of business: %{location}"
             registered_address_html: "<span class=\"govuk-!-font-weight-bold\">Trading address</span>:"
+            ea_area_html: "<span class=\"govuk-!-font-weight-bold\">EA area</span>: %{ea_area}"
           no_business_information_available: "This registration application is still in progress, so there are no business details yet."
       pending_payment_panel:
         status:
@@ -55,12 +56,14 @@ en:
       company_details_panel:
         labels:
           account_html: "<span class=\"govuk-!-font-weight-bold\">Account</span>: %{email}"
+          registration_date_html: "<span class=\"govuk-!-font-weight-bold\">Original registration date</span>: %{formatted_date}"
         attributes:
           registration_type:
             carrier_dealer: "Carrier and dealer"
             broker_dealer: "Broker and dealer"
             carrier_broker_dealer: "Carrier, broker and dealer"
         no_company_details_available: "This registration application is still in progress, so there are no company details yet."
+        find_renewal_dates: "To find renewal dates check the payment history in payment details section."
       action_links_panel:
         actions_box:
           heading:
@@ -82,6 +85,10 @@ en:
             revoke: "Cease or revoke"
             restart_renewal: "Restart renewal"
             refresh_companies_house: "Refresh registered company name from Companies House"
+            restore: Restore registration
+      restored_panel:
+        restored_details:
+          heading: Restored registration
       expired_panel:
         heading: "Expired on %{date}"
         links:

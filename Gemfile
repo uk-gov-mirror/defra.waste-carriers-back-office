@@ -1,52 +1,57 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby "2.7.1"
+ruby "3.2.2"
 
-# Use jquery as the JavaScript library
-gem "jquery-rails"
-# Use MongoDB as the database, and mongoid as our ORM for it. This version of
-# mongoid supports MongoDb 3.6
-gem "mongoid", "~> 7.3"
+# Use MongoDB as the database, and mongoid as our ORM for it.
+gem "mongoid"
+
+gem "mongo_session_store"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", ">= 6.1.4"
+gem "rails", "~> 7.0"
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 5.0"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
 # Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 1.3.0"
-
-# bundle exec rake doc:rails generates the API under doc/api.
-gem "sdoc", "~> 1.1.0", group: :doc
+gem "uglifier"
 
 # Use CanCanCan for user roles and permissions
-gem "cancancan", "~> 3.2.1"
+gem "cancancan"
 
 gem "defra_ruby_template"
 
 # Use Devise for user authentication
-gem "devise", ">= 4.8"
-gem "devise_invitable", "~> 2.0"
+gem "devise"
+gem "devise_invitable"
+
+# To support method: :patch requests
+gem "jquery-rails"
 
 # Manage, create and open zip files https://github.com/rubyzip/rubyzip
 gem "rubyzip"
 
-gem "secure_headers", "~> 5.0"
+gem "secure_headers"
 
 # Design system form builder
 gem "govuk_design_system_formbuilder"
 
-gem "kaminari", "~> 1.1"
-gem "kaminari-mongoid", "~> 1.0"
+gem "kaminari"
+gem "kaminari-mongoid"
 
 # Use Whenever to manage cron tasks
-gem "whenever", "~> 1.0"
+gem "whenever"
 
 gem "wicked_pdf"
 
+gem "matrix"
+
+gem "net-imap"
+gem "net-pop"
+gem "net-smtp"
+
 # Use the Defra Ruby Aws gem for loading files to AWS buckets
-gem "defra_ruby_aws", "~> 0.4"
+gem "defra_ruby_aws"
 
 # Use the waste carriers engine for the user journey
 gem "waste_carriers_engine",
@@ -55,7 +60,9 @@ gem "waste_carriers_engine",
 
 # Use the Defra Ruby Features gem to allow users with the correct permissions to
 # manage feature toggle (create / update / delete) from the back-office.
-gem "defra_ruby_features", "~> 0.1"
+gem "defra_ruby_features"
+
+gem "defra_ruby_govpay"
 
 # Use the defra ruby mocks engine to add support for mocking external services
 # in live environment. Essentially with this gem added and enabled the app
@@ -95,7 +102,7 @@ group :production do
 end
 
 group :development, :test do
-  # Call "binding.pry" anywhere in the code to stop execution and get a debugger console
+  # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "pry-byebug"
   # Apply our style guide to ensure consistency in how the code is written
   gem "defra_ruby_style"
@@ -104,13 +111,17 @@ group :development, :test do
   gem "dotenv-rails"
   # Project uses RSpec as its test framework
   gem "rspec-rails"
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
 end
 
 group :development do
+  gem "puma"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem "web-console"
+  # gem "webrick"
 end
 
 group :test do
@@ -118,11 +129,12 @@ group :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "rails-controller-testing"
+  gem "rspec-retry"
   gem "timecop"
 
   # Generates a test coverage report on every `bundle exec rspec` call. We use
   # the output to feed SonarCloud's stats and analysis
-  gem "simplecov", "~> 0.17.1", require: false
+  gem "simplecov", "~> 0.22.0", require: false
 
   # Allow automated testing of the whenever schedule
   gem "whenever-test", "~> 1.0"

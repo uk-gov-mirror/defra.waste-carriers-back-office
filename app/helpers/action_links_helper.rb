@@ -13,6 +13,12 @@ module ActionLinksHelper
   end
 
   def resume_link_for(resource)
+    # If metaData.route is nil or DIGITAL, the registration was started in the front-office
+    if resource.metaData.route.blank? || resource.metaData.route == "DIGITAL"
+      resource.metaData.route = "PARTIALLY_ASSISTED_DIGITAL"
+      resource.save
+    end
+
     return ad_privacy_policy_path(token: resource.token) if a_new_registration?(resource)
 
     ad_privacy_policy_path(reg_identifier: resource.reg_identifier)
@@ -24,7 +30,7 @@ module ActionLinksHelper
 
   def renewal_magic_link_for(resource)
     return nil unless a_registration?(resource)
-    return nil unless resource.renew_token.present?
+    return nil if resource.renew_token.blank?
 
     RenewalMagicLinkService.run(token: resource.renew_token)
   end
@@ -56,7 +62,24 @@ module ActionLinksHelper
   def display_refund_link_for?(resource)
     return false if resource.balance >= 0
 
+    # Display the link only if there is at least one govpay payment
+    return false if resource.payments.find(&:govpay?).nil?
+
+    # Do not display the link if there is a pending refund
+    return false if resource.payments.select(&:refund?).pluck(:govpay_payment_status).include?("submitted")
+
     can?(:refund, resource)
+  end
+
+  def display_check_refund_status_link_for?(resource)
+    return false unless can?(:refund, resource)
+
+    pending_refund = resource.payments.where(
+      payment_type: WasteCarriersEngine::Payment::REFUND, govpay_payment_status: "submitted"
+    ).first
+
+    # return the id of the first pending refund, if any as the view needs it
+    pending_refund&.govpay_id
   end
 
   def display_finance_details_link_for?(resource)
@@ -130,10 +153,12 @@ module ActionLinksHelper
     resource.can_start_renewal?
   end
 
-  def display_transfer_link_for?(resource)
-    return false unless display_registration_links?(resource)
+  def display_restore_registration_link_for?(resource)
+    return false unless a_registration?(resource)
+    return false unless can?(:restore, WasteCarriersEngine::Registration)
+    return false if resource.expires_on.present? && WasteCarriersEngine::ExpiryCheckService.new(resource).expired?
 
-    can?(:transfer_registration, WasteCarriersEngine::Registration)
+    resource.revoked? || resource.inactive?
   end
 
   def display_ways_to_share_magic_link_for?(resource)
@@ -184,7 +209,6 @@ module ActionLinksHelper
   def display_resume_link_for_renewal?(resource)
     return false unless display_renewing_registration_links?(resource)
     return false if resource.renewal_application_submitted?
-    return false if resource.workflow_state == "worldpay_form"
 
     can?(:renew, resource)
   end

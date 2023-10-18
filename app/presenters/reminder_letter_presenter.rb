@@ -6,10 +6,6 @@ class ReminderLetterPresenter < WasteCarriersEngine::BasePresenter
   include WasteCarriersEngine::ApplicationHelper
   include ActionView::Helpers::NumberHelper
 
-  def display_covid_warning?
-    WasteCarriersEngine::FeatureToggle.active?(:display_covid_warning_in_letters)
-  end
-
   def contact_address_lines
     address_lines = displayable_address(contact_address)
 
@@ -19,7 +15,7 @@ class ReminderLetterPresenter < WasteCarriersEngine::BasePresenter
   end
 
   def date_of_letter
-    Time.now.to_formatted_s(:day_month_year)
+    Time.zone.now.to_fs(:day_month_year)
   end
 
   def contact_full_name
@@ -44,7 +40,7 @@ class ReminderLetterPresenter < WasteCarriersEngine::BasePresenter
   end
 
   def renewal_url
-    root_url = Rails.configuration.wcrs_renewals_url.split("//").last
+    root_url = Rails.configuration.wcrs_fo_link_domain.split("//").last
 
     [root_url,
      "/fo/renew/",

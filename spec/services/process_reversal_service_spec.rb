@@ -12,13 +12,14 @@ RSpec.describe ProcessReversalService do
     it "generates a new payment and assigns it to the finance details" do
       reversal = double(:reversal)
 
-      expect(finance_details).to receive_message_chain(:payments, :<<).with(reversal)
-      expect(WasteCarriersEngine::Payment).to receive(:new).with(payment_type: WasteCarriersEngine::Payment::REVERSAL).and_return(reversal)
+      allow(finance_details).to receive(:payments).and_return([])
+      expect(finance_details.payments).to receive(:<<).with(reversal)
+      allow(WasteCarriersEngine::Payment).to receive(:new).with(payment_type: WasteCarriersEngine::Payment::REVERSAL).and_return(reversal)
 
       expect(reversal).to receive(:order_key=).with("123_REVERSAL")
       expect(reversal).to receive(:amount=).with(-10)
-      expect(reversal).to receive(:date_entered=).with(Date.today)
-      expect(reversal).to receive(:date_received=).with(Date.today)
+      expect(reversal).to receive(:date_entered=).with(Time.zone.today)
+      expect(reversal).to receive(:date_received=).with(Time.zone.today)
       expect(reversal).to receive(:registration_reference=).with("Registration reference")
       expect(reversal).to receive(:updated_by_user=).with("user@example.com")
       expect(reversal).to receive(:comment=).with("A reason")

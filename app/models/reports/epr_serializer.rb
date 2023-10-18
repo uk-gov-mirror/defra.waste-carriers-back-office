@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module Reports
-  class EprSerializer < BaseSerializer
+  class EprSerializer < BaseCsvFileSerializer
+
+    attr_reader :registration_ids
+
     ATTRIBUTES = {
       reg_identifier: "Registration number",
       entity_display_name: "Organisation name",
@@ -24,17 +27,40 @@ module Reports
       company_no: "Company number"
     }.freeze
 
+    def initialize(path: nil, processed_ids: nil)
+      @processed_ids = processed_ids || Set.new
+
+      super(path)
+    end
+
     private
 
     def scope
-      ::WasteCarriersEngine::Registration.active_and_expired.lower_tier_or_unexpired_or_in_covid_grace_window
+      registrations = ::WasteCarriersEngine::Registration
+                      .active_and_expired
+                      .lower_tier_or_unexpired
+
+      # Save these for de-duplication purposes
+      @registration_ids = registrations.pluck(:reg_identifier).to_set
+
+      registrations
     end
 
     def parse_object(registration)
+      return if already_processed(registration.reg_identifier)
+
       ATTRIBUTES.map do |key, _value|
         presenter = RegistrationEprPresenter.new(registration, nil)
         presenter.public_send(key)
       end
+    end
+
+    def already_processed(registration_id)
+      # SonarCloud complains about the unused parameter even with a leading underscore
+      # Removing it breaks epr_renewal_serializer. Adding a NOP so that the parameter is referenced.
+      registration_id.to_s
+
+      false
     end
   end
 end

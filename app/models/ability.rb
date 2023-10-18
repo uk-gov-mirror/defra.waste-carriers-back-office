@@ -44,7 +44,7 @@ class Ability
   end
 
   def permissions_for_agency_user
-    # This covers everything mounted in the engine and used for the assisted digital journey, including WorldPay
+    # This covers everything mounted in the engine and used for the assisted digital journey
     can :update, WasteCarriersEngine::RenewingRegistration
     can :create, WasteCarriersEngine::Registration
     can :renew, :all
@@ -55,8 +55,6 @@ class Ability
     can :refresh_company_name, WasteCarriersEngine::Registration
 
     can :revert_to_payment_summary, :all
-
-    can :transfer_registration, [WasteCarriersEngine::Registration, RegistrationTransferPresenter]
   end
 
   def permissions_for_agency_user_with_refund
@@ -65,6 +63,7 @@ class Ability
     can :view_revoked_reasons, :all
     can :cease, WasteCarriersEngine::Registration
     can :revoke, WasteCarriersEngine::Registration
+    can :restore, WasteCarriersEngine::Registration
     can :cancel, :all
 
     can :refund, :all
@@ -74,6 +73,7 @@ class Ability
     can :view_payments, :all
     can :review_convictions, :all
     can :view_card_order_exports, :all
+    can :manage_back_office_users, User
 
     can :write_off_small, WasteCarriersEngine::FinanceDetails do |finance_details|
       finance_details.zero_difference_balance <= write_off_agency_user_cap
@@ -96,23 +96,22 @@ class Ability
     can :charge_adjust, :all
     can :write_off_large, WasteCarriersEngine::FinanceDetails
     can :view_certificate, WasteCarriersEngine::Registration
-    can :record_worldpay_missed_payment, :all
+    can :record_missed_card_payment, :all
     can :view_payments, :all
 
+    # rubocop:disable Style/SymbolProc
     can :reverse, WasteCarriersEngine::Payment do |payment|
-      payment.worldpay? || payment.worldpay_missed?
+      payment.govpay?
     end
+    # rubocop:enable Style/SymbolProc
   end
 
   def permissions_for_agency_super_user
     permissions_for_agency_user_with_refund
 
     can :manage_back_office_users, :all
-    # rubocop:disable Style/SymbolProc
-    can :modify_user, User do |user|
-      user.in_agency_group?
-    end
-    # rubocop:enable Style/SymbolProc
+    can :modify_user, User, &:in_agency_group?
+    can :read, Reports::DefraQuarterlyStatsService
   end
 
   def permissions_for_finance_super_user
@@ -121,12 +120,7 @@ class Ability
     can :manage_back_office_users, User
     can :charge_adjust, :all
     can :run_finance_reports, :all
-
-    # rubocop:disable Style/SymbolProc
-    can :modify_user, User do |user|
-      user.in_finance_group?
-    end
-    # rubocop:enable Style/SymbolProc
+    can :modify_user, User, &:in_finance_group?
   end
 
   def permissions_for_developer_user
@@ -136,13 +130,22 @@ class Ability
     can :manage, WasteCarriersEngine::FeatureToggle
     can :import_conviction_data, :all
     can :run_finance_reports, :all
+    can :read, Reports::DefraQuarterlyStatsService
+    can :read, DeregistrationEmailExportService
   end
 
   def permissions_for_cbd_user
     permissions_for_agency_user
 
+    can :manage_back_office_users, User
     can :import_conviction_data, :all
     can :run_finance_reports, :all
+    can :read, DeregistrationEmailExportService
+    can :read, Reports::DefraQuarterlyStatsService
+
+    can :modify_user, User do |user|
+      data_agent?(user)
+    end
   end
 
   # Checks to see if role matches

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveDeletableRegistrationsService < ::WasteCarriersEngine::BaseService
+class RemoveDeletableRegistrationsService < WasteCarriersEngine::BaseService
   def run
     remove_deletable_registrations
   end
@@ -21,7 +21,7 @@ class RemoveDeletableRegistrationsService < ::WasteCarriersEngine::BaseService
 
   def deletable_registrations
     WasteCarriersEngine::Registration
-      .where("metaData.status" => { '$in': %w[EXPIRED INACTIVE REVOKED] })
+      .where("metaData.status" => { "$in": %w[EXPIRED INACTIVE REVOKED] })
       .where("metaData.lastModified" => { :$lte => cutoff_date })
   end
 
@@ -34,8 +34,10 @@ class RemoveDeletableRegistrationsService < ::WasteCarriersEngine::BaseService
     Rails.configuration.data_retention_years.to_i.years.ago.end_of_day
   end
 
+  # rubocop:disable Rails/Output
   def log(msg)
     # Avoid cluttering up the test logs
     puts msg unless Rails.env.test?
   end
+  # rubocop:enable Rails/Output
 end

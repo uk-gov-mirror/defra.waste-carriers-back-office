@@ -5,29 +5,30 @@ require "rails_helper"
 module Reports
   RSpec.describe CardOrdersExportSerializer do
 
-    let(:registration_1) { create(:registration) }
-    let(:registration_2) { create(:registration) }
+    let(:registration1) { create(:registration) }
+    let(:end_time) { DateTime.now + 3.days }
+    let(:start_time) { end_time - 1.week }
+    let(:registration2) { create(:registration) }
+    let(:registration3) { create(:registration) }
+    let(:file_path) { Rails.root.join("tmp/card_orders_file.csv") }
 
-    let!(:order_item_log_1) do
+    before do
       create(:order_item_log,
              type: "COPY_CARDS",
-             registration_id: registration_1.id,
+             registration_id: registration1.id,
              quantity: 2,
              activated_at: start_time + 1.second)
-    end
-    let!(:order_item_log_2) do
       create(:order_item_log,
              type: "COPY_CARDS",
-             registration_id: registration_2.id,
+             registration_id: registration2.id,
              quantity: 5,
              activated_at: end_time - 1.second)
     end
 
-    let(:end_time) { DateTime.now + 3.days }
-    let(:start_time) { end_time - 1.week }
+    subject(:serializer) { described_class.new(file_path, start_time, end_time) }
 
     describe "#to_csv" do
-      subject { described_class.new(start_time, end_time).to_csv }
+      let(:export_content) { File.read(file_path) }
 
       expected_columns = [
         "Registration Number",
@@ -59,37 +60,43 @@ module Reports
       ].freeze
 
       it "includes the expected header" do
-        expect(subject).to include(expected_columns.map { |title| "\"#{title}\"" }.join(","))
+        serializer.to_csv
+
+        expect(export_content).to include(expected_columns.map { |title| "\"#{title}\"" }.join(","))
       end
 
       context "with all registrations activated within the report window" do
 
+        before { serializer.to_csv }
+
         it "includes one row per item ordered" do
-          expect(subject.scan(registration_1.reg_identifier).size).to eq 2
-          expect(subject.scan(registration_2.reg_identifier).size).to eq 5
+          expect(export_content.scan(registration1.reg_identifier).size).to eq 2
+          expect(export_content.scan(registration2.reg_identifier).size).to eq 5
         end
 
         # This is to ensure the export includes previously exported
         # items if run manually in addition to at the scheduled time.
         it "includes the same list of order items when run multiple times" do
-          serializer = described_class.new(start_time, end_time)
-          serializer.to_csv
           serializer.mark_exported
-          export2 = described_class.new(start_time, end_time).to_csv
-          expect(export2.scan(registration_1.reg_identifier).size).to eq 2
-          expect(export2.scan(registration_2.reg_identifier).size).to eq 5
+          described_class.new(file_path, start_time, end_time).to_csv
+
+          expect(export_content.scan(registration1.reg_identifier).size).to eq 2
+          expect(export_content.scan(registration2.reg_identifier).size).to eq 5
         end
 
         it "excludes non-copy-card order items" do
-          order_item_log_2.type = "NEW"
-          order_item_log_2.save!
-          expect(subject).not_to include(order_item_log_2.registration_id)
+          non_card_order_item_log = WasteCarriersEngine::OrderItemLog.last
+          non_card_order_item_log.update!(type: "NEW")
+          subject.to_csv
+
+          expect(export_content).not_to include(non_card_order_item_log.registration_id)
         end
       end
 
       context "with a registration activated after the report window" do
         let(:registration) { create(:registration) }
-        let!(:order_item_log) do
+
+        before do
           create(:order_item_log,
                  type: "COPY_CARD",
                  registration_id: registration.id,
@@ -98,13 +105,14 @@ module Reports
         end
 
         it "excludes the late order items" do
-          expect(subject).not_to include(registration.reg_identifier)
+          expect(export_content).not_to include(registration.reg_identifier)
         end
       end
 
       context "with a registration activated before the report window" do
         let(:registration) { create(:registration) }
-        let!(:order_item_log) do
+
+        before do
           create(:order_item_log,
                  type: "COPY_CARD",
                  registration_id: registration.id,
@@ -113,13 +121,14 @@ module Reports
         end
 
         it "excludes order items for the earlier registration" do
-          expect(subject).not_to include(registration.reg_identifier)
+          expect(export_content).not_to include(registration.reg_identifier)
         end
       end
 
       context "with an expired registration" do
         let(:registration) { create(:registration, :expired) }
-        let!(:order_item_log) do
+
+        before do
           create(:order_item_log,
                  type: "COPY_CARD",
                  registration_id: registration.id,
@@ -128,7 +137,7 @@ module Reports
         end
 
         it "excludes order items for the expired registration" do
-          expect(subject).not_to include(registration.reg_identifier)
+          expect(export_content).not_to include(registration.reg_identifier)
         end
       end
 
@@ -136,21 +145,21 @@ module Reports
         before { WasteCarriersEngine::OrderItemLog.delete_all }
 
         it "includes the expected header" do
-          expect(subject).to include(expected_columns.map { |title| "\"#{title}\"" }.join(","))
+          expect(export_content).to include(expected_columns.map { |title| "\"#{title}\"" }.join(","))
         end
       end
 
       context "with a nil quantity card order item" do
-        let!(:order_item_log_1) do
+        before do
           create(:order_item_log,
                  type: "COPY_CARDS",
-                 registration_id: registration_1.id,
+                 registration_id: registration3.id,
                  quantity: nil,
                  activated_at: start_time + 1.second)
         end
 
         it "excludes the order item without raising an error" do
-          expect(subject).not_to include(registration_1.reg_identifier)
+          expect(export_content).not_to include(registration3.reg_identifier)
         end
       end
     end
@@ -160,7 +169,7 @@ module Reports
 
       context "with an existing serializer which has created a CSV export" do
         before do
-          serializer = described_class.new(start_time, end_time)
+          serializer = described_class.new(file_path, start_time, end_time)
           serializer.to_csv
         end
 

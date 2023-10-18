@@ -11,7 +11,10 @@ class RefundsController < ApplicationController
   before_action :fetch_payment, only: %i[new create]
 
   def index
-    payments = @resource.finance_details.payments.refundable
+    # Do not list worldpay payments for refunding.
+    payments = @resource.finance_details.payments.refundable.reject do |payment|
+      payment.payment_type == "WORLDPAY"
+    end
     @payments = ::PaymentPresenter.create_from_collection(payments, view_context)
   end
 
@@ -28,15 +31,26 @@ class RefundsController < ApplicationController
       payment: @payment,
       user: current_user
     )
-
     if response
       flash_success(
         I18n.t("refunds.flash_messages.successful", amount: display_pence_as_pounds_and_cents(amount_to_refund))
       )
     else
       flash_error(
-        I18n.t("refunds.flash_messages.error"), nil
+        I18n.t("refunds.flash_messages.error", type: @payment.payment_type.titleize), nil
       )
+    end
+
+    redirect_to resource_finance_details_path(@resource._id)
+  end
+
+  def update
+    updated = GovpayUpdateRefundStatusService.run(registration: @resource, refund_id: params[:order_key])
+
+    if updated
+      flash_success(I18n.t("refunds.refunded_message.updated"))
+    else
+      flash_message(I18n.t("refunds.refunded_message.not_updated"))
     end
 
     redirect_to resource_finance_details_path(@resource._id)

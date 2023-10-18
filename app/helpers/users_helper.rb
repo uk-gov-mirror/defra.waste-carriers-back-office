@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/HelperInstanceVariable
 module UsersHelper
   def display_user_actions?(displayed_user, current_user)
     current_user.can?(:modify_user, displayed_user)
   end
 
   def current_user_group_roles(current_user)
-    if current_user.in_agency_group?
-      User::AGENCY_ROLES
-    elsif current_user.in_finance_group?
-      User::FINANCE_ROLES
-    end
+    UserGroupRolesService.call(current_user)
   end
 
   private
@@ -29,3 +26,4 @@ module UsersHelper
     current_user_group_roles(current_user).include?(role)
   end
 end
+# rubocop:enable Rails/HelperInstanceVariable

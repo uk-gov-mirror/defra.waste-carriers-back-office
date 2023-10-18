@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Reports
-  class CardOrdersExportSerializer < BaseSerializer
+  class CardOrdersExportSerializer < BaseCsvFileSerializer
     ATTRIBUTES = {
       reg_identifier: "Registration Number",
       date_of_issue: "Date of Issue",
@@ -31,10 +31,15 @@ module Reports
       contact_address_country: "Contact Country"
     }.freeze
 
-    def initialize(start_time, end_time)
+    def initialize(file_path, start_time, end_time)
       @start_time = start_time
       @end_time = end_time
-      super()
+
+      super(file_path)
+    end
+
+    def to_csv
+      super(csv: nil, force_quotes: true)
     end
 
     # Let the caller decide when it's ok to mark the documents as successfully exported

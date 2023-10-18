@@ -2,13 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe "PaymentForms", type: :request do
+RSpec.describe "PaymentForms" do
   let(:transient_registration) { create(:renewing_registration) }
 
   describe "GET /bo/resources/:_id/payments" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_super) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_super) }
+
+      before do
         sign_in(user)
       end
 
@@ -16,7 +17,7 @@ RSpec.describe "PaymentForms", type: :request do
         get "/bo/resources/#{transient_registration._id}/payments"
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       context "when the resource is a registration" do
@@ -26,7 +27,7 @@ RSpec.describe "PaymentForms", type: :request do
           get "/bo/resources/#{registration._id}/payments"
 
           expect(response).to render_template(:new)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
         end
       end
     end
@@ -34,16 +35,15 @@ RSpec.describe "PaymentForms", type: :request do
 
   describe "POST /bo/resources/:_id/payments" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_super) }
-
-      before(:each) do
-        sign_in(user)
-      end
-
+      let(:user) { create(:user, role: :agency_super) }
       let(:params) do
         {
           payment_type: "transfer"
         }
+      end
+
+      before do
+        sign_in(user)
       end
 
       context "when the payment_type is cash" do
@@ -91,18 +91,6 @@ RSpec.describe "PaymentForms", type: :request do
           post "/bo/resources/#{transient_registration._id}/payments", params: { payment_form: params }
 
           expect(response).to redirect_to(new_resource_bank_transfer_payment_form_path(transient_registration._id))
-        end
-      end
-
-      context "when the payment_type is worldpay_missed" do
-        before do
-          params[:payment_type] = "worldpay_missed"
-        end
-
-        it "redirects to the worldpay_missed payment form" do
-          post "/bo/resources/#{transient_registration._id}/payments", params: { payment_form: params }
-
-          expect(response).to redirect_to(new_resource_worldpay_missed_payment_form_path(transient_registration._id))
         end
       end
 

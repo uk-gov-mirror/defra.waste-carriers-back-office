@@ -2,11 +2,11 @@
 
 require "rails_helper"
 
-RSpec.describe "Assisted digital privacy policy", type: :request do
+RSpec.describe "Assisted digital privacy policy" do
   let(:registration) { create(:registration, :expires_soon) }
-  let(:user) { create(:user, :agency) }
+  let(:user) { create(:user, role: :agency) }
 
-  before(:each) do
+  before do
     sign_in(user)
   end
 
@@ -15,7 +15,7 @@ RSpec.describe "Assisted digital privacy policy", type: :request do
       get ad_privacy_policy_path(registration.reg_identifier)
 
       expect(response).to render_template("ad_privacy_policy/show")
-      expect(response.code).to eq("200")
+      expect(response).to have_http_status(:ok)
     end
   end
 end

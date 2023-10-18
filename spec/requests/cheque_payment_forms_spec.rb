@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "ChequePaymentForms", type: :request do
+RSpec.describe "ChequePaymentForms" do
   let(:transient_registration) do
     create(:renewing_registration, :does_not_require_conviction_check)
   end
@@ -13,8 +13,9 @@ RSpec.describe "ChequePaymentForms", type: :request do
 
   describe "GET /bo/resource/:_id/payments/cheque" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_with_refund) }
+
+      before do
         sign_in(user)
       end
 
@@ -22,7 +23,7 @@ RSpec.describe "ChequePaymentForms", type: :request do
         get "/bo/resources/#{transient_registration._id}/payments/cheque"
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
         expect(response.body).to include(transient_registration.reg_identifier)
       end
 
@@ -33,15 +34,16 @@ RSpec.describe "ChequePaymentForms", type: :request do
           get "/bo/resources/#{registration._id}/payments/cheque"
 
           expect(response).to render_template(:new)
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(:ok)
           expect(response.body).to include(registration.reg_identifier)
         end
       end
     end
 
     context "when a non-agency user is signed in" do
-      let(:user) { create(:user, :finance) }
-      before(:each) do
+      let(:user) { create(:user, role: :finance) }
+
+      before do
         sign_in(user)
       end
 
@@ -71,8 +73,9 @@ RSpec.describe "ChequePaymentForms", type: :request do
     end
 
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_with_refund) }
+
+      before do
         sign_in(user)
       end
 
@@ -140,8 +143,9 @@ RSpec.describe "ChequePaymentForms", type: :request do
     end
 
     context "when a non-agency user is signed in" do
-      let(:user) { create(:user, :finance) }
-      before(:each) do
+      let(:user) { create(:user, role: :finance) }
+
+      before do
         sign_in(user)
       end
 

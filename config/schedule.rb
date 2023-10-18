@@ -22,6 +22,11 @@ every :day, at: (ENV["EXPORT_SERVICE_EPR_EXPORT_TIME"] || "21:05"), roles: [:db]
   rake "reports:export:epr"
 end
 
+# This is the job to generate the daily finance reports.
+every :day, at: (ENV["GENERATE_FINANCE_REPORTS_TIME"] || "03:40"), roles: [:db] do
+  rake "reports:export:generate_finance_reports"
+end
+
 # This is the first renewal email reminder job. For each registration expiring
 # in 28 days time, it will generate and send the first email reminder
 every :day, at: (ENV["FIRST_RENEWAL_EMAIL_REMINDER_DAILY_RUN_TIME"] || "02:05"), roles: [:db] do
@@ -51,8 +56,8 @@ end
 
 # This is the Notify digital renewal letters job. When run it will send out Notify
 # renewal letters for all digital registrations expiring in X days' time
-every :day, at: (ENV["NOTIFY_DIGITAL_RENEWAL_LETTERS_TIME"] || "02:45"), roles: [:db] do
-  rake "notify:letters:digital_renewals"
+every :day, at: (ENV["NOTIFY_DIGITAL_RENEWAL_LETTERS_TIME"] || "10:00"), roles: [:db] do
+  rake "notify:notifications:digital_renewals"
 end
 
 # This is the registration exemptions expiry job which will collect all active upper tier
@@ -76,4 +81,12 @@ end
 # This job exports copy card order details for the previous week, ending at midnight on Monday.
 every :tuesday, at: (ENV["EXPORT_COPY_CARD_ORDERS_RUN_TIME"] || "02:15"), roles: [:db] do
   rake "reports:export:weekly_copy_card_orders"
+end
+
+every :day, at: (ENV["AREA_LOOKUP"] || "01:05"), roles: [:db] do
+  rake "lookups:update:missing_area"
+end
+
+every :day, at: (ENV["CLEANUP_OLD_SESSIONS_TIME"] || "01:00"), roles: [:db] do
+  rake "db:sessions:trim"
 end

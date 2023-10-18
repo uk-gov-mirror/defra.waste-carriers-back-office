@@ -66,8 +66,6 @@ module Reports
     address_keys = %w[line_1 line_2 line_3 line_4 line_5 line_6 town_city postcode country].freeze
     address_keys.each do |key|
       define_method("registered_address_#{key}".to_sym) { @registered_address["registered_address_#{key}".to_sym] }
-    end
-    address_keys.each do |key|
       define_method("contact_address_#{key}".to_sym) { @contact_address["contact_address_#{key}".to_sym] }
     end
 
@@ -106,7 +104,7 @@ module Reports
         address.addressLine2,
         address.addressLine3,
         address.addressLine4
-      ].reject(&:blank?)
+      ].compact_blank
     end
 
     def address_line_unless_duplicate(registered_company_name, company_name, address_line)

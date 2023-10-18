@@ -7,7 +7,7 @@ module Reports
              to: :company_address, prefix: true
 
     def metadata_date_activated
-      metaData&.date_activated&.to_formatted_s(:year_month_day_hyphens)
+      metaData&.date_activated&.to_fs(:year_month_day_hyphens)
     end
 
     def registration_type
@@ -18,11 +18,15 @@ module Reports
 
     def expires_on
       return if lower_tier?
-      return unless super.present?
 
-      return extended_covid_expiry_date(super) if expired_with_covid_extension?(super)
+      # for renewing registrations, use the original registration's expiry date plus three years
+      if __getobj__.instance_of?(WasteCarriersEngine::RenewingRegistration)
+        return __getobj__.future_expiry_date.to_fs(:year_month_day_hyphens)
+      end
 
-      super.to_formatted_s(:year_month_day_hyphens)
+      return if super.blank?
+
+      super.to_fs(:year_month_day_hyphens)
     end
 
     def company_no
@@ -37,18 +41,6 @@ module Reports
       return if number.chars.uniq == ["0"]
 
       number
-    end
-
-    private
-
-    def expired_with_covid_extension?(original_expires_on)
-      end_of_covid_extension = Rails.configuration.end_of_covid_extension
-
-      original_expires_on < end_of_covid_extension
-    end
-
-    def extended_covid_expiry_date(original_expires_on)
-      (original_expires_on + Rails.configuration.covid_grace_window.days).to_formatted_s(:year_month_day_hyphens)
     end
   end
 end

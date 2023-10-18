@@ -8,13 +8,14 @@ module Reports
         person_type: "PersonType",
         first_name: "FirstName",
         last_name: "LastName",
+        date_of_birth: "DateOfBirth",
         position: "Position",
         flagged_for_review: "FlaggedForReview",
         review_flag_timestamp: "ReviewFlagTimestamp"
       }.freeze
 
       def add_entries_for(registration, uid)
-        return unless registration.key_people.present?
+        return if registration.key_people.blank?
 
         registration.key_people.each do |key_person|
           csv << parse_key_person(key_person, uid)

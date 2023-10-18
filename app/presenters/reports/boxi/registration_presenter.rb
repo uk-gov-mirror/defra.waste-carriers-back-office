@@ -15,26 +15,26 @@ module Reports
       end
 
       def metadata_date_registered
-        metadata&.date_registered&.to_datetime&.to_formatted_s(:calendar_date_and_local_time)
+        metadata&.date_registered&.to_datetime&.to_fs(:calendar_date_and_local_time)
       end
 
       def metadata_date_activated
-        metadata&.date_activated&.to_datetime&.to_formatted_s(:calendar_date_and_local_time)
+        metadata&.date_activated&.to_datetime&.to_fs(:calendar_date_and_local_time)
       end
 
       def expires_on
-        super&.to_datetime&.to_formatted_s(:calendar_date_and_local_time)
+        super&.to_datetime&.to_fs(:calendar_date_and_local_time)
       end
 
       def metadata_date_last_modified
-        metadata&.last_modified&.to_datetime&.to_formatted_s(:calendar_date_and_local_time)
+        metadata&.last_modified&.to_datetime&.to_fs(:calendar_date_and_local_time)
       end
 
       def assistance_mode
         case metaData&.route
         when "DIGITAL"
           "Unassisted"
-        when "ASSISTED_DIGITAL_FROM_TRANSIENT_REGISTRATION"
+        when "PARTIALLY_ASSISTED_DIGITAL"
           "Partially assisted"
         when "ASSISTED_DIGITAL"
           "Fully assisted"
@@ -44,7 +44,7 @@ module Reports
       end
 
       def conviction_search_result_searched_at
-        conviction_search_result&.searched_at&.to_datetime&.to_formatted_s(:calendar_date_and_local_time)
+        conviction_search_result&.searched_at&.to_datetime&.to_fs(:calendar_date_and_local_time)
       end
 
       private

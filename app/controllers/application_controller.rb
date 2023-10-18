@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include WasteCarriersEngine::CanAddDebugLogging
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   before_action :authenticate_and_authorize_active_user
   before_action :back_button_cache_buster
+  before_action :check_concurrent_session
 
   helper WasteCarriersEngine::ApplicationHelper
 
@@ -34,6 +37,15 @@ class ApplicationController < ActionController::Base
 
   def after_accept_path_for(*)
     bo_path
+  end
+
+  # Most generic handler first:
+  # https://apidock.com/rails/ActiveSupport/Rescuable/ClassMethods/rescue_from#518-Define-handlers-in-order-of-most-generic-to-most-specific
+  rescue_from StandardError do |e|
+    Airbrake.notify e
+    Rails.logger.error "Unhandled exception: #{e}"
+    log_transient_registration_details("Uncaught system error", e, @transient_registration)
+    redirect_to "/bo/pages/system_error"
   end
 
   rescue_from CanCan::AccessDenied do
@@ -68,5 +80,16 @@ class ApplicationController < ActionController::Base
     return false if current_user.blank?
 
     cannot? :use_back_office, :all
+  end
+
+  def check_concurrent_session
+    return unless already_logged_in?
+
+    sign_out(current_user)
+    redirect_to new_user_session_path, alert: t("sessions.failure.already_authenticated")
+  end
+
+  def already_logged_in?
+    current_user && session[:login_token] != current_user.current_login_token
   end
 end

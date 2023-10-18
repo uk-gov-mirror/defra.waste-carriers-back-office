@@ -5,15 +5,11 @@ on: push
 jobs:
   build:
     # You must use a Linux environment when using service containers or container jobs
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       WCRS_REGISTRATION_EXPIRES_AFTER: 3
       WCRS_REGISTRATION_RENEWAL_WINDOW: 3
       WCRS_REGISTRATION_GRACE_WINDOW: 5
-      WCRS_REGISTRATION_COVID_GRACE_WINDOW: 180
-      WCRS_END_OF_COVID_EXTENSION_YEAR: 2020
-      WCRS_END_OF_COVID_EXTENSION_MONTH: 10
-      WCRS_END_OF_COVID_EXTENSION_DAY: 1
       WCRS_RENEWAL_CHARGE: 10500
       WCRS_TYPE_CHANGE_CHARGE: 4000
       WCRS_CARD_CHARGE: 500
@@ -23,17 +19,16 @@ jobs:
       AWS_BOXI_EXPORT_ACCESS_KEY_ID: 5678
       AWS_BOXI_EXPORT_SECRET_ACCESS_KEY: 5678
       AWS_BOXI_EXPORT_BUCKET: 5678
+      AWS_EMAIL_EXPORT_ACCESS_KEY_ID: 1234
+      AWS_EMAIL_EXPORT_SECRET_ACCESS_KEY: 5678
+      AWS_EMAIL_EXPORT_BUCKET: 5432
       AWS_WEEKLY_EXPORT_ACCESS_KEY_ID: 5432
       AWS_WEEKLY_EXPORT_SECRET_ACCESS_KEY: 5432
       AWS_WEEKLY_EXPORT_BUCKET: 5432
+      FINANCE_REPORTS_BUCKET_NAME: 3456
       NOTIFY_API_KEY: ${{ secrets.NOTIFY_API_KEY }}
+
       # Just used to make the tests pass
-      WCRS_WORLDPAY_MOTO_USERNAME: foo
-      WCRS_WORLDPAY_MOTO_PASSWORD: foo
-      WCRS_WORLDPAY_MOTO_MERCHANTCODE: abc
-      WCRS_WORLDPAY_MOTO_MACSECRET: def
-      WCRS_WORLDPAY_ECOM_USERNAME: foo
-      WCRS_WORLDPAY_ECOM_PASSWORD: foo
       WCRS_USE_XVFB_FOR_WICKEDPDF: true
 
     # Service containers to run with `runner-job`
@@ -75,15 +70,15 @@ jobs:
           bundle exec rubocop --format progress --format json --out rubocop-result.json
 
       # This includes an extra run step. The sonarcloud analysis will be run in a docker container with the current
-      # folder mounted as `/github/workspace`. The problem is when the .resultset.json file is generated it will
+      # folder mounted as `/github/workspace`. The problem is when the coverage.json file is generated it will
       # reference the code in the current folder. So to enable sonarcloud to matchup code coverage with the files we use
-      # sed to update the references in .resultset.json
+      # sed to update the references in coverage.json
       # https://community.sonarsource.com/t/code-coverage-doesnt-work-with-github-action/16747/6
       - name: Run unit tests
         run: |
           bundle exec rails test
           bundle exec rspec
-          sed -i 's/\/home\/runner\/work\/waste-carriers-back-office\/waste-carriers-back-office\//\/github\/workspace\//g' coverage/.resultset.json
+          sed -i 's/\/home\/runner\/work\/waste-carriers-back-office\/waste-carriers-back-office\//\/github\/workspace\//g' coverage/coverage.json
 
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master

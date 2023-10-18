@@ -2,13 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe "Cancels", type: :request do
+RSpec.describe "Cancels" do
   describe "GET /bo/resource/:_id/cancel" do
     context "when an agency with refund user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
+      let(:user) { create(:user, role: :agency_with_refund) }
       let(:registration) { create(:registration) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -16,15 +16,15 @@ RSpec.describe "Cancels", type: :request do
         get new_resource_cancel_path(registration._id)
 
         expect(response).to render_template(:new)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context "when a finance super user is signed in" do
-      let(:user) { create(:user, :finance_super) }
+      let(:user) { create(:user, role: :finance_super) }
       let(:registration) { create(:registration) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -32,7 +32,7 @@ RSpec.describe "Cancels", type: :request do
         get new_resource_cancel_path(registration._id)
 
         expect(response).to redirect_to("/bo/pages/permission")
-        expect(response).to have_http_status(302)
+        expect(response).to have_http_status(:found)
       end
     end
 
@@ -47,10 +47,10 @@ RSpec.describe "Cancels", type: :request do
 
   describe "POST /bo/resource/:_id/charge-adjust" do
     context "when an agency with refund user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
+      let(:user) { create(:user, role: :agency_with_refund) }
       let(:registration) { create(:registration, :pending) }
 
-      before(:each) do
+      before do
         sign_in(user)
       end
 
@@ -60,7 +60,7 @@ RSpec.describe "Cancels", type: :request do
         registration.reload
 
         expect(registration).to be_inactive
-        expect(response).to have_http_status(302)
+        expect(response).to have_http_status(:found)
         expect(response).to redirect_to(registration_path(registration.reg_identifier))
       end
     end

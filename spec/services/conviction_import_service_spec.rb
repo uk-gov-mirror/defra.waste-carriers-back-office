@@ -3,13 +3,14 @@
 require "rails_helper"
 
 RSpec.describe ConvictionImportService do
-  let(:csv) {}
+  let(:csv) { nil }
   let(:run_service) do
-    ConvictionImportService.run(csv)
+    described_class.run(csv)
   end
 
   describe "#run" do
     let(:old_conviction_name) { "Old Conviction" }
+
     before do
       WasteCarriersEngine::ConvictionsCheck::Entity.new(name: old_conviction_name).save
     end
@@ -77,15 +78,23 @@ Apex Limited,,11111111,ABC,99999999
 
     context "when valid CSV data is not provided" do
       # Use an object with a close method so that forwardable does not complain about forwarding to a private method.
-      class NotCsv
-        def close; end
+      let(:test_class) do
+        Class.new(described_class) do
+          def close; end
+        end
       end
-      let(:csv) { NotCsv.new }
+
+      let(:csv) { test_class.new }
 
       it "raises an InvalidCSVError and doesn't update any conviction data" do
         old_conviction = WasteCarriersEngine::ConvictionsCheck::Entity.where(name: old_conviction_name)
 
-        expect { run_service }.to raise_error(InvalidCSVError).and change { old_conviction.count }.by(0)
+        expect { run_service }.to raise_error(InvalidCSVError)
+        expect do
+          run_service
+        rescue InvalidCSVError
+          Rails.logger.debug "rescued expected exception"
+        end.not_to change { old_conviction.count }
       end
     end
 
@@ -101,7 +110,12 @@ baking soda,2,tablespoons
       it "raises an InvalidConvictionDataError and doesn't update any conviction data" do
         old_conviction = WasteCarriersEngine::ConvictionsCheck::Entity.where(name: old_conviction_name)
 
-        expect { run_service }.to raise_error(InvalidConvictionDataError, "Invalid headers").and change { old_conviction.count }.by(0)
+        expect { run_service }.to raise_error(InvalidConvictionDataError, "Invalid headers")
+        expect do
+          run_service
+        rescue InvalidConvictionDataError
+          Rails.logger.debug "rescued expected exception"
+        end.not_to change { old_conviction.count }
       end
 
       context "when the CSV does not contain offender names" do
@@ -117,7 +131,17 @@ Apex Limited,,11111111,ABC,99999999
           old_conviction = WasteCarriersEngine::ConvictionsCheck::Entity.where(name: old_conviction_name)
           new_conviction = WasteCarriersEngine::ConvictionsCheck::Entity.where(name: "Apex Limited")
 
-          expect { run_service }.to raise_error(InvalidConvictionDataError, "Offender name missing").and change { old_conviction.count }.by(0).and change { new_conviction.count }.by(0)
+          expect { run_service }.to raise_error(InvalidConvictionDataError, "Offender name missing")
+          expect do
+            run_service
+          rescue InvalidConvictionDataError
+            Rails.logger.debug "rescued expected exception"
+          end.not_to change { old_conviction.count }
+          expect do
+            run_service
+          rescue InvalidConvictionDataError
+            Rails.logger.debug "rescued expected exception"
+          end.not_to change { new_conviction.count }
         end
       end
 
@@ -133,7 +157,17 @@ Offender,Birth Date,Company No.,System Flag,Inc Number
           old_conviction = WasteCarriersEngine::ConvictionsCheck::Entity.where(name: old_conviction_name)
           new_conviction = WasteCarriersEngine::ConvictionsCheck::Entity.where(name: "Doe, John")
 
-          expect { run_service }.to raise_error(InvalidConvictionDataError, "Invalid date of birth").and change { old_conviction.count }.by(0).and change { new_conviction.count }.by(0)
+          expect { run_service }.to raise_error(InvalidConvictionDataError, "Invalid date of birth")
+          expect do
+            run_service
+          rescue InvalidConvictionDataError
+            Rails.logger.debug "rescued expected exception"
+          end.not_to change { old_conviction.count }
+          expect do
+            run_service
+          rescue InvalidConvictionDataError
+            Rails.logger.debug "rescued expected exception"
+          end.not_to change { new_conviction.count }
         end
       end
     end

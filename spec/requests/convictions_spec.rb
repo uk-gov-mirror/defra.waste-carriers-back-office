@@ -2,14 +2,15 @@
 
 require "rails_helper"
 
-RSpec.describe "Convictions", type: :request do
+RSpec.describe "Convictions" do
   let(:registration) { create(:registration, :requires_conviction_check) }
   let(:transient_registration) { create(:renewing_registration, :requires_conviction_check) }
 
   describe "/bo/registrations/:reg_identifier/convictions" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_with_refund) }
+
+      before do
         sign_in(user)
       end
 
@@ -17,14 +18,15 @@ RSpec.describe "Convictions", type: :request do
         get "/bo/registrations/#{registration.reg_identifier}/convictions"
 
         expect(response).to render_template(:index)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
         expect(response.body).to include(registration.reg_identifier)
       end
     end
 
     context "when a non-agency user is signed in" do
-      let(:user) { create(:user, :finance) }
-      before(:each) do
+      let(:user) { create(:user, role: :finance) }
+
+      before do
         sign_in(user)
       end
 
@@ -46,8 +48,9 @@ RSpec.describe "Convictions", type: :request do
 
   describe "/bo/transient-registrations/:reg_identifier/convictions" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_with_refund) }
+
+      before do
         sign_in(user)
       end
 
@@ -55,14 +58,15 @@ RSpec.describe "Convictions", type: :request do
         get "/bo/transient-registrations/#{transient_registration.reg_identifier}/convictions"
 
         expect(response).to render_template(:index)
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
         expect(response.body).to include(transient_registration.reg_identifier)
       end
     end
 
     context "when a non-agency user is signed in" do
-      let(:user) { create(:user, :finance) }
-      before(:each) do
+      let(:user) { create(:user, role: :finance) }
+
+      before do
         sign_in(user)
       end
 
@@ -84,8 +88,9 @@ RSpec.describe "Convictions", type: :request do
 
   describe "/bo/registrations/:registration_reg_identifier/convictions/begin-checks" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_with_refund) }
+
+      before do
         sign_in(user)
       end
 
@@ -98,8 +103,9 @@ RSpec.describe "Convictions", type: :request do
     end
 
     context "when a non-agency user is signed in" do
-      let(:user) { create(:user, :finance) }
-      before(:each) do
+      let(:user) { create(:user, role: :finance) }
+
+      before do
         sign_in(user)
       end
 
@@ -121,8 +127,9 @@ RSpec.describe "Convictions", type: :request do
 
   describe "/bo/transient-registrations/:transient_registration_reg_identifier/convictions/begin-checks" do
     context "when a valid user is signed in" do
-      let(:user) { create(:user, :agency_with_refund) }
-      before(:each) do
+      let(:user) { create(:user, role: :agency_with_refund) }
+
+      before do
         sign_in(user)
       end
 
@@ -136,8 +143,9 @@ RSpec.describe "Convictions", type: :request do
   end
 
   context "when a non-agency user is signed in" do
-    let(:user) { create(:user, :finance) }
-    before(:each) do
+    let(:user) { create(:user, role: :finance) }
+
+    before do
       sign_in(user)
     end
 

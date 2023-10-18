@@ -2,14 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe "ResendConfirmationEmail", type: :request do
+RSpec.describe "ResendConfirmationEmail" do
   describe "GET /bo/resend-confirmation-email/:reg_identifier" do
-    before(:each) { sign_in(user) }
+    before { sign_in(user) }
 
     let(:request_path) { "/bo/resend-confirmation-email/#{registration.reg_identifier}" }
 
     context "when a finance user is signed in" do
-      let(:user) { create(:user, :finance) }
+      let(:user) { create(:user, role: :finance) }
       let(:registration) { create(:registration, :expires_soon) }
 
       it "redirects to permission page" do
@@ -20,10 +20,10 @@ RSpec.describe "ResendConfirmationEmail", type: :request do
     end
 
     context "when an agency user is signed in" do
-      let(:user) { create(:user, :agency) }
+      let(:user) { create(:user, role: :agency) }
       let(:registration) { create(:registration, :expires_soon, contact_email: email) }
 
-      context "and the registration has a contact email" do
+      context "when the registration has a contact email" do
         let(:email) { "simone@example.com" }
 
         it "sends an email, redirects to the previous page and displays a flash 'success' message" do
@@ -36,7 +36,7 @@ RSpec.describe "ResendConfirmationEmail", type: :request do
         end
       end
 
-      context "and the registration has no contact email" do
+      context "when the registration has no contact email" do
         let(:email) { nil }
 
         it "does not send an email, redirects to the previous page and displays a flash 'error' message" do
@@ -47,7 +47,7 @@ RSpec.describe "ResendConfirmationEmail", type: :request do
         end
       end
 
-      context "when an error happens", disable_bullet: true do
+      context "when an error happens", :disable_bullet do
         before do
           allow(WasteCarriersEngine::Notify::RegistrationConfirmationEmailService)
             .to receive(:run)

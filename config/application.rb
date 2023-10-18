@@ -29,7 +29,7 @@ module WasteCarriersBackOffice
     config.time_zone = "UTC"
 
     # The default locale is :en and all translations from config/locales/*/*.rb,yml are auto loaded.
-    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.{rb,yml}")]
     # config.i18n.default_locale = :de
 
     config.autoload_paths << "#{config.root}/app/forms/concerns"
@@ -45,12 +45,12 @@ module WasteCarriersBackOffice
 
     # Don't add field_with_errors div wrapper around fields with errors
     config.action_view.field_error_proc = proc { |html_tag, _instance|
-      html_tag.to_s.html_safe
+      html_tag.to_s
     }
 
     # Errbit config
     config.airbrake_on = ENV["WCRS_USE_AIRBRAKE"] == "true"
-    config.airbrake_host = ENV["WCRS_AIRBRAKE_URL"]
+    config.airbrake_host = ENV.fetch("WCRS_AIRBRAKE_URL", nil)
     # Even though we may not want to enable airbrake, its initializer requires
     # a value for project ID and key else it errors.
     # Furthermore Errbit (which we send the exceptions to) doesn"t make use of
@@ -60,28 +60,35 @@ module WasteCarriersBackOffice
     config.airbrake_key = ENV["WCRS_BACKOFFICE_AIRBRAKE_PROJECT_KEY"] || "dummy"
 
     # Data export config
-    config.epr_reports_bucket_name = ENV["AWS_DAILY_EXPORT_BUCKET"]
-    config.epr_export_filename = ENV["EPR_DAILY_REPORT_FILE_NAME"] || "waste_carriers_epr_daily_full"
-    config.boxi_exports_bucket_name = ENV["AWS_BOXI_EXPORT_BUCKET"]
-    config.boxi_exports_filename = ENV["BOXI_EXPORTS_FILENAME"] || "waste_carriers_boxi_daily_full"
-    config.weekly_exports_bucket_name = ENV["AWS_WEEKLY_EXPORT_BUCKET"]
-    config.card_orders_export_filename = ENV["CARD_ORDERS_EXPORT_FILENAME"] || "card_orders"
+    config.epr_reports_bucket_name = ENV.fetch("AWS_DAILY_EXPORT_BUCKET", nil)
+    config.epr_export_filename = ENV.fetch("EPR_DAILY_REPORT_FILE_NAME", "waste_carriers_epr_daily_full")
+    config.boxi_exports_bucket_name = ENV.fetch("AWS_BOXI_EXPORT_BUCKET", nil)
+    config.boxi_exports_filename = ENV.fetch("BOXI_EXPORTS_FILENAME", "waste_carriers_boxi_daily_full")
+    config.weekly_exports_bucket_name = ENV.fetch("AWS_WEEKLY_EXPORT_BUCKET", nil)
+    config.card_orders_export_filename = ENV.fetch("CARD_ORDERS_EXPORT_FILENAME", "card_orders")
+    config.finance_report_filename_prefix = ENV.fetch("FINANCE_REPORT_FILENAME_PREFIX", "finance_stats_")
+    config.finance_reports_bucket_name = ENV.fetch("FINANCE_REPORTS_BUCKET", nil)
+    config.finance_reports_directory = ENV.fetch("FINANCE_REPORTS", "FINANCE_REPORTS")
+    config.email_exports_bucket_name = ENV.fetch("AWS_EMAIL_EXPORT_BUCKET", nil)
+    config.email_exports_directory = ENV.fetch("EMAIL_EXPORTS_DIRECTORY", "EMAIL_EXPORTS")
 
     # Data retention
     config.data_retention_years = ENV["DATA_RETENTION_YEARS"] || 7
 
     # Companies House config
-    config.companies_house_api_key = ENV["WCRS_COMPANIES_HOUSE_API_KEY"]
+    config.companies_house_api_key = ENV.fetch("WCRS_COMPANIES_HOUSE_API_KEY", nil)
 
     config.companies_house_host =
       if ENV["WCRS_MOCK_ENABLED"].to_s.downcase == "true"
-        ENV["WCRS_MOCK_FO_COMPANIES_HOUSE_URL"]
+        ENV.fetch("WCRS_MOCK_FO_COMPANIES_HOUSE_URL", nil)
       else
         ENV["WCRS_COMPANIES_HOUSE_URL"] || "https://api.companieshouse.gov.uk/company/"
       end
 
     # Paths
-    config.wcrs_renewals_url = ENV["WCRS_RENEWALS_DOMAIN"] || "http://localhost:3002"
+    # This is the domain to use on URLs for FO services such as renewal and deregistration
+    config.wcrs_fo_link_domain = ENV["WCRS_RENEWALS_DOMAIN"] || "http://localhost:3002"
+
     config.wcrs_frontend_url = ENV["WCRS_FRONTEND_DOMAIN"] || "http://localhost:3000"
     config.wcrs_backend_url = ENV["WCRS_FRONTEND_ADMIN_DOMAIN"] || "http://localhost:3000"
     config.wcrs_back_office_url = ENV["WCRS_BACK_OFFICE_DOMAIN"] || "http://localhost:8001"
@@ -101,37 +108,26 @@ module WasteCarriersBackOffice
     # Times
     config.renewal_window = ENV["WCRS_REGISTRATION_RENEWAL_WINDOW"].to_i
     config.expires_after = ENV["WCRS_REGISTRATION_EXPIRES_AFTER"].to_i
-    config.covid_grace_window = ENV["WCRS_REGISTRATION_COVID_GRACE_WINDOW"].to_i
     config.grace_window = ENV["WCRS_REGISTRATION_GRACE_WINDOW"].to_i
-    config.end_of_covid_extension = Date.new(ENV["WCRS_END_OF_COVID_EXTENSION_YEAR"].to_i,
-                                             ENV["WCRS_END_OF_COVID_EXTENSION_MONTH"].to_i,
-                                             ENV["WCRS_END_OF_COVID_EXTENSION_DAY"].to_i)
 
-    # Worldpay
-    config.worldpay_url = if ENV["WCRS_MOCK_ENABLED"].to_s.downcase == "true"
-                            ENV["WCRS_MOCK_FO_WORLDPAY_URL"]
-                          else
-                            ENV["WCRS_WORLDPAY_URL"] || "https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp"
-                          end
-    config.worldpay_url = ENV["WCRS_WORLDPAY_URL"] || "https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp"
-    config.worldpay_admin_code = ENV["WCRS_WORLDPAY_ADMIN_CODE"]
-    config.worldpay_merchantcode = ENV["WCRS_WORLDPAY_MOTO_MERCHANTCODE"]
-    config.worldpay_ecom_merchantcode = ENV["WCRS_WORLDPAY_ECOM_MERCHANTCODE"]
-    config.worldpay_username = ENV["WCRS_WORLDPAY_MOTO_USERNAME"]
-    config.worldpay_password = ENV["WCRS_WORLDPAY_MOTO_PASSWORD"]
-    config.worldpay_ecom_username = ENV["WCRS_WORLDPAY_ECOM_USERNAME"]
-    config.worldpay_ecom_password = ENV["WCRS_WORLDPAY_ECOM_PASSWORD"]
-    config.worldpay_macsecret = ENV["WCRS_WORLDPAY_MOTO_MACSECRET"]
+    # Govpay
+    config.govpay_url = if ENV["WCRS_MOCK_ENABLED"].to_s.downcase == "true"
+                          ENV.fetch("WCRS_MOCK_BO_GOVPAY_URL", nil)
+                        else
+                          ENV["WCRS_GOVPAY_BACK_OFFICE_URL"] || "https://publicapi.payments.service.gov.uk/v1"
+                        end
+    config.govpay_back_office_api_token = ENV.fetch("WCRS_GOVPAY_BACK_OFFICE_API_TOKEN", nil)
+    config.govpay_front_office_api_token = ENV.fetch("WCRS_GOVPAY_FRONT_OFFICE_API_TOKEN", nil)
 
     # Emails
     config.email_service_name = "Waste Carriers Registration Service"
-    config.email_service_email = ENV["WCRS_EMAIL_SERVICE_EMAIL"]
-    config.email_test_address = ENV["WCRS_EMAIL_TEST_ADDRESS"]
+    config.email_service_email = ENV.fetch("WCRS_EMAIL_SERVICE_EMAIL", nil)
+    config.email_test_address = ENV.fetch("WCRS_EMAIL_TEST_ADDRESS", nil)
     config.first_renewal_email_reminder_days = ENV["FIRST_RENEWAL_EMAIL_REMINDER_DAYS"] || 42
     config.second_renewal_email_reminder_days = ENV["SECOND_RENEWAL_EMAIL_REMINDER_DAYS"] || 28
 
     # Letters exports
-    config.digital_reminder_letters_exports_expires_in = ENV["DIGITAL_REMINDER_LETTERS_EXPORTS_EXPIRES_IN"] || 21
+    config.digital_reminder_notifications_exports_expires_in = ENV["DIGITAL_REMINDER_LETTERS_EXPORTS_EXPIRES_IN"] || 21
     config.digital_reminder_letters_delete_records_in = ENV["DIGITAL_REMINDER_LETTERS_DELETE_RECORDS_IN"] || 28
     config.ad_reminder_letters_exports_expires_in = ENV["AD_REMINDER_LETTERS_EXPORTS_EXPIRES_IN"] || 35
     config.ad_reminder_letters_delete_records_in = ENV["AD_REMINDER_LETTERS_DELETE_RECORDS_IN"] || 28
@@ -149,5 +145,11 @@ module WasteCarriersBackOffice
     config.generators do |g|
       g.orm :mongoid
     end
+
+    config.area_lookup_run_for = ENV["AREA_LOOKUP_RUN_FOR"] || 60
+    config.area_lookup_address_limit = ENV["AREA_LOOKUP_ADDRESS_LIMIT"] || 50
+
+    # prevent comments showing ruby version:
+    config.sass.line_comments = false
   end
 end

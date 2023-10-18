@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
+
+  include ActionView::Helpers::SanitizeHelper
+
+  delegate :balance, to: :finance_details, prefix: true
+
   def display_company_details_panel?
     company_name.present? ||
       display_tier_and_registration_type.present? ||
@@ -29,7 +35,7 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
   def displayable_location
     location = show_translation_or_filler(:location)
 
-    I18n.t(".shared.registrations.business_information.labels.location_html", location: location).html_safe
+    sanitize(I18n.t(".shared.registrations.business_information.labels.location_html", location: location))
   end
 
   def display_convictions_check_message
@@ -50,17 +56,12 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
     upper_tier? && finance_details.blank?
   end
 
-  def finance_details_balance
-    finance_details.balance
-  end
-
-  def in_progress?
-    # TODO: For now all registrations are submitted in the new system. To update when we build front end flow.
-    false
-  end
-
   def show_ceased_revoked_panel?
     revoked? || inactive?
+  end
+
+  def show_restored_panel?
+    active? && metaData.restored_reason.present?
   end
 
   def ceased_revoked_header
@@ -76,7 +77,7 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
   end
 
   def latest_order
-    return unless finance_details&.orders&.present?
+    return if finance_details&.orders.blank?
 
     ::OrderPresenter.new(
       finance_details.orders.order_by(dateCreated: :desc).first
@@ -84,13 +85,13 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
   end
 
   def display_expiry_text
-    return unless expires_on.present?
+    return if expires_on.blank?
     return unless upper_tier?
 
     if expired?
-      I18n.t(".shared.registrations.labels.expired_html", formatted_date: display_expiry_date).html_safe
+      sanitize(I18n.t(".shared.registrations.labels.expired_html", formatted_date: display_expiry_date))
     else
-      I18n.t(".shared.registrations.labels.expires_html", formatted_date: display_expiry_date).html_safe
+      sanitize(I18n.t(".shared.registrations.labels.expires_html", formatted_date: display_expiry_date))
     end
   end
 
@@ -103,16 +104,27 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
     metaData.last_modified.to_datetime
   end
 
+  def ea_area
+    registered_address.area || "Pending"
+  end
+
+  def display_original_registration_date
+    return unless respond_to?(:original_activation_date) && original_activation_date.present?
+
+    sanitize(I18n.t(".shared.registrations.company_details_panel.labels.registration_date_html",
+                    formatted_date: original_activation_date.to_date))
+  end
+
   private
 
   def displayable_tier
-    return unless tier.present?
+    return if tier.blank?
 
     I18n.t(".shared.registrations.attributes.tier.#{tier.downcase}")
   end
 
   def displayable_registration_type
-    return unless registration_type.present?
+    return if registration_type.blank?
 
     I18n.t(".shared.registrations.company_details_panel.attributes.registration_type.#{registration_type}")
   end
@@ -125,3 +137,4 @@ class BaseRegistrationPresenter < WasteCarriersEngine::BasePresenter
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

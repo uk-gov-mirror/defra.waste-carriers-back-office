@@ -17,7 +17,7 @@ Devise.setup do |config|
   config.mailer_sender = '"Waste Carriers Service" <registrations@wastecarriersregistration.service.gov.uk>'
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  config.mailer = "DeviseCustomMailer"
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
@@ -122,7 +122,7 @@ Devise.setup do |config|
   # The period the generated invitation token is valid, after
   # this period, the invited resource won't be able to accept the invitation.
   # When invite_for is 0 (the default), the invitation won't expire.
-  config.invite_for = 2.weeks
+  config.invite_for = 4.weeks
 
   # Auto-login after the user accepts the invite. If this is false,
   # the user will need to manually log in after accepting the invite.
@@ -173,7 +173,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 8..128
+  config.password_length = 14..128
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly

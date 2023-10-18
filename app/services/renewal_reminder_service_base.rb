@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-class RenewalReminderServiceBase < ::WasteCarriersEngine::BaseService
+class RenewalReminderServiceBase < WasteCarriersEngine::BaseService
   def run
     expiring_registrations.each do |registration|
-      begin
-        send_email(registration)
-      rescue StandardError => e
-        Airbrake.notify e, registration: registration.reg_identifier
-        Rails.logger.error "Failed to send first renewal email for registration #{registration.reg_identifier}"
-      end
+      send_email(registration)
+    rescue StandardError => e
+      Airbrake.notify e, registration: registration.reg_identifier
+      Rails.logger.error "Failed to send first renewal email for registration #{registration.reg_identifier}"
     end
   end
 

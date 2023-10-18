@@ -13,7 +13,8 @@ module DashboardsHelper
 
   def result_type(result)
     return :renewal if result.is_a?(WasteCarriersEngine::RenewingRegistration)
-    return :new_registration if result.pending?
+
+    :new_registration if result.pending?
   end
 
   def status_tags(result)
@@ -50,7 +51,7 @@ module DashboardsHelper
   def formatted_date(text, date)
     return unless date
 
-    date = date.in_time_zone("London").to_formatted_s(:day_month_year_slashes)
+    date = date.in_time_zone("London").to_fs(:day_month_year_slashes)
     I18n.t(".dashboards.index.results.date.#{text}", date: date)
   end
 end

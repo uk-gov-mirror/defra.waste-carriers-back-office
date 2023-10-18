@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe DashboardsHelper, type: :helper do
+RSpec.describe DashboardsHelper do
   let(:result) { build(:renewing_registration) }
 
   describe "#inline_registration_address" do
@@ -12,7 +12,7 @@ RSpec.describe DashboardsHelper, type: :helper do
       end
 
       it "returns nil" do
-        expect(helper.inline_registered_address(result)).to eq(nil)
+        expect(helper.inline_registered_address(result)).to be_nil
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe DashboardsHelper, type: :helper do
 
       context "when the result is not pending" do
         it "returns nil" do
-          expect(helper.result_type(result)).to eq(nil)
+          expect(helper.result_type(result)).to be_nil
         end
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe DashboardsHelper, type: :helper do
       before { result.metaData.status = %w[INACTIVE REFUSED REVOKED].sample }
 
       it "returns nil" do
-        expect(helper.result_date(result)).to eq(nil)
+        expect(helper.result_date(result)).to be_nil
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe DashboardsHelper, type: :helper do
         let(:result) { build(:renewing_registration) }
 
         it "returns the expected text" do
-          date = Date.today.strftime("%d/%m/%Y")
+          date = Time.zone.today.strftime("%d/%m/%Y")
           expect(helper.result_date(result)).to eq("Updated #{date}")
         end
       end

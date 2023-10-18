@@ -42,7 +42,7 @@ Rails.application.routes.draw do
             only: [],
             path: "/bo/resources" do
               resources :refunds,
-                        only: %i[index new create],
+                        only: %i[index new create update],
                         param: :order_key
 
               resources :cancels,
@@ -80,19 +80,14 @@ Rails.application.routes.draw do
                         path: "payments/bank-transfer",
                         path_names: { new: "" }
 
-              resources :worldpay_missed_payment_forms,
+              resources :missed_card_payment_forms,
                         only: %i[new create],
-                        path: "payments/worldpay-missed",
+                        path: "payments/missed-card-payment",
                         path_names: { new: "" }
 
-              resources :worldpay_escapes,
+              resources :missed_card_payment_new_registrations,
                         only: :new,
-                        path: "revert-to-payment-summary",
-                        path_names: { new: "" }
-
-              resources :worldpay_missed_payment_new_registrations,
-                        only: :new,
-                        path: "missed-worldpay-payment-new-registration",
+                        path: "missed-card-payment-new-registration",
                         path_names: { new: "" }
 
               resource :finance_details,
@@ -150,6 +145,12 @@ Rails.application.routes.draw do
                         only: %i[new create],
                         param: :reg_identifier,
                         path: "transfer",
+                        path_names: { new: "" }
+
+              resources :registration_restores,
+                        only: %i[new create],
+                        param: :reg_identifier,
+                        path: "restore",
                         path_names: { new: "" }
 
               get "transfer/success",
@@ -233,11 +234,25 @@ Rails.application.routes.draw do
             path: "/bo/import-convictions",
             path_names: { new: "" }
 
+  resource :finance_reports,
+           only: %i[show],
+           path: "/bo/reports/download_finance_reports"
+
+  resource :quarterly_reports,
+           only: %i[show],
+           path: "/bo/reports/quarterly_reports"
+
+  resource :email_exports,
+           only: %i[new create show],
+           path: "/bo/email-exports"
+
+  resource :email_exports_list,
+           only: %i[new],
+           path: "/bo/email-exports-list"
+
   # Redirect old Devise routes
-  # rubocop:disable Style/FormatStringToken
   get "/agency_users(*all)" => redirect("/bo/users%{all}")
   get "/admins(*all)" => redirect("/bo/users%{all}")
-  # rubocop:enable Style/FormatStringToken
 
   mount DefraRubyMocks::Engine => "/bo/mocks"
 
