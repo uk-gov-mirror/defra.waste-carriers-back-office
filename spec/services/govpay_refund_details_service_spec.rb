@@ -13,14 +13,15 @@ module WasteCarriersEngine
       let(:refund) { build(:payment, :govpay_refund_pending, refunded_payment_govpay_id: original_payment.govpay_id) }
       let(:govpay_refund_id) { refund.govpay_id }
 
-      before do
-        DefraRubyGovpay.configure do |config|
-          config.govpay_front_office_api_token = "front_office_token"
-          config.govpay_back_office_api_token = "back_office_token"
-          config.host_is_back_office = true
-        end
+      let(:back_office_api_token) { "a_back_office_api_token" }
+      let(:front_office_api_token) { "a_front_office_api_token" }
+      let(:govpay_api_token) { back_office_api_token }
 
-        stub_const("DefraRubyGovpayAPI", DefraRubyGovpay::API.new)
+      before do
+        allow(DefraRubyGovpay.configuration).to receive_messages(
+          govpay_back_office_api_token: back_office_api_token,
+          govpay_front_office_api_token: front_office_api_token
+        )
 
         registration.finance_details.payments << refund
       end
@@ -46,15 +47,9 @@ module WasteCarriersEngine
 
       context "with a valid refund id" do
         let(:refund_id) { refund.govpay_id }
-        let(:front_office_token) { "front_office_token" }
-        let(:back_office_token) { "back_office_token" }
-        let(:govpay_api_token) { back_office_token }
 
         context "when the govpay request succeeds" do
           before do
-            allow(Rails.configuration).to receive_messages(govpay_front_office_api_token: front_office_token, govpay_back_office_api_token: back_office_token)
-
-            # https://publicapi.payments.service.gov.uk
             stub_request(:get, %r{\A.*?/v1/payments/#{govpay_payment_id}/refunds/#{govpay_refund_id}\z})
               .with(
                 headers: {
@@ -65,9 +60,8 @@ module WasteCarriersEngine
           end
 
           context "with a non-MOTO payment" do
-            # This ensures that the Govpay API is not stubbed for the back office bearer token,
-            # so the spec will fail if the request is made using the back_office_token.
-            let(:govpay_api_token) { front_office_token }
+            # host_is_back_office is true, but need to stub the request with the front office API token
+            let(:govpay_api_token) { front_office_api_token }
 
             before { original_payment.update!(moto: false) }
 
@@ -77,10 +71,6 @@ module WasteCarriersEngine
           end
 
           context "with a MOTO payment" do
-            # This ensures that the Govpay API is not stubbed for the front office bearer token,
-            # so the spec will fail if the request is made using the front_office_token.
-            let(:govpay_api_token) { back_office_token }
-
             before { original_payment.update(moto: true) }
 
             it "returns the expected status" do
@@ -103,7 +93,8 @@ module WasteCarriersEngine
           it "notifies Airbrake" do
             run_service
           rescue DefraRubyGovpay::GovpayApiError
-            error_message = "Error sending request to govpay (get /payments/#{govpay_payment_id}/refunds/#{govpay_refund_id}, params: ): 500 Internal Server Error"
+            error_message = "Error sending request to govpay (get /payments/#{govpay_payment_id}/refunds/#{govpay_refund_id}, " \
+                            "params: ), response body: : 500 Internal Server Error"
             expect(Airbrake).to have_received(:notify) do |error, details|
               expect(error).to be_a(DefraRubyGovpay::GovpayApiError)
               expect(error.message).to eq(error_message)

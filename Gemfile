@@ -48,7 +48,8 @@ gem "matrix"
 
 gem "net-imap"
 gem "net-pop"
-gem "net-smtp"
+
+gem "defra_ruby_storm"
 
 # Use the Defra Ruby Aws gem for loading files to AWS buckets
 gem "defra_ruby_aws"
@@ -61,8 +62,6 @@ gem "waste_carriers_engine",
 # Use the Defra Ruby Features gem to allow users with the correct permissions to
 # manage feature toggle (create / update / delete) from the back-office.
 gem "defra_ruby_features"
-
-gem "defra_ruby_govpay"
 
 # Use the defra ruby mocks engine to add support for mocking external services
 # in live environment. Essentially with this gem added and enabled the app
