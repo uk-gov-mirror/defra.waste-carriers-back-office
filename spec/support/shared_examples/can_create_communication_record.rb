@@ -3,12 +3,14 @@
 RSpec.shared_examples "can create a communication record" do |notification_type|
   let(:comms_label) { described_class::COMMS_LABEL }
   let(:time_sent) { Time.now.utc }
+  let(:recipient) { registration.contact_email }
   let(:expected_communication_record_attrs) do
     {
       notify_template_id: template_id,
       notification_type: notification_type,
       comms_label: comms_label,
-      sent_at: time_sent
+      sent_at: time_sent,
+      sent_to: registration.contact_email
     }
   end
 
