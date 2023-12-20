@@ -14,14 +14,6 @@ module CanPauseCallRecording
                              end
   end
 
-  # override this method which is in waste_carriers_engine/app/controllers/concerns/can_redirect_to_correct_form.rb
-  # to fix bug which directs to /assets path when engine routes are not
-  # specified
-  def form_path
-    basic_app_engine.send("new_#{@transient_registration.workflow_state}_path".to_sym,
-                          token: @transient_registration.token)
-  end
-
   def bacs_payment_confirmation_page?
     return false unless request.path.include?("payment-method-confirmation")
 
