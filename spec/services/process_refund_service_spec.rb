@@ -15,11 +15,9 @@ RSpec.describe ProcessRefundService do
     let(:refund) { double(:refund) }
     let(:worldpay) { true }
     let(:govpay) { false }
-    let(:govpay_host) { "https://publicapi.payments.service.gov.uk" }
 
     before do
-      allow(payment).to receive(:worldpay?).and_return(worldpay)
-      allow(payment).to receive(:govpay?).and_return(govpay)
+      allow(payment).to receive_messages(worldpay?: worldpay, govpay?: govpay)
       allow(payment).to receive(:govpay_id)
       allow(orders).to receive(:find_by).and_return(order)
     end
@@ -50,13 +48,13 @@ RSpec.describe ProcessRefundService do
 
           before do
             allow(GovpayRefundService).to receive(:new).and_return(govpay_refund_service)
-            allow(govpay_refund_service).to receive(:run).and_raise(WasteCarriersEngine::GovpayApiError)
+            allow(govpay_refund_service).to receive(:run).and_raise(DefraRubyGovpay::GovpayApiError)
             allow(Airbrake).to receive(:notify)
           end
 
           it "notifies Airbrake" do
             refund_service.run(finance_details: finance_details, payment: payment, user: user)
-          rescue WasteCarriersEngine::GovpayApiError
+          rescue DefraRubyGovpay::GovpayApiError
             expect(Airbrake).to have_received(:notify)
           end
         end

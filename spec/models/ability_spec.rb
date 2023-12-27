@@ -105,12 +105,6 @@ RSpec.describe Ability do
     it_behaves_like "allows only the permitted roles", false, :edit, WasteCarriersEngine::Registration
   end
 
-  context "when the action is transfer a registration" do
-    let(:permitted_roles) { agency_plus_roles }
-
-    it_behaves_like "allows only the permitted roles", false, :transfer_registration, WasteCarriersEngine::Registration
-  end
-
   context "when the action is cancel a resource" do
     let(:permitted_roles) do
       %w[
@@ -140,6 +134,12 @@ RSpec.describe Ability do
     it_behaves_like "allows only the permitted roles", false, :view_certificate, WasteCarriersEngine::Registration
   end
 
+  context "when the action is view the communications history" do
+    let(:permitted_roles) { agency_plus_roles }
+
+    it_behaves_like "allows only the permitted roles", false, :view_communication_history, WasteCarriersEngine::Registration
+  end
+
   context "when the action is update a transient registration" do
     let(:permitted_roles) { agency_plus_roles }
 
@@ -162,6 +162,12 @@ RSpec.describe Ability do
     let(:permitted_roles) { agency_plus_roles }
 
     it_behaves_like "allows only the permitted roles", false, :refresh_company_name, WasteCarriersEngine::Registration
+  end
+
+  context "when the action is refresh the ea area" do
+    let(:permitted_roles) { agency_plus_roles }
+
+    it_behaves_like "allows only the permitted roles", false, :refresh_ea_area, WasteCarriersEngine::Registration
   end
 
   # payments and write-offs
@@ -343,6 +349,7 @@ RSpec.describe Ability do
         agency_super
         cbd_user
         finance_super
+        agency_with_refund
       ]
     end
 

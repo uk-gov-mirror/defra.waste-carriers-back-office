@@ -24,15 +24,9 @@
       </li>
     <% end %>
 
-    <% if display_transfer_link_for?(resource) %>
-      <li>
-        <%= link_to t(".actions_box.links.transfer"), new_registration_registration_transfer_path(resource.reg_identifier) %>
-      </li>
-    <% end %>
-
     <% if display_edit_link_for?(resource) %>
       <li>
-        <%= link_to t(".actions_box.links.edit"), WasteCarriersEngine::Engine.routes.url_helpers.new_edit_form_path(resource.reg_identifier) %>
+        <%= link_to t(".actions_box.links.edit"), new_edit_form_path(resource.reg_identifier) %>
       </li>
     <% end %>
 
@@ -50,7 +44,7 @@
 
     <% if display_order_copy_cards_link_for?(resource) %>
       <li>
-        <%= link_to t(".actions_box.links.order_copy_cards"), basic_app_engine.new_copy_cards_form_path(resource.reg_identifier) %>
+        <%= link_to t(".actions_box.links.order_copy_cards"), new_copy_cards_form_path(resource.reg_identifier) %>
       </li>
     <% end %>
 
@@ -68,7 +62,7 @@
 
     <% if display_cease_or_revoke_link_for?(resource) %>
       <li>
-        <%= link_to t(".actions_box.links.revoke"), WasteCarriersEngine::Engine.routes.url_helpers.new_cease_or_revoke_form_path(resource.reg_identifier) %>
+        <%= link_to t(".actions_box.links.revoke"), new_cease_or_revoke_form_path(resource.reg_identifier) %>
       </li>
     <% end %>
 
@@ -92,6 +86,20 @@
                       refresh_companies_house_name_path(resource.reg_identifier),
                       method: :patch %>
       </li>
+    <% end %>
+
+    <% if display_refresh_ea_area_link_for?(resource) %>
+      <li>
+        <%= link_to t(".actions_box.links.refresh_ea_area"), 
+                      refresh_ea_area_path(reg_identifier: resource.reg_identifier), 
+                      method: :patch  %>
+      </li>
+    <% end %>
+
+    <% if display_communication_records_link_for?(resource) %>
+        <p class="govuk-body">
+          <%= link_to t(".actions_box.links.show_communication_history"), registration_communication_records_path(resource.reg_identifier) %>
+        </p>
     <% end %>
   </ul>
 </div>

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -29,26 +28,10 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { host: config.wcrs_back_office_url, protocol: "https" }
-
-  # Don't care if the mailer can't send (if set to false)
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :smtp
-
-  # Default settings are for mailcatcher
-  config.action_mailer.smtp_settings = {
-    user_name: ENV.fetch("WCRS_EMAIL_USERNAME", nil),
-    password: ENV.fetch("WCRS_EMAIL_PASSWORD", nil),
-    domain: config.wcrs_back_office_url,
-    address: ENV["WCRS_EMAIL_HOST"] || "localhost",
-    port: ENV["WCRS_EMAIL_PORT"] || 1025,
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+  config.log_formatter = Logger::Formatter.new
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
@@ -67,8 +50,6 @@ Rails.application.configure do
   # Raises error for missing translations
   config.i18n.raise_on_missing_translations = true
 
-  config.action_mailer.default_url_options = { host: config.wcrs_back_office_url, protocol: "http" }
-
   # The rails web console allows you to execute arbitrary code on the server. By
   # default, only requests coming from IPv4 and IPv6 localhosts are allowed.
   # When running in a vagrant box it'll use a different IP e.g. 10.0.2.2 so
@@ -81,4 +62,3 @@ Rails.application.configure do
   # https://stackoverflow.com/a/29417509
   config.web_console.allowed_ips = ENV.fetch("SSH_CLIENT", "127.0.0.1").split.first
 end
-# rubocop:enable Metrics/BlockLength

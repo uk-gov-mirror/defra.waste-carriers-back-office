@@ -72,7 +72,7 @@ module ActionLinksHelper
   end
 
   def display_check_refund_status_link_for?(resource)
-    return nil unless can?(:refund, resource) # rubocop:disable Style/ReturnNilInPredicateMethodDefinition
+    return false unless can?(:refund, resource)
 
     pending_refund = resource.payments.where(
       payment_type: WasteCarriersEngine::Payment::REFUND, govpay_payment_status: "submitted"
@@ -88,6 +88,17 @@ module ActionLinksHelper
     return true unless a_renewing_registration?(resource)
 
     resource.renewal_application_submitted?
+  end
+
+  def display_refresh_ea_area_link_for?(resource)
+    return false if resource.company_address.blank?
+    return false if resource.company_address.postcode.blank?
+
+    true
+  end
+
+  def display_communication_records_link_for?(resource)
+    a_registration?(resource) && can?(:view_communication_history, WasteCarriersEngine::Registration)
   end
 
   def display_cease_or_revoke_link_for?(resource)
@@ -151,13 +162,6 @@ module ActionLinksHelper
     return false unless can?(:renew, WasteCarriersEngine::Registration)
 
     resource.can_start_renewal?
-  end
-
-  def display_transfer_link_for?(resource)
-    return false if WasteCarriersEngine::FeatureToggle.active?(:block_front_end_logins)
-    return false unless display_registration_links?(resource)
-
-    can?(:transfer_registration, WasteCarriersEngine::Registration)
   end
 
   def display_restore_registration_link_for?(resource)

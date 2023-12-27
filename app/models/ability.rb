@@ -6,7 +6,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    return if user.deactivated?
+    return if user.blank? || user.deactivated?
 
     can :use_back_office, :all
 
@@ -53,10 +53,10 @@ class Ability
     can :order_copy_cards, WasteCarriersEngine::Registration
     can :edit, WasteCarriersEngine::Registration
     can :refresh_company_name, WasteCarriersEngine::Registration
+    can :refresh_ea_area, WasteCarriersEngine::Registration
+    can :view_communication_history, WasteCarriersEngine::Registration
 
     can :revert_to_payment_summary, :all
-
-    can :transfer_registration, [WasteCarriersEngine::Registration, RegistrationTransferPresenter]
   end
 
   def permissions_for_agency_user_with_refund
@@ -75,6 +75,7 @@ class Ability
     can :view_payments, :all
     can :review_convictions, :all
     can :view_card_order_exports, :all
+    can :manage_back_office_users, User
 
     can :write_off_small, WasteCarriersEngine::FinanceDetails do |finance_details|
       finance_details.zero_difference_balance <= write_off_agency_user_cap
@@ -110,9 +111,11 @@ class Ability
   def permissions_for_agency_super_user
     permissions_for_agency_user_with_refund
 
+    can :view_analytics, :all
     can :manage_back_office_users, :all
     can :modify_user, User, &:in_agency_group?
     can :read, Reports::DefraQuarterlyStatsService
+    can :view_analytics, :all
   end
 
   def permissions_for_finance_super_user
@@ -133,6 +136,7 @@ class Ability
     can :run_finance_reports, :all
     can :read, Reports::DefraQuarterlyStatsService
     can :read, DeregistrationEmailExportService
+    can :view_analytics, :all
   end
 
   def permissions_for_cbd_user
@@ -143,6 +147,7 @@ class Ability
     can :run_finance_reports, :all
     can :read, DeregistrationEmailExportService
     can :read, Reports::DefraQuarterlyStatsService
+    can :view_analytics, :all
 
     can :modify_user, User do |user|
       data_agent?(user)

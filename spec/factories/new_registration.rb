@@ -2,16 +2,16 @@
 
 FactoryBot.define do
   factory :new_registration, class: "WasteCarriersEngine::NewRegistration" do
-    metaData { build(:metaData) }
+    metaData { association(:metaData, strategy: :build) }
 
     trait :has_required_data do
       location { "england" }
       declared_convictions { "no" }
       temp_cards { 1 }
-      contact_email { "foo@example.com" }
+      contact_email { "whatever@example.com" }
       first_name { "Jane" }
       last_name { "Doe" }
-      metaData { build(:metaData, route: "DIGITAL") }
+      metaData { association(:metaData, route: "DIGITAL", strategy: :build) }
 
       temp_check_your_tier { "unknown" }
       sequence :reg_identifier
@@ -32,7 +32,7 @@ FactoryBot.define do
 
     trait :has_key_people do
       key_people do
-        [build(:key_person, :does_not_require_conviction_check, :main)]
+        [association(:key_person, :does_not_require_conviction_check, :main, strategy: :build)]
       end
     end
 
@@ -42,7 +42,7 @@ FactoryBot.define do
     end
 
     trait :has_addresses do
-      addresses { [build(:address, :registered), build(:address, :contact)] }
+      addresses { [association(:address, :registered, strategy: :build), association(:address, :contact, strategy: :build)] }
     end
   end
 end

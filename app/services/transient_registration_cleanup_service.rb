@@ -1,9 +1,19 @@
 # frozen_string_literal: true
 
 class TransientRegistrationCleanupService < WasteCarriersEngine::BaseService
+
   def run
-    transient_registrations_to_remove.destroy_all
-    no_created_at_transient_registrations_to_remove.destroy_all
+    console_log "Removing transient_registrations created up to #{oldest_possible_date} excluding #{excluded_states}"
+
+    transient_registrations_with_created_at = transient_registrations_to_remove
+    console_log "Removing #{transient_registrations_with_created_at.count} transient_registrations " \
+                "with a created_at value:"
+    remove_transient_registrations transient_registrations_with_created_at
+
+    transient_registrations_without_created_at = no_created_at_transient_registrations_to_remove
+    console_log "Removing #{transient_registrations_without_created_at.count} transient_registrations " \
+                "without a created_at value:"
+    remove_transient_registrations transient_registrations_without_created_at
   end
 
   private
@@ -13,7 +23,7 @@ class TransientRegistrationCleanupService < WasteCarriersEngine::BaseService
   def transient_registrations_to_remove
     WasteCarriersEngine::TransientRegistration.where(
       "created_at" => { "$lt" => oldest_possible_date },
-      "workflow_state" => { "$nin" => WasteCarriersEngine::RenewingRegistration::SUBMITTED_STATES }
+      "workflow_state" => { "$nin" => excluded_states }
     )
   end
 
@@ -23,12 +33,34 @@ class TransientRegistrationCleanupService < WasteCarriersEngine::BaseService
     WasteCarriersEngine::TransientRegistration.where(
       "created_at" => nil,
       "metaData.lastModified" => { "$lt" => oldest_possible_date },
-      "workflow_state" => { "$nin" => WasteCarriersEngine::RenewingRegistration::SUBMITTED_STATES }
+      "workflow_state" => { "$nin" => excluded_states }
     )
   end
 
   def oldest_possible_date
-    max = Rails.configuration.max_transient_registration_age_days.to_i
-    max.days.ago
+    @oldest_possible_date = Rails.configuration.max_transient_registration_age_days.to_i.days.ago
   end
+
+  def excluded_states
+    # we also remove submitted-but-pending-payment transient_registrations older than the cutoff
+    @excluded_states ||= WasteCarriersEngine::RenewingRegistration::SUBMITTED_STATES - %w[
+      renewal_received_pending_payment_form
+      registration_received_pending_payment_form
+    ]
+  end
+
+  def remove_transient_registrations(transient_registrations)
+    transient_registrations.each do |transient_registration|
+      console_log transient_registration.reg_identifier
+      transient_registration.destroy
+    end
+  end
+
+  # rubocop:disable Rails/Output
+  def console_log(text)
+    # :nocov:
+    puts text unless Rails.env.test?
+    # :nocov:
+  end
+  # rubocop:enable Rails/Output
 end

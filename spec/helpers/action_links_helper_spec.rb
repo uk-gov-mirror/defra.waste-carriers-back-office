@@ -275,8 +275,8 @@ RSpec.describe ActionLinksHelper do
       context "when the user does not have permission to refund" do
         before { allow(helper).to receive(:can?).with(:refund, resource).and_return(false) }
 
-        it "returns nil" do
-          expect(helper.display_check_refund_status_link_for?(resource)).to be_nil
+        it "returns false" do
+          expect(helper.display_check_refund_status_link_for?(resource)).to be false
         end
       end
 
@@ -839,8 +839,7 @@ RSpec.describe ActionLinksHelper do
     let(:finance_details) { double(:finance_details) }
 
     before do
-      allow(resource).to receive(:upper_tier?).and_return(upper_tier)
-      allow(resource).to receive(:finance_details).and_return(finance_details)
+      allow(resource).to receive_messages(upper_tier?: upper_tier, finance_details: finance_details)
     end
 
     context "when the resource is a new registration" do
@@ -906,6 +905,64 @@ RSpec.describe ActionLinksHelper do
     end
   end
 
+  describe "#display_refresh_ea_area_link_for?" do
+    context "when address is present" do
+      let(:company_address) { build(:address, :registered) }
+      let(:resource) { build(:registration, company_address: company_address) }
+
+      it "returns true" do
+        expect(helper.display_refresh_ea_area_link_for?(resource)).to be(true)
+      end
+    end
+
+    context "when address is blank" do
+      let(:resource) { build(:registration, company_address: nil) }
+
+      it "returns false" do
+        expect(helper.display_refresh_ea_area_link_for?(resource)).to be(false)
+      end
+    end
+
+    context "when address postcode is blank" do
+      let(:company_address) { build(:address, :registered, postcode: nil) }
+      let(:resource) { build(:registration, company_address: company_address) }
+
+      it "returns false" do
+        expect(helper.display_refresh_ea_area_link_for?(resource)).to be(false)
+      end
+    end
+  end
+
+  describe "#display_communication_records_link_for?" do
+    context "when resource is not a Registration" do
+      let(:invalid_resource) { build(:address) }
+
+      it "returns false" do
+        expect(helper.display_communication_records_link_for?(invalid_resource)).to be(false)
+      end
+    end
+
+    context "when user has no permissions to view communication history" do
+      let(:resource) { build(:registration) }
+
+      before { allow(helper).to receive(:can?).and_return(false) }
+
+      it "returns false" do
+        expect(helper.display_communication_records_link_for?(resource)).to be(false)
+      end
+    end
+
+    context "when resourse is a Registration and user has permissions to view communication history" do
+      let(:resource) { build(:registration) }
+
+      before { allow(helper).to receive(:can?).and_return(true) }
+
+      it "returns true" do
+        expect(helper.display_communication_records_link_for?(resource)).to be(true)
+      end
+    end
+  end
+
   describe "#display_renew_link_for?" do
     context "when the resource is not a Registration" do
       let(:resource) { build(:renewing_registration) }
@@ -942,48 +999,6 @@ RSpec.describe ActionLinksHelper do
 
           it "returns true" do
             expect(helper.display_renew_link_for?(resource)).to be(true)
-          end
-        end
-      end
-    end
-  end
-
-  describe "#display_transfer_link_for?" do
-    context "when the resource is not a Registration" do
-      let(:resource) { build(:renewing_registration) }
-
-      it "returns false" do
-        expect(helper.display_transfer_link_for?(resource)).to be(false)
-      end
-    end
-
-    context "when the resource is a Registration" do
-      let(:resource) { build(:registration) }
-
-      context "when the resource has been revoked or refused" do
-        before { resource.metaData.status = %w[REVOKED REFUSED].sample }
-
-        it "returns false" do
-          expect(helper.display_transfer_link_for?(resource)).to be(false)
-        end
-      end
-
-      context "when the resource is not revoked or refused" do
-        before { resource.metaData.status = %w[ACTIVE EXPIRED PENDING].sample }
-
-        context "when the user does not have permission" do
-          before { allow(helper).to receive(:can?).with(:transfer_registration, WasteCarriersEngine::Registration).and_return(false) }
-
-          it "returns false" do
-            expect(helper.display_transfer_link_for?(resource)).to be(false)
-          end
-        end
-
-        context "when the user has permission" do
-          before { allow(helper).to receive(:can?).with(:transfer_registration, WasteCarriersEngine::Registration).and_return(true) }
-
-          it "returns true" do
-            expect(helper.display_transfer_link_for?(resource)).to be(true)
           end
         end
       end

@@ -17,14 +17,14 @@ module Notify
             reg_identifier: reg_identifier,
             first_name: "Jane",
             last_name: "Doe",
-            expires_on: registration.expires_on.to_formatted_s(:day_month_year),
+            expires_on: registration.expires_on.to_fs(:day_month_year),
             renew_fee: (Rails.configuration.renewal_charge / 100).to_s,
             renew_link: "#{Rails.configuration.wcrs_fo_link_domain}/fo/renew/#{registration.renew_token}"
           }
         }
       end
 
-      subject do
+      subject(:run_service) do
         VCR.use_cassette("notify_renewal_reminder_sends_an_email") do
           described_class.run(registration: registration)
         end
@@ -45,6 +45,8 @@ module Notify
             /Renew waste carrier registration CBDU/
           )
         end
+
+        it_behaves_like "can create a communication record", "email"
       end
 
       context "when the registration's contact email is missing" do

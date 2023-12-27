@@ -45,9 +45,5 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include Devise::Test::IntegrationHelpers, type: :request
-
-  # Clean the email queue before running tests
-  config.before(:suite) do
-    ActionMailer::Base.deliveries.clear
-  end
+  config.include Devise::Test::ControllerHelpers, type: :helper
 end
