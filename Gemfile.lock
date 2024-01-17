@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: 2ccd37223241cb4fd9dfaba2d1f9f88f0fd83d1d
-  branch: main
+  revision: ef7300bbf73742d8e9cc3bc86b5e54eadae90455
+  branch: RUBY-2794-wcr-track-comminications-history-per-registration
   specs:
     waste_carriers_engine (0.0.1)
       aasm (~> 5.5.0)
