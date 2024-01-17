@@ -91,10 +91,15 @@ module ActionLinksHelper
   end
 
   def display_refresh_ea_area_link_for?(resource)
+    return false unless a_registration?(resource)
     return false if resource.company_address.blank?
     return false if resource.company_address.postcode.blank?
 
     true
+  end
+
+  def display_communication_records_link_for?(resource)
+    a_registration?(resource) && can?(:view_communication_history, WasteCarriersEngine::Registration)
   end
 
   def display_cease_or_revoke_link_for?(resource)
