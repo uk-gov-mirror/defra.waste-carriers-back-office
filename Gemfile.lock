@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: c9cfbf05bb666dba18206eb96b3860d16a77b869
-  branch: main
+  revision: 2822f1be72e38c2d5e4468e9f06a66b76ee197e6
+  branch: fix/RUBY-2860_conviction_search_results
   specs:
     waste_carriers_engine (0.0.1)
       aasm (~> 5.5.0)

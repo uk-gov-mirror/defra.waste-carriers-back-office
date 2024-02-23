@@ -56,7 +56,7 @@ gem "defra_ruby_aws"
 # Use the waste carriers engine for the user journey
 gem "waste_carriers_engine",
     git: "https://github.com/DEFRA/waste-carriers-engine",
-    branch: "main"
+    branch: "fix/RUBY-2860_conviction_search_results"
 
 # Use the Defra Ruby Features gem to allow users with the correct permissions to
 # manage feature toggle (create / update / delete) from the back-office.
