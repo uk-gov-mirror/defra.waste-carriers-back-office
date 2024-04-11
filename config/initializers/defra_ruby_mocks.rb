@@ -10,5 +10,5 @@ DefraRubyMocks.configure do |configuration|
 
   # Govpay API mock details. Note FO application point to BO mocks and vice-versa by defafult
   # so they don't block in a single-process application (e.g. local vagrant).
-  configuration.govpay_domain = File.join(ENV["WCRS_BO_GOVPAY_DOMAIN"] || "http://localhost:3002", "/fo/mocks/govpay/v1")
+  configuration.govpay_domain = File.join(ENV["WCRS_BO_GOVPAY_DOMAIN"] || "http://localhost:3002", "/bo/mocks/govpay/v1")
 end
