@@ -74,6 +74,11 @@ gem "defra_ruby_mocks",
     git: "https://github.com/DEFRA/defra-ruby-mocks",
     branch: "fix/store_last_return_path"
 
+gem "defra_ruby_govpay",
+    git: "https://github.com/DEFRA/defra-ruby-govpay",
+    branch: "debug/govpay_mocks_config"
+
+
 # Allows us to automatically generate the change log from the tags, issues,
 # labels and pull requests on GitHub. Added as a dependency so all dev's have
 # access to it to generate a log, and so they are using the same version.
