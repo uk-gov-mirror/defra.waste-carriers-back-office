@@ -35,7 +35,7 @@ DefraRuby::Aws.configure do |c|
   }
 
   mocks_bucket = {
-    name: ENV.fetch("AWS_DEFRA_RUBY_MOCKS_BUCKET", nil),
+    name: ENV.fetch("AWS_DEFRA_RUBY_MOCKS_BUCKET", "dummy"),
     region: ENV.fetch("AWS_REGION", nil),
     credentials: {
       access_key_id: ENV.fetch("AWS_DEFRA_RUBY_MOCKS_ACCESS_KEY_ID", nil),
