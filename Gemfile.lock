@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: 780fc40422211dbc86e233e61bd466acb01252fd
+  revision: 6154cd363120194d2a2ad62f4769c38ecc8683b9
   branch: chore/govpay_mocks_config
   specs:
     waste_carriers_engine (0.0.1)
