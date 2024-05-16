@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/DEFRA/defra-ruby-mocks
-  revision: bf6187a27bd250ab123e3d8fa5a1fcbb4f4f13d0
+  revision: 6f55766eec8899e6c828e7854a753ef9cd3b46c2
   branch: fix/govpay_return_url
   specs:
     defra_ruby_mocks (4.1.0)
