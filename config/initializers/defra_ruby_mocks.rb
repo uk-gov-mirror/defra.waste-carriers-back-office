@@ -12,6 +12,6 @@ DefraRubyMocks.configure do |configuration|
   # so they don't block in a single-process application (e.g. local vagrant).
   configuration.govpay_domain = File.join(
     ENV["WCRS_GOVPAY_MOCK_DOMAIN"] || "http://localhost:3002",
-    "/fo/mocks/govpay/v1"
+    "/bo/mocks/govpay/v1"
   )
 end
