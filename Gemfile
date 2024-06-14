@@ -21,7 +21,7 @@ gem "cancancan"
 
 gem "defra_ruby_template",
   git: "https://github.com/DEFRA/defra-ruby-template",
-  branch: "3083-min-css"
+  branch: "RUBY-3083-wcr-wex-frae-bo-show-password-hint-functionality-does-not-work"
 
 # Use Devise for user authentication
 gem "devise"
