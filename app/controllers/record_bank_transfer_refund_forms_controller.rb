@@ -10,22 +10,29 @@ class RecordBankTransferRefundFormsController < ResourceFormsController
   end
 
   def new
-    super(RecordBankTransferRefundForm, "record_bank_transfer_refund_form")
+    @presenter = RefundPresenter.new(@resource.finance_details, payment)
   end
 
   def create
-    return unless super(RecordBankTransferRefundForm, "record_bank_transfer_refund_form")
-
-    RecordBankTransferRefundService.run(
+    presenter = RefundPresenter.new(@resource.finance_details, payment)
+    amount_to_refund = presenter.balance_to_refund
+    response = RecordBankTransferRefundService.run(
       finance_details: @resource.finance_details,
-      payment: @payment,
+      payment: payment,
       user: current_user
     )
-
-    flash_success(
-      I18n.t("record_bank_transfer_refund_forms.flash_messages.successful",
-             amount: display_pence_as_pounds_and_cents(@payment.amount))
-    )
+    if response
+      flash_success(
+        I18n.t("record_bank_transfer_refund_forms.flash_messages.successful",
+               amount: display_pence_as_pounds_and_cents(amount_to_refund))
+      )
+    else
+      flash_error(
+        I18n.t("record_bank_transfer_refund_forms.flash_messages.error",
+               type: payment.payment_type.titleize), nil
+      )
+    end
+    redirect_to resource_finance_details_path(@resource._id)
   end
 
   private
@@ -35,19 +42,11 @@ class RecordBankTransferRefundFormsController < ResourceFormsController
   end
 
   def eligible_payments
-    @eligible_payments ||= begin
-      overpaid_balance = @resource.finance_details.overpaid_balance
-      @resource.finance_details.payments
-               .where(payment_type: WasteCarriersEngine::Payment::BANKTRANSFER)
-               .lte(amount: overpaid_balance)
-    end
+    @eligible_payments ||= @resource.finance_details.payments
+                                    .where(payment_type: WasteCarriersEngine::Payment::BANKTRANSFER)
   end
 
   def authorize_user
     authorize! :record_bank_transfer_refund, payment
-  end
-
-  def record_bank_transfer_refund_form_params
-    params.fetch(:record_bank_transfer_refund_form, {})
   end
 end
