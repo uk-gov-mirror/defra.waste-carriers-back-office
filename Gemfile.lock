@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
-  revision: f834981d639a6dcec9a5e8313e4f15cbdd31d989
-  branch: main
+  revision: 20b9b8aa70bdaee56968f41cc303c58df7f2f36c
+  branch: RUBY-3219-wcr-bo-adjust-govpay-update-refund-status-service-to-support-transient-registrations
   specs:
     waste_carriers_engine (0.0.1)
       aasm (~> 5.5.0)
