@@ -7,10 +7,9 @@ ruby "3.2.2"
 gem "mongoid"
 
 gem "mongo_session_store"
-# Bundle edge Rails instead: gem "rails", github: "rails/rails"
-gem "rails", "~> 7.0"
+
 # Use SCSS for stylesheets
-gem "sass-rails", "~> 5.0"
+gem "sass-rails", "~> 6.0"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
 # Use Uglifier as compressor for JavaScript assets
@@ -19,7 +18,7 @@ gem "uglifier"
 # Use CanCanCan for user roles and permissions
 gem "cancancan"
 
-gem "defra_ruby_template"
+gem "defra_ruby_template", "~> 5.0"
 
 # Use Devise for user authentication
 gem "devise"
@@ -34,20 +33,21 @@ gem "rubyzip"
 gem "secure_headers"
 
 # Design system form builder
-gem "govuk_design_system_formbuilder"
+gem "govuk_design_system_formbuilder", "~> 5.3"
 
 gem "kaminari"
 gem "kaminari-mongoid"
 
 # Use Whenever to manage cron tasks
-gem "whenever"
+gem "whenever", require: false
 
 gem "wicked_pdf"
 
 gem "matrix"
 
-gem "net-imap"
-gem "net-pop"
+gem "net-imap", "~> 0.4.7"
+
+gem "defra_ruby_area"
 
 gem "defra_ruby_storm"
 
@@ -91,14 +91,10 @@ gem "github_changelog_generator", require: false
 # Test with `curl -I http://localhost:8001/healthcheck`
 gem "aws-healthcheck"
 
-group :production do
-  # Web application server that replaces webrick. It handles HTTP requests,
-  # manages processes and resources, and enables administration, monitoring
-  # and problem diagnosis. It is used in production because it gives us an ability
-  # to scale by creating additional processes, and will automatically restart any
-  # that fail. We don't use it when running tests for speed's sake.
-  gem "passenger", "~> 5.0", ">= 5.0.30", require: "phusion_passenger/rack_handler"
-end
+# dev and test don't really need passenger but we use it anyway for consistency
+# across environments, as there have been instances where issues didn't emerge
+# until deployment to a production environment:
+gem "passenger", "~> 6.0", require: "phusion_passenger/rack_handler"
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
@@ -110,23 +106,25 @@ group :development, :test do
   gem "dotenv-rails"
   # Project uses RSpec as its test framework
   gem "rspec-rails"
+  gem "rubocop-capybara", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-rspec_rails", require: false
 end
 
 group :development do
-  gem "puma"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem "spring"
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem "web-console"
-  # gem "webrick"
 end
 
 group :test do
+  gem "capybara"
   gem "database_cleaner-mongoid"
   gem "factory_bot_rails"
   gem "faker"
+  gem "faraday-retry"
   gem "rails-controller-testing"
   gem "rspec-retry"
   gem "timecop"

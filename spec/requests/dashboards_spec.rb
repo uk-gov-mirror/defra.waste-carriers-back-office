@@ -50,13 +50,18 @@ RSpec.describe "Dashboards" do
         end
 
         context "when there are matches" do
+          let(:last_modified_renewal) { create(:renewing_registration) }
+          let(:link_to_renewal) { renewing_registration_path(last_modified_renewal.reg_identifier) }
+          let(:search_term) { last_modified_renewal.reg_identifier }
+
+          before { get "/bo", params: { term: search_term } }
+
           it "links to renewal details pages" do
-            last_modified_renewal = create(:renewing_registration)
-            link_to_renewal = renewing_registration_path(last_modified_renewal.reg_identifier)
-
-            get "/bo", params: { term: last_modified_renewal.reg_identifier }
-
             expect(response.body).to include(link_to_renewal)
+          end
+
+          it "sets the search_term cookie" do
+            expect(response.cookies["search_term"]).to match(/#{search_term}/)
           end
         end
 
@@ -119,6 +124,40 @@ RSpec.describe "Dashboards" do
 
             it "includes links to the matched registrations" do
               subject
+
+              expect(response.body).to include(registration_path(matching_registration.reg_identifier))
+            end
+          end
+        end
+
+        context "when reg_identifier search is selected" do
+          let!(:matching_registration) { create(:registration) }
+          let!(:non_matching_registration) { create(:registration) }
+
+          it "links to the matched registration details page" do
+            get "/bo", params: { term: matching_registration.reg_identifier, search_reg_identifier: "1" }
+
+            expect(response.body).to include(registration_path(matching_registration.reg_identifier))
+            expect(response.body).not_to include(registration_path(non_matching_registration.reg_identifier))
+          end
+
+          it "displays no results when there is no match" do
+            get "/bo", params: { term: "nonexistent", search_reg_identifier: "1" }
+
+            expect(response.body).to include("No results")
+          end
+
+          context "when both reg_identifier search and another search type are selected" do
+            it "returns a form validation error" do
+              get "/bo", params: { term: "something", search_reg_identifier: "1", search_email: "1" }
+
+              expect(request.flash[:error]).to be_present
+            end
+          end
+
+          context "with excess whitespace around reg_identifier search term" do
+            it "correctly matches the registration ignoring whitespace" do
+              get "/bo", params: { term: "  #{matching_registration.reg_identifier}  ", search_reg_identifier: "1" }
 
               expect(response.body).to include(registration_path(matching_registration.reg_identifier))
             end

@@ -6,7 +6,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    return if user.deactivated?
+    return if user.blank? || user.deactivated?
 
     can :use_back_office, :all
 
@@ -54,6 +54,7 @@ class Ability
     can :edit, WasteCarriersEngine::Registration
     can :refresh_company_name, WasteCarriersEngine::Registration
     can :refresh_ea_area, WasteCarriersEngine::Registration
+    can :view_communication_history, WasteCarriersEngine::Registration
 
     can :revert_to_payment_summary, :all
   end
@@ -88,6 +89,7 @@ class Ability
   def permissions_for_finance_user
     can :view_certificate, WasteCarriersEngine::Registration
     can :record_bank_transfer_payment, :all
+    can :record_bank_transfer_refund, :all
 
     can :view_payments, :all
     can :reverse, WasteCarriersEngine::Payment, &:bank_transfer?
@@ -99,12 +101,8 @@ class Ability
     can :view_certificate, WasteCarriersEngine::Registration
     can :record_missed_card_payment, :all
     can :view_payments, :all
-
-    # rubocop:disable Style/SymbolProc
-    can :reverse, WasteCarriersEngine::Payment do |payment|
-      payment.govpay?
-    end
-    # rubocop:enable Style/SymbolProc
+    can :reverse, WasteCarriersEngine::Payment, &:govpay?
+    can :reverse, WasteCarriersEngine::Payment, &:worldpay_missed?
   end
 
   def permissions_for_agency_super_user

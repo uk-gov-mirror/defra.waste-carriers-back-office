@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Export copy card orders task", type: :rake do
+RSpec.describe "Export copy card orders task", type: :task do
   subject { Rake.application["reports:export:weekly_copy_card_orders"] }
 
   include_context "rake"
@@ -37,8 +37,6 @@ RSpec.describe "Export copy card orders task", type: :rake do
 
   describe "reports:export:weekly_copy_card_orders" do
 
-    # This cop should not fire when a block argument is used, but it does, |n|:
-    # rubocop:disable Style/EachForSimpleLoop
     context "when excluding Monday" do
       first_run_date = Faker::Date.in_date_period
       # check all weekdays and skip Monday
@@ -49,7 +47,6 @@ RSpec.describe "Export copy card orders task", type: :rake do
         it_behaves_like "runs the report", run_date.noon
       end
     end
-    # rubocop:enable Style/EachForSimpleLoop
 
     # The logic of this spec is the same as the shared example but it is
     # broken out explicitly here for clarity as Monday is an edge case.

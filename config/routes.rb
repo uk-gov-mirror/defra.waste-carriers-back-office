@@ -2,16 +2,21 @@
 
 # rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
+  get "copy_cards_order_completed_forms/new"
+  get "copy_cards_order_completed_forms/create"
+  get "renewal_received_pending_conviction_forms/new"
+  get "renewal_received_pending_conviction_forms/create"
+  get "renewal_complete_forms/new"
+  get "renewal_complete_forms/create"
+  get "registration_received_pending_conviction_forms/new"
+  get "registration_completed_forms/new"
   root to: "application#redirect_root_to_dashboard"
 
   scope "/bo" do
-    namespace(
-      :api,
-      defaults: { format: :json },
-      constraints: ->(_request) { WasteCarriersEngine::FeatureToggle.active?(:api) }
-    ) do
+    namespace :api, defaults: { format: :json }, constraints: Constraint::FeatureToggleConstraint.new(:api) do
       resources :registrations, only: %i[show create]
       resources :renewals, only: :show
+      post "govpay_webhooks/signatures"
     end
 
     get "/resend-confirmation-email/:reg_identifier",
@@ -23,11 +28,11 @@ Rails.application.routes.draw do
         as: "resend_renewal_email"
 
     scope "/:token" do
-      #  override the default payment summary form routes from engine
-      resources :payment_summary_forms,
+      #  override the default payment form routes from engine
+
+      resources :payment_method_confirmation_forms,
                 only: %i[new create],
-                path: "payment-summary",
-                controller: "payment_summary_forms",
+                path: "payment-method-confirmation",
                 path_names: { new: "" }
 
       resources :edit_payment_summary_forms,
@@ -49,6 +54,150 @@ Rails.application.routes.draw do
                       as: "back",
                       on: :collection
                 end
+
+      #  override the default payment completed form routes from engine
+      resources :registration_completed_forms,
+                only: :new,
+                path: "registration-completed",
+                path_names: { new: "" }
+
+      resources :registration_received_pending_conviction_forms,
+                only: :new,
+                path: "registration-received",
+                path_names: { new: "" }
+
+      resources :renewal_complete_forms,
+                only: %i[new create],
+                path: "renewal-complete",
+                path_names: { new: "" }
+
+      resources :renewal_received_pending_conviction_forms,
+                only: %i[new create],
+                path: "renewal-received",
+                path_names: { new: "" }
+
+      # Order copy cards flow
+      resources :copy_cards_forms,
+                only: %i[new create],
+                path: "order-copy-cards",
+                path_names: { new: "" }
+
+      resources :copy_cards_bank_transfer_forms,
+                only: %i[new create],
+                path: "order-copy-cards-bank-transfer",
+                path_names: { new: "" }
+
+      # Order copy cards flow
+      resources :copy_cards_forms,
+                only: %i[new create],
+                path: "order-copy-cards",
+                path_names: { new: "" }
+
+      resources :copy_cards_bank_transfer_forms,
+                only: %i[new create],
+                path: "order-copy-cards-bank-transfer",
+                path_names: { new: "" }
+
+      resources :copy_cards_order_completed_forms,
+                only: %i[new create],
+                path: "order-copy-cards-complete",
+                path_names: { new: "" }
+      # End of order copy cards flow
+
+      # Ceased or revoked flow
+      resources :cease_or_revoke_forms,
+                only: %i[new create],
+                path: "cease-or-revoke",
+                path_names: { new: "" }
+
+      resources :ceased_or_revoked_confirm_forms,
+                only: %i[new create],
+                path: "ceased-or-revoked-confirm",
+                path_names: { new: "" } do
+                  get "back",
+                      to: "ceased_or_revoked_confirm_forms#go_back",
+                      as: "back",
+                      on: :collection
+                end
+      # End of ceased or revoked flow
+
+      # Edit flow
+      resources :edit_forms,
+                only: %i[new create],
+                path: "edit",
+                path_names: { new: "" } do
+                  get "cbd-type",
+                      to: "edit_forms#edit_cbd_type",
+                      as: "cbd_type",
+                      on: :collection
+
+                  get "company-name",
+                      to: "edit_forms#edit_company_name",
+                      as: "company_name",
+                      on: :collection
+
+                  get "main-people",
+                      to: "edit_forms#edit_main_people",
+                      as: "main_people",
+                      on: :collection
+
+                  get "company-address",
+                      to: "edit_forms#edit_company_address",
+                      as: "company_address",
+                      on: :collection
+
+                  get "contact-name",
+                      to: "edit_forms#edit_contact_name",
+                      as: "contact_name",
+                      on: :collection
+
+                  get "contact-phone",
+                      to: "edit_forms#edit_contact_phone",
+                      as: "contact_phone",
+                      on: :collection
+
+                  get "contact-email",
+                      to: "edit_forms#edit_contact_email",
+                      as: "contact_email",
+                      on: :collection
+
+                  get "contact-address",
+                      to: "edit_forms#edit_contact_address",
+                      as: "contact_address",
+                      on: :collection
+
+                  get "contact-address-reuse",
+                      to: "edit_forms#edit_contact_address_reuse",
+                      as: "contact_address_reuse",
+                      on: :collection
+
+                  get "cancel",
+                      to: "edit_forms#cancel",
+                      as: "cancel",
+                      on: :collection
+                end
+
+      resources :edit_bank_transfer_forms,
+                only: %i[new create],
+                path: "edit-bank-transfer",
+                path_names: { new: "" }
+
+      resources :edit_complete_forms,
+                only: %i[new create],
+                path: "edit-complete",
+                path_names: { new: "" }
+
+      resources :confirm_edit_cancelled_forms,
+                only: %i[new create],
+                path: "confirm-edit-cancelled",
+                path_names: { new: "" }
+
+      resources :edit_cancelled_forms,
+                only: %i[new create],
+                path: "edit-cancelled",
+                path_names: { new: "" }
+      # End of edit flow
+
     end
   end
 
@@ -70,78 +219,83 @@ Rails.application.routes.draw do
   resources :resources,
             only: [],
             path: "/bo/resources" do
-              resources :refunds,
-                        only: %i[index new create update],
-                        param: :order_key
+    resources :refunds,
+              only: %i[index new create update],
+              param: :order_key
 
-              resources :cancels,
-                        only: %i[new create],
-                        path_names: { new: "" }
+    resources :cancels,
+              only: %i[new create],
+              path_names: { new: "" }
 
-              resources :reversal_forms,
-                        only: %i[index new create],
-                        path: "reversals",
-                        path_names: { new: ":order_key/new" },
-                        param: :order_key
+    resources :reversal_forms,
+              only: %i[index new create],
+              path: "reversals",
+              path_names: { new: ":order_key/new" },
+              param: :order_key
 
-              resources :payment_forms,
-                        only: %i[new create],
-                        path: "payments",
-                        path_names: { new: "" }
+    resources :payment_forms,
+              only: %i[new create],
+              path: "payments",
+              path_names: { new: "" }
 
-              resources :cash_payment_forms,
-                        only: %i[new create],
-                        path: "payments/cash",
-                        path_names: { new: "" }
+    resources :record_bank_transfer_refund_forms,
+              only: %i[index new create],
+              path: "record-bank-transfer-refund",
+              path_names: { new: ":order_key/new" }
 
-              resources :cheque_payment_forms,
-                        only: %i[new create],
-                        path: "payments/cheque",
-                        path_names: { new: "" }
+    resources :cash_payment_forms,
+              only: %i[new create],
+              path: "payments/cash",
+              path_names: { new: "" }
 
-              resources :postal_order_payment_forms,
-                        only: %i[new create],
-                        path: "payments/postal-order",
-                        path_names: { new: "" }
+    resources :cheque_payment_forms,
+              only: %i[new create],
+              path: "payments/cheque",
+              path_names: { new: "" }
 
-              resources :bank_transfer_payment_forms,
-                        only: %i[new create],
-                        path: "payments/bank-transfer",
-                        path_names: { new: "" }
+    resources :postal_order_payment_forms,
+              only: %i[new create],
+              path: "payments/postal-order",
+              path_names: { new: "" }
 
-              resources :missed_card_payment_forms,
-                        only: %i[new create],
-                        path: "payments/missed-card-payment",
-                        path_names: { new: "" }
+    resources :bank_transfer_payment_forms,
+              only: %i[new create],
+              path: "payments/bank-transfer",
+              path_names: { new: "" }
 
-              resources :missed_card_payment_new_registrations,
-                        only: :new,
-                        path: "missed-card-payment-new-registration",
-                        path_names: { new: "" }
+    resources :missed_card_payment_forms,
+              only: %i[new create],
+              path: "payments/missed-card-payment",
+              path_names: { new: "" }
 
-              resource :finance_details,
-                       only: :show,
-                       path: "finance-details"
+    resources :missed_card_payment_new_registrations,
+              only: :new,
+              path: "missed-card-payment-new-registration",
+              path_names: { new: "" }
 
-              resource :write_off_form,
-                       only: %i[new create],
-                       path: "write-off"
+    resource :finance_details,
+             only: :show,
+             path: "finance-details"
 
-              resource :charge_adjust_form,
-                       only: %i[new create],
-                       path: "payments/charge-adjusts",
-                       path_names: { new: "" }
+    resource :write_off_form,
+             only: %i[new create],
+             path: "write-off"
 
-              resource :negative_charge_adjust_form,
-                       only: %i[new create],
-                       path: "payments/charge-adjust/negative",
-                       path_names: { new: "" }
+    resource :charge_adjust_form,
+             only: %i[new create],
+             path: "payments/charge-adjusts",
+             path_names: { new: "" }
 
-              resource :positive_charge_adjust_form,
-                       only: %i[new create],
-                       path: "payments/charge-adjust/positive",
-                       path_names: { new: "" }
-            end
+    resource :negative_charge_adjust_form,
+             only: %i[new create],
+             path: "payments/charge-adjust/negative",
+             path_names: { new: "" }
+
+    resource :positive_charge_adjust_form,
+             only: %i[new create],
+             path: "payments/charge-adjust/positive",
+             path_names: { new: "" }
+  end
 
   resources :new_registrations,
             only: :show,
@@ -187,6 +341,8 @@ Rails.application.routes.draw do
                   as: :registration_transfer_success
 
               get "certificate", to: "certificates#show", as: :certificate
+
+              get "communication_records", to: "communication_records#index", as: :communication_records
             end
 
   resources :card_order_exports,
@@ -227,6 +383,10 @@ Rails.application.routes.draw do
   get "/bo/transient-registrations/:transient_registration_reg_identifier/convictions/begin-checks",
       to: "convictions#begin_checks",
       as: :transient_registration_convictions_begin_checks
+
+  get "/bo/transient-registrations/:token/destroy",
+      to: "transient_registrations#destroy",
+      as: :delete_transient_registration
 
   delete "/bo/renewing-registrations/:reg_identifier",
          to: "renewing_registrations#destroy",

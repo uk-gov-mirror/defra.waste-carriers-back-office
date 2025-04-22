@@ -1,0 +1,72 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render("waste_carriers_engine/shared/back", back_path: resource_finance_details_path(@resource._id)) %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t(".heading") %>
+    </h1>
+
+    <%= render "shared/company_details_panel", registration: @resource %>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header">
+            <%= t(".date") %>
+          </th>
+          <th class="govuk-table__header">
+            <%= t(".type") %>
+          </th>
+          <th class="govuk-table__header">
+            <%= t(".reference") %>
+          </th>
+          <th class="govuk-table__header govuk-table__header--numeric">
+            <%= t(".amount") %>
+          </th>
+          <th class="govuk-table__header">
+            <%= t(".action") %>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <% @payments.each do |payment| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <%= payment.date_received.to_formatted_s(:day_month_year_time_slashes) %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= t("shared.payment_type.#{payment.payment_type}") %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= payment.order_key %>/<%= payment.registration_reference %>
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= display_pence_as_pounds_and_cents(payment.amount) %>
+            </td>
+            <td class="govuk-table__cell">
+              <% if payment.reversible? %>
+                <%= link_to new_resource_record_bank_transfer_refund_form_path(resource_id: @resource._id, order_key: payment.order_key) do %>
+                  <%= t(".refund_payment") %>
+                  <span class="govuk-visually-hidden">
+                    <%= t(".refund_payment_alt",
+                          date: payment.date_received.to_formatted_s(:day_month_year_time_slashes),
+                          method: t("shared.payment_type.#{payment.payment_type}"),
+                          amount: display_pence_as_pounds_and_cents(payment.amount)) %>
+                  </span>
+                <% end %>
+              <% else %>
+                <%= payment.no_action_message %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

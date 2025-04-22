@@ -290,6 +290,51 @@ RSpec.describe ActionLinksHelper do
     end
   end
 
+  describe "#display_bank_transfer_refund_link_for?" do
+    let(:resource) { build(:finance_details, balance: balance) }
+
+    shared_examples "returns true" do
+      it { expect(helper.display_bank_transfer_refund_link_for?(resource)).to be(true) }
+    end
+
+    shared_examples "returns false" do
+      it { expect(helper.display_bank_transfer_refund_link_for?(resource)).to be(false) }
+    end
+
+    context "when the resource has a positive balance" do
+      let(:balance) { 5 }
+
+      it_behaves_like "returns false"
+    end
+
+    context "when the resource has a balance of 0" do
+      let(:balance) { 0 }
+
+      it_behaves_like "returns false"
+    end
+
+    context "when the resource has a negative balance" do
+      let(:balance) { -10 }
+      let(:resource) { build(:finance_details, :has_overpaid_order_and_payment_bank_transfer) }
+
+      context "when the user does not have the permissions to record a bank transfer refund" do
+        before { allow(helper).to receive(:can?).with(:record_bank_transfer_refund, resource).and_return(false) }
+
+        it_behaves_like "returns false"
+      end
+
+      context "when the user has the permissions to record a bank transfer refund" do
+        before { allow(helper).to receive(:can?).with(:record_bank_transfer_refund, resource).and_return(true) }
+
+        context "with a bank transfer payment" do
+          let(:resource) { build(:finance_details, :has_overpaid_order_and_payment_bank_transfer) }
+
+          it_behaves_like "returns true"
+        end
+      end
+    end
+  end
+
   describe "#display_resume_link_for?" do
     context "when the resource is a NewRegistration" do
       let(:resource) { build(:new_registration) }
@@ -907,8 +952,8 @@ RSpec.describe ActionLinksHelper do
 
   describe "#display_refresh_ea_area_link_for?" do
     context "when address is present" do
-      let(:company_address) { build(:address, :registered) }
-      let(:resource) { build(:registration, company_address: company_address) }
+      let(:registered_address) { build(:address, :registered) }
+      let(:resource) { build(:registration, registered_address: registered_address) }
 
       it "returns true" do
         expect(helper.display_refresh_ea_area_link_for?(resource)).to be(true)
@@ -916,7 +961,7 @@ RSpec.describe ActionLinksHelper do
     end
 
     context "when address is blank" do
-      let(:resource) { build(:registration, company_address: nil) }
+      let(:resource) { build(:registration, registered_address: nil) }
 
       it "returns false" do
         expect(helper.display_refresh_ea_area_link_for?(resource)).to be(false)
@@ -924,11 +969,49 @@ RSpec.describe ActionLinksHelper do
     end
 
     context "when address postcode is blank" do
-      let(:company_address) { build(:address, :registered, postcode: nil) }
-      let(:resource) { build(:registration, company_address: company_address) }
+      let(:registered_address) { build(:address, :registered, postcode: nil) }
+      let(:resource) { build(:registration, registered_address: registered_address) }
 
       it "returns false" do
         expect(helper.display_refresh_ea_area_link_for?(resource)).to be(false)
+      end
+    end
+
+    context "when the resource is a transient registration" do
+      let(:resource) { build(:renewing_registration) }
+
+      it "returns false" do
+        expect(helper.display_refresh_ea_area_link_for?(resource)).to be(false)
+      end
+    end
+  end
+
+  describe "#display_communication_records_link_for?" do
+    context "when resource is not a Registration" do
+      let(:invalid_resource) { build(:address) }
+
+      it "returns false" do
+        expect(helper.display_communication_records_link_for?(invalid_resource)).to be(false)
+      end
+    end
+
+    context "when user has no permissions to view communication history" do
+      let(:resource) { build(:registration) }
+
+      before { allow(helper).to receive(:can?).and_return(false) }
+
+      it "returns false" do
+        expect(helper.display_communication_records_link_for?(resource)).to be(false)
+      end
+    end
+
+    context "when resourse is a Registration and user has permissions to view communication history" do
+      let(:resource) { build(:registration) }
+
+      before { allow(helper).to receive(:can?).and_return(true) }
+
+      it "returns true" do
+        expect(helper.display_communication_records_link_for?(resource)).to be(true)
       end
     end
   end

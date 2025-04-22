@@ -6,13 +6,13 @@ RSpec.describe DeregistrationEmailExportSerializer do
 
   subject(:serializer) { described_class.new(file_path, email_type, email_template_id, batch_size) }
 
-  let!(:eligible_registration_1) do
+  let!(:eligible_registration_a) do
     create(:registration,
            :registered_15_months_ago,
            tier: "LOWER")
   end
 
-  let!(:eligible_registration_2) do
+  let!(:eligible_registration_b) do
     create(:registration,
            tier: "LOWER",
            metaData: build(:metaData,
@@ -74,7 +74,7 @@ RSpec.describe DeregistrationEmailExportSerializer do
   let(:file_path) { Rails.root.join("tmp/card_orders_file.csv") }
   let(:email_type) { "Lower-tier deregistration pilot email" }
   let(:email_template_id) { "a-template-id" }
-  let(:batch_size) { 10 }
+  let(:batch_size) { 8 }
 
   describe "#to_csv" do
     let(:export_content) { File.read(file_path) }
@@ -103,12 +103,12 @@ RSpec.describe DeregistrationEmailExportSerializer do
       end
 
       it "includes the eligible registrations" do
-        expect(export_content.scan(eligible_registration_1.reg_identifier).size).to eq 1
-        expect(export_content.scan(eligible_registration_2.reg_identifier).size).to eq 1
+        expect(export_content.scan(eligible_registration_a.reg_identifier).size).to eq 1
+        expect(export_content.scan(eligible_registration_b.reg_identifier).size).to eq 1
       end
 
       it "includes the older eligible registration before the more recent one" do
-        expect(export_content).to match(/#{eligible_registration_2.reg_identifier}.*\n*.*#{eligible_registration_1.reg_identifier}/)
+        expect(export_content).to match(/#{eligible_registration_b.reg_identifier}.*\n*.*#{eligible_registration_a.reg_identifier}/)
       end
 
       it "does not include the already-emailed registration" do
@@ -146,7 +146,7 @@ RSpec.describe DeregistrationEmailExportSerializer do
 
     context "when the number of eligible registrations exceeds the batch size" do
       before do
-        create_list(:registration, 15,
+        create_list(:registration, 10,
                     :active,
                     :registered_15_months_ago,
                     tier: "LOWER")
@@ -160,7 +160,7 @@ RSpec.describe DeregistrationEmailExportSerializer do
 
     context "when serializing the export" do
       it "updates the email history for an eligible registration" do
-        expect { serializer.to_csv }.to change { eligible_registration_1.reload.email_history.length }.by(1)
+        expect { serializer.to_csv }.to change { eligible_registration_a.reload.email_history.length }.by(1)
       end
 
       it "does not modify the email history for an ineligible registration" do

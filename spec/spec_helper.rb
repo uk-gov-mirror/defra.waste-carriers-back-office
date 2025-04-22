@@ -4,6 +4,9 @@
 # This is as per its docs https://github.com/colszowka/simplecov#getting-started
 require "./spec/support/simplecov"
 
+# AASM spec helpers
+require "aasm/rspec"
+
 # Call "binding.pry" anywhere in the code to stop execution and get a debugger console
 require "pry-byebug"
 
@@ -95,7 +98,12 @@ RSpec.configure do |config|
   # show exception that triggers a retry if verbose_retry is set to true
   config.display_try_failure_messages = true
 
-  config.around do |ex|
-    ex.run_with_retry retry: 3
+  config.before do
+    # Avoid having to allow unrelated FeatureToggle calls when testing feature toggles
+    allow(WasteCarriersEngine::FeatureToggle).to receive(:active?)
   end
+
+  # config.around do |ex|
+  #   ex.run_with_retry retry: 3
+  # end
 end

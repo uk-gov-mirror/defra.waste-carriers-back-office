@@ -66,7 +66,10 @@ module ActionLinksHelper
     return false if resource.payments.find(&:govpay?).nil?
 
     # Do not display the link if there is a pending refund
-    return false if resource.payments.select(&:refund?).pluck(:govpay_payment_status).include?("submitted")
+    return false if resource.payments
+                            .select(&:refund?)
+                            .pluck(:govpay_payment_status)
+                            .include?(WasteCarriersEngine::Payment::STATUS_SUBMITTED)
 
     can?(:refund, resource)
   end
@@ -75,7 +78,8 @@ module ActionLinksHelper
     return false unless can?(:refund, resource)
 
     pending_refund = resource.payments.where(
-      payment_type: WasteCarriersEngine::Payment::REFUND, govpay_payment_status: "submitted"
+      payment_type: WasteCarriersEngine::Payment::REFUND,
+      govpay_payment_status: WasteCarriersEngine::Payment::STATUS_SUBMITTED
     ).first
 
     # return the id of the first pending refund, if any as the view needs it
@@ -90,11 +94,25 @@ module ActionLinksHelper
     resource.renewal_application_submitted?
   end
 
+  def display_bank_transfer_refund_link_for?(resource)
+    return false if resource.balance >= 0
+
+    # Ensure there is at least one bank transfer payment
+    return false if resource.payments.find { |payment| payment.payment_type == "BANKTRANSFER" }.nil?
+
+    can?(:record_bank_transfer_refund, resource)
+  end
+
   def display_refresh_ea_area_link_for?(resource)
-    return false if resource.company_address.blank?
-    return false if resource.company_address.postcode.blank?
+    return false unless a_registration?(resource)
+    return false if resource.registered_address.blank?
+    return false if resource.registered_address.postcode.blank?
 
     true
+  end
+
+  def display_communication_records_link_for?(resource)
+    a_registration?(resource) && can?(:view_communication_history, WasteCarriersEngine::Registration)
   end
 
   def display_cease_or_revoke_link_for?(resource)

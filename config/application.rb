@@ -2,6 +2,7 @@
 
 require File.expand_path("boot", __dir__)
 
+require "logger"
 require "active_model/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
@@ -9,6 +10,7 @@ require "action_view/railtie"
 require "sprockets/railtie"
 
 require "defra_ruby_features"
+require "waste_carriers_engine/detailed_logger"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -20,16 +22,16 @@ module WasteCarriersBackOffice
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Set Mongoid logging level to INFO. We have found mongoid to ber overly
+    # Set Mongoid logging level to WARN. We have found mongoid to be overly
     # chatty in the logs.
-    Mongoid.logger.level = Logger::INFO
+    Mongoid.logger.level = Logger::WARN
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = "UTC"
 
     # The default locale is :en and all translations from config/locales/*/*.rb,yml are auto loaded.
-    config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.{rb,yml}")]
+    config.i18n.load_path += Rails.root.glob("config/locales/**/*.{rb,yml}")
     # config.i18n.default_locale = :de
 
     config.autoload_paths << "#{config.root}/app/forms/concerns"
@@ -82,7 +84,7 @@ module WasteCarriersBackOffice
       if ENV["WCRS_MOCK_ENABLED"].to_s.downcase == "true"
         ENV.fetch("WCRS_MOCK_FO_COMPANIES_HOUSE_URL", nil)
       else
-        ENV["WCRS_COMPANIES_HOUSE_URL"] || "https://api.companieshouse.gov.uk/company/"
+        ENV["WCRS_COMPANIES_HOUSE_URL"] || "https://api.companieshouse.gov.uk/"
       end
 
     # Paths
@@ -114,7 +116,7 @@ module WasteCarriersBackOffice
     config.govpay_url = if ENV["WCRS_MOCK_ENABLED"].to_s.downcase == "true"
                           ENV.fetch("WCRS_MOCK_BO_GOVPAY_URL", nil)
                         else
-                          ENV["WCRS_GOVPAY_BACK_OFFICE_URL"] || "https://publicapi.payments.service.gov.uk/v1"
+                          ENV["WCRS_GOVPAY_URL"] || "https://publicapi.payments.service.gov.uk/v1"
                         end
     config.govpay_back_office_api_token = ENV.fetch("WCRS_GOVPAY_BACK_OFFICE_API_TOKEN", nil)
     config.govpay_front_office_api_token = ENV.fetch("WCRS_GOVPAY_FRONT_OFFICE_API_TOKEN", nil)
@@ -147,9 +149,27 @@ module WasteCarriersBackOffice
     end
 
     config.area_lookup_run_for = ENV["AREA_LOOKUP_RUN_FOR"] || 60
-    config.area_lookup_address_limit = ENV["AREA_LOOKUP_ADDRESS_LIMIT"] || 50
+    config.lookups_update_address_limit = ENV["LOOKUPS_UPDATE_ADDRESS_LIMIT"] || 50
 
     # prevent comments showing ruby version:
     config.sass.line_comments = false
+
+    # avoid "calc(0px) is not a number for `max`" errors under sass-rails v6:
+    # https://github.com/alphagov/govuk-frontend/issues/1350#issuecomment-493129270
+    config.assets.css_compressor = nil
+    config.sass.style = :compressed
+
+    # Logger
+    config.wcrs_logger_max_files = ENV.fetch("WCRS_LOGGER_MAX_FILES", 3).to_i
+    config.wcrs_logger_max_filesize = ENV.fetch("WCRS_LOGGER_MAX_FILESIZE", 10_000_000).to_i
+    config.wcrs_logger_heartbeat_path = ENV.fetch("wcrs_logger_heartbeat_path", "/pages/heartbeat")
+
+    config.logger = ActiveSupport::TaggedLogging.new(
+      Logger.new(
+        Rails.root.join("log/#{Rails.env}.log"),
+        Rails.application.config.wcrs_logger_max_files,
+        Rails.application.config.wcrs_logger_max_filesize
+      )
+    )
   end
 end

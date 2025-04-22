@@ -134,6 +134,12 @@ RSpec.describe Ability do
     it_behaves_like "allows only the permitted roles", false, :view_certificate, WasteCarriersEngine::Registration
   end
 
+  context "when the action is view the communications history" do
+    let(:permitted_roles) { agency_plus_roles }
+
+    it_behaves_like "allows only the permitted roles", false, :view_communication_history, WasteCarriersEngine::Registration
+  end
+
   context "when the action is update a transient registration" do
     let(:permitted_roles) { agency_plus_roles }
 
@@ -181,6 +187,12 @@ RSpec.describe Ability do
     let(:permitted_roles) { %w[finance] }
 
     it_behaves_like "allows only the permitted roles", false, :record_bank_transfer_payment, WasteCarriersEngine::RenewingRegistration
+  end
+
+  context "when the action is record a bank transfer refund" do
+    let(:permitted_roles) { %w[finance] }
+
+    it_behaves_like "allows only the permitted roles", false, :record_bank_transfer_refund, WasteCarriersEngine::RenewingRegistration
   end
 
   context "when the action is record a cheque payment" do
@@ -231,26 +243,29 @@ RSpec.describe Ability do
   end
 
   context "when the action is reverse a payment" do
-    let(:permitted_roles) do
-      %w[
-        agency_super
-        agency_with_refund
-      ]
-    end
 
-    context "when the payment is a cash payment" do
-      it_behaves_like "allows only the permitted roles", false, :reverse,
-                      WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::CASH)
-    end
+    context "when the payment is cash, postal order or cheque" do
+      let(:permitted_roles) do
+        %w[
+          agency_super
+          agency_with_refund
+        ]
+      end
 
-    context "when the payment is a cheque payment" do
-      it_behaves_like "allows only the permitted roles", false, :reverse,
-                      WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::CHEQUE)
-    end
+      context "when the payment is a cash payment" do
+        it_behaves_like "allows only the permitted roles", false, :reverse,
+                        WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::CASH)
+      end
 
-    context "when the payment is a postal order" do
-      it_behaves_like "allows only the permitted roles", false, :reverse,
-                      WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::POSTALORDER)
+      context "when the payment is a cheque payment" do
+        it_behaves_like "allows only the permitted roles", false, :reverse,
+                        WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::CHEQUE)
+      end
+
+      context "when the payment is a postal order" do
+        it_behaves_like "allows only the permitted roles", false, :reverse,
+                        WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::POSTALORDER)
+      end
     end
 
     context "when the payment is a govpay payment" do
@@ -276,11 +291,16 @@ RSpec.describe Ability do
                       WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::BANKTRANSFER)
     end
 
-    context "when the payment is another type" do
-      let(:permitted_roles) { %w[] }
+    context "when the payment is a missed card payment" do
+      let(:permitted_roles) do
+        %w[
+          finance_super
+          finance_admin
+        ]
+      end
 
       it_behaves_like "allows only the permitted roles", false, :reverse,
-                      WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::MISSED_CARD)
+                      WasteCarriersEngine::Payment.new(payment_type: WasteCarriersEngine::Payment::WORLDPAY_MISSED)
     end
   end
 

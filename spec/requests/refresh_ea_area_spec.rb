@@ -26,8 +26,8 @@ RSpec.describe "Refresh EA area" do
     end
 
     let(:user) { create(:user) }
-    let(:company_address) { build(:address, :registered) }
-    let(:registration) { create(:registration, company_address: company_address) }
+    let(:registered_address) { build(:address, :registered) }
+    let(:registration) { create(:registration, registered_address: registered_address) }
 
     before do
       sign_in(user)
@@ -60,7 +60,7 @@ RSpec.describe "Refresh EA area" do
         let(:old_ea_area) { Faker::Company.name }
 
         before do
-          allow(WasteCarriersEngine::DetermineAreaService).to receive(:run).and_raise(StandardError)
+          allow(Geographic::MapEastingAndNorthingToEaAreaService).to receive(:run).and_raise(StandardError)
         end
 
         it "returns an error message" do

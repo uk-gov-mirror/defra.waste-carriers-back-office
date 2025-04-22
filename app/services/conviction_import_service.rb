@@ -21,17 +21,27 @@ class ConvictionImportService < WasteCarriersEngine::BaseService
 
     validate_headers(convictions_data)
 
+    convictions_data = remove_empty_rows(convictions_data)
+
     convictions_data.each do |line|
       make_new_conviction_object(line)
     end
   end
 
   def update_convictions_in_database
+    if @new_convictions.empty?
+      raise InvalidConvictionDataError, "No valid convictions found in the file. Please check the file and try again."
+    end
+
     @old_convictions.each(&:destroy!)
     @new_convictions.each(&:save!)
   end
 
   def parse_data(csv)
+    # Remove BOM from the start of the file if it exists
+    csv = csv.dup.force_encoding("UTF-8")
+    csv = csv.sub(/^\xEF\xBB\xBF/, "")
+
     CSV.parse(csv,
               converters: :date,
               headers: true,
@@ -61,9 +71,12 @@ class ConvictionImportService < WasteCarriersEngine::BaseService
   end
 
   def validate_headers(data)
-    return if data.headers == ["Offender", "Birth Date", "Company No.", "System Flag", "Inc Number"]
+    required_headers = ["Offender", "Birth Date", "Company No.", "System Flag", "Inc Number"]
+    missing_headers = required_headers - data.headers
 
-    raise InvalidConvictionDataError, "Invalid headers"
+    return true if missing_headers.empty?
+
+    raise InvalidConvictionDataError, "Invalid headers, missing #{missing_headers.join(', ')}"
   end
 
   def validate_row(row)
@@ -82,5 +95,12 @@ class ConvictionImportService < WasteCarriersEngine::BaseService
     Date.parse(date_of_birth)
   rescue ArgumentError
     raise InvalidConvictionDataError, "Invalid date of birth"
+  end
+
+  def remove_empty_rows(data)
+    data = data.map(&:to_h).reject { |row| row.values.all?(&:blank?) }
+
+    # return as a CSV::Table
+    CSV::Table.new(data.map { |row| CSV::Row.new(row.keys, row.values) })
   end
 end
