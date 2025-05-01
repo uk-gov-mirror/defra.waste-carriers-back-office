@@ -5,10 +5,10 @@ require "rails_helper"
 RSpec.describe "Govpay webhooks API" do
   let(:params) { { foo: :bar } }
   let(:signatures) { { front_office: Faker::Number.hexadecimal(digits: 20), back_office: Faker::Number.hexadecimal(digits: 20) } }
-  let(:signature_service) { instance_double(WasteCarriersEngine::GovpayPaymentWebhookSignatureService) }
+  let(:signature_service) { instance_double(DefraRubyGovpay::WebhookSignatureService) }
 
   before do
-    allow(WasteCarriersEngine::GovpayPaymentWebhookSignatureService).to receive(:new).and_return(signature_service)
+    allow(DefraRubyGovpay::WebhookSignatureService).to receive(:new).and_return(signature_service)
     allow(signature_service).to receive(:run).and_return(signatures)
 
     allow(WasteCarriersEngine::FeatureToggle).to receive(:active?).with(:api).and_return(true)
