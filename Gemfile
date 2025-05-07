@@ -96,6 +96,9 @@ gem "aws-healthcheck"
 # until deployment to a production environment:
 gem "passenger", "~> 6.0", require: "phusion_passenger/rack_handler"
 
+# To resolve an issue after a Jenkins upgrade on 2025-05-06
+gem "net-ssh", ">= 6.1"
+
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "pry-byebug"
