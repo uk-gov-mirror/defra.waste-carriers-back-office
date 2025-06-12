@@ -16,8 +16,18 @@ plugins:
 AllCops:
   TargetRubyVersion: 3.2.2
 
+Lint/DuplicateMethods:
+  Exclude:
+    # This cop seems to trip over a combination of a delegate instruction for an attribute/method and a call to the original attribute/method
+    - app/presenters/reports/boxi/registration_presenter.rb
+
 # Notify uses address_line_1 etc naming convention and we want to align with it
 Naming/VariableNumber:
+  Enabled: false
+
+# Bad cop: Not all methods returning a boolean should end in a question mark.
+# For example `submit_form` is a directive, not a query, and the boolean response indicates success or failure.
+Naming/PredicateMethod:
   Enabled: false
 
 # Aligning with this cop would require excessive refactoring
@@ -37,6 +47,7 @@ Style/DisableCopsWithinSourceCodeDirective:
   Enabled: true
   AllowedCops:
     - Layout/LineLength
+    - Lint/DuplicateMethods                # this cop raises a bogus alert for boxi presenter finance_details_balance
     - Lint/PercentStringArray              # ['foo'] style is required for secure headers configuration
     - Metrics/AbcSize
     - Metrics/BlockLength
