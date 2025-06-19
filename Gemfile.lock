@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/DEFRA/defra-ruby-template
+  revision: ab1a2af57622e031dc580f779e8e8275eff16dcc
+  branch: feature/RUBY_3809_govuk-frontend_upgrade
+  specs:
+    defra_ruby_template (5.10.2)
+
+GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
   revision: c6f537b9a6a2914ee7ce576230fb10f0f9b8b5d0
   branch: main
@@ -226,7 +233,6 @@ GEM
       rubocop-factory_bot
       rubocop-rake
       rubocop-rspec
-    defra_ruby_template (5.4.1)
     defra_ruby_validators (3.0.0)
       activemodel
       defra_ruby_companies_house
@@ -660,7 +666,7 @@ DEPENDENCIES
   defra_ruby_mocks
   defra_ruby_storm
   defra_ruby_style
-  defra_ruby_template (~> 5.0)
+  defra_ruby_template!
   devise
   devise_invitable
   dotenv-rails

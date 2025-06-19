@@ -18,7 +18,9 @@ gem "uglifier"
 # Use CanCanCan for user roles and permissions
 gem "cancancan"
 
-gem "defra_ruby_template", "~> 5.0"
+gem "defra_ruby_template",
+    git: "https://github.com/DEFRA/defra-ruby-template",
+    branch: "feature/RUBY_3809_govuk-frontend_upgrade"
 
 # Use Devise for user authentication
 gem "devise"
