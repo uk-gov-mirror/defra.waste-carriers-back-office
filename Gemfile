@@ -52,8 +52,6 @@ gem "matrix", "< 0.4.3"
 
 gem "net-imap"
 
-gem "defra_ruby_area"
-
 gem "nkf"
 
 # Use the Defra Ruby Aws gem for loading files to AWS buckets

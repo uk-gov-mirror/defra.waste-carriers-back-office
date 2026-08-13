@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
-require "defra_ruby/area"
-
 module Geographic
+  # Determines which EA area contains an easting and northing, using the
+  # engine's geospatial lookup. Returns nil if the lookup fails.
   class MapEastingAndNorthingToEaAreaService < WasteCarriersEngine::BaseService
     def run(easting:, northing:)
-      return if easting.blank? || northing.blank?
+      # Return nothing rather than an area we cannot determine if this is run
+      # before boundaries are loaded (such as just after deployment)
+      return nil unless WasteCarriersEngine::EaPublicFaceArea.exists?
 
-      response = DefraRuby::Area::PublicFaceAreaService.run(easting, northing)
-
-      return response.areas.first.long_name if response.successful?
-      return "Outside England" if response.error.instance_of?(DefraRuby::Area::NoMatchError)
-
-      handle_error(response.error, easting, northing)
+      WasteCarriersEngine::DetermineEaAreaService.run(easting: easting, northing: northing)
+    rescue StandardError => e
+      handle_error(e, easting, northing)
       nil
     end
 
