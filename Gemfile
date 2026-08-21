@@ -8,8 +8,8 @@ gem "mongoid"
 
 gem "mongo_session_store"
 
-# Use SCSS for stylesheets
-gem "sass-rails", "~> 6.0"
+# Use Dart Sass with the Sprockets asset pipeline
+gem "dartsass-sprockets"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
 # Use Uglifier as compressor for JavaScript assets
@@ -18,7 +18,10 @@ gem "uglifier"
 # Use CanCanCan for user roles and permissions
 gem "cancancan"
 
-gem "defra_ruby_template", "~> 5.11"
+gem "defra_ruby_template",
+    "~> 6.4",
+    git: "https://github.com/DEFRA/defra-ruby-template",
+    branch: "RUBY-4334-all-tech-debt-defra-ruby-template-upgrade-to-govuk-frontend-6-4-0-and-fix-template-drift"
 
 # Use Devise for user authentication
 gem "devise"
@@ -33,7 +36,7 @@ gem "rubyzip"
 gem "secure_headers"
 
 # Design system form builder
-gem "govuk_design_system_formbuilder", "~> 5.3"
+gem "govuk_design_system_formbuilder", "~> 6.4"
 
 # Render Notify message content (markdown) as GOV.UK Frontend HTML
 gem "govuk_markdown"

@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/DEFRA/defra-ruby-template
+  revision: 7044f08c9b0367cdcc3063492d44243d6ce21a80
+  branch: RUBY-4334-all-tech-debt-defra-ruby-template-upgrade-to-govuk-frontend-6-4-0-and-fix-template-drift
+  specs:
+    defra_ruby_template (6.4.0)
+
+GIT
   remote: https://github.com/DEFRA/waste-carriers-engine
   revision: e0584835a10d7570427df893a8d13601d950469f
   branch: main
@@ -184,6 +191,12 @@ GEM
       rexml
     crass (1.0.7)
     csv (3.3.5)
+    dartsass-sprockets (3.2.1)
+      railties (>= 4.0.0)
+      sassc-embedded (~> 1.80.1)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     database_cleaner-core (2.0.1)
     database_cleaner-mongoid (2.0.1)
       database_cleaner-core (~> 2.0.0)
@@ -216,7 +229,6 @@ GEM
       sprockets (~> 4.0)
       sprockets-rails (~> 3.0)
     defra_ruby_style (0.4.1)
-    defra_ruby_template (5.11.1)
     defra_ruby_validators (3.1.0)
       activemodel
       defra_ruby_companies_house
@@ -264,7 +276,6 @@ GEM
       net-http (~> 0.5)
     faraday-retry (2.4.0)
       faraday (~> 2.0)
-    ffi (1.17.4)
     fiber-annotation (0.2.0)
     fiber-local (1.1.0)
       fiber-storage
@@ -280,10 +291,13 @@ GEM
       rake (>= 10.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    govuk_design_system_formbuilder (5.13.0)
-      actionview (>= 6.1)
-      activemodel (>= 6.1)
-      activesupport (>= 6.1)
+    google-protobuf (4.36.0)
+      bigdecimal
+      rake (~> 13.3)
+    govuk_design_system_formbuilder (6.4.0)
+      actionview (>= 7.2)
+      activemodel (>= 7.2)
+      activesupport (>= 7.2)
       html-attributes-utils (~> 1)
     govuk_markdown (2.0.4)
       activesupport
@@ -552,16 +566,11 @@ GEM
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyzip (3.4.1)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
-    sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
+    sass-embedded (1.103.1)
+      google-protobuf (~> 4.31)
+      rake (>= 13)
+    sassc-embedded (1.80.9)
+      sass-embedded (~> 1.80)
     sawyer (0.9.3)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
@@ -640,12 +649,13 @@ DEPENDENCIES
   cancancan
   capybara
   csv
+  dartsass-sprockets
   database_cleaner-mongoid
   defra_ruby_aws
   defra_ruby_features
   defra_ruby_mocks
   defra_ruby_style
-  defra_ruby_template (~> 5.11)
+  defra_ruby_template (~> 6.4)!
   devise
   devise_invitable
   dotenv-rails
@@ -653,7 +663,7 @@ DEPENDENCIES
   faker
   faraday-retry
   github_changelog_generator
-  govuk_design_system_formbuilder (~> 5.3)
+  govuk_design_system_formbuilder (~> 6.4)
   govuk_markdown
   jquery-rails
   kaminari
@@ -676,7 +686,6 @@ DEPENDENCIES
   rubocop-rspec
   rubocop-rspec_rails
   rubyzip
-  sass-rails (~> 6.0)
   secure_headers
   simplecov (~> 0.22.0)
   spring
