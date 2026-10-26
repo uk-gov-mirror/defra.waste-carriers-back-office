@@ -27,7 +27,6 @@ module Notify
         to = @expires_on.end_of_day
 
         WasteCarriersEngine::Registration
-          .order_by(reg_identifier: "ASC")
           .active
           .upper_tier
           .in(contact_email: [nil, ""])
